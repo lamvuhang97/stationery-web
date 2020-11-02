@@ -1,0 +1,14 @@
+# version: "3.3"
+
+# services:
+#   vms:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     environment:
+#       API_ADDRESS: http://192.168.1.80:8080
+#       SERVER_URL: http://192.168.1.80:3004
+#     volumes:
+#       - ./:/usr/src/vms-app
+#     ports:
+#       - 3004:3004
