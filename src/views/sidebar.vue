@@ -1,91 +1,53 @@
 <template>
-  <nav
-    class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
-  >
-    <div class="container-fluid d-flex flex-column p-0">
-      <a
-        class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
-        href="#"
-      >
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-wrench"></i>
+  <div class="header">
+    <div class="carousel">
+      <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-interval="10000">
+            <img src="/assets/img/1.jpeg" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item" data-interval="2000">
+            <img src="/assets/img/2.jpeg" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="/assets/img/3.jpeg" class="d-block w-100" alt="...">
+          </div>
         </div>
-        <div class="sidebar-brand-text mx-3">
-          <span>VMS</span>
-        </div>
-      </a>
-      <hr class="sidebar-divider my-0" />
-      <ul class="nav navbar-nav text-light" id="accordionSidebar">
-        <li class="nav-item" role="presentation">
-          <router-link to="/dashboard" class="nav-link">
-            <i class="fas fa-user"></i>
-            <span>Dashboard</span>
+        <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
+    <div class="sidebar">
+      <ul>
+        <li class="navitem" role="presentation">
+          <router-link to="/" class="navlink">
+            <span>All Category</span>
           </router-link>
         </li>
-        <li class="nav-item" role="presentation">
-          <router-link to="/users" class="nav-link">
-            <i class="fas fa-user"></i>
-            <span>Users</span>
+        <li class="navitem" role="presentation">
+          <router-link to="/home" class="navlink">
+            <span>Home</span>
           </router-link>
         </li>
-        <li class="nav-item" role="presentation">
-          <router-link to="/products" class="nav-link">
-            <i class="fas fa-pager"></i>
-            <span>Products</span>
+        <li class="navitem" role="presentation">
+          <router-link to="/topselling" class="navlink">
+            <span>Top Selling</span>
           </router-link>
         </li>
-        <li class="nav-item" role="presentation">
-          <router-link to="/category" class="nav-link">
-            <i class="fas fa-photo-video"></i>
-            <span>Category</span>
-          </router-link>
-        </li>
-        <li class="nav-item" role="presentation">
-          <router-link to="/orders" class="nav-link">
-            <i class="fas fa-film"></i>
-            <span>Orders</span>
-          </router-link>
-        </li>
-        <li class="nav-item" role="presentation">
-          <router-link to="/reviews" class="nav-link">
-            <i class="fas fa-file-alt"></i>
-            <span>Reviews</span>
-          </router-link>
-        </li>
-        <li class="nav-item" role="presentation">
-          <router-link to="/entitlements" class="nav-link">
-            <i class="fas fa-building"></i>
-            <span>Entitlements</span>
-          </router-link>
-        </li>
-        <li class="nav-item" role="presentation">
-          <router-link to="/subscribers" class="nav-link">
-            <i class="fas fa-user"></i>
-            <span>Subscribers</span>
-          </router-link>
-        </li>
-        <li class="nav-item" role="presentation">
-          <router-link to="/tokens" class="nav-link">
-            <i class="fas fa-qrcode"></i>
-            <span>Tokens</span>
-          </router-link>
-        </li>
-        <li class="nav-item" role="presentation">
-          <router-link to="/tags" class="nav-link">
-            <i class="fas fa-qrcode"></i>
-            <span>Tags</span>
+        <li class="navitem" role="presentation">
+          <router-link to="/newarrival" class="navlink">
+            <span>New Arrival</span>
           </router-link>
         </li>
       </ul>
-      <div class="text-center d-none d-md-inline">
-        <button
-          class="btn rounded-circle border-0"
-          id="sidebarToggle"
-          type="button"
-        ></button>
-      </div>
     </div>
-  </nav>
+  </div>
 </template>
 <script>
 // import store from "@/services/storage/store";
@@ -97,3 +59,29 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .text-light ul{
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .sidebar ul{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+  }
+  .sidebar ul li {
+    padding: 0 20px;
+  }
+  a {
+    color: black;
+  }
+  .carousel-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+  }
+</style>

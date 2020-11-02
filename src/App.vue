@@ -3,11 +3,11 @@
     <div v-if="!authenticated">
       <router-view @authenticated="setAuthenticated" />
     </div>
-    <div id="wrapper" v-if="authenticated">
+    <div id="wrapper" class="wrapper" v-if="authenticated">
+      <topnav></topnav>
       <sidebar></sidebar>
       <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
-          <topnav></topnav>
           <router-view @authenticated="setAuthenticated" />
         </div>
         <bottom-footer></bottom-footer>
@@ -106,5 +106,12 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  overflow: hidden !important;
+}
+</style>
+<style scoped>
+.wrapper {
+  display: flex;
+  flex-direction: column;
 }
 </style>

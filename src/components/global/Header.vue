@@ -79,10 +79,6 @@ export default Vue.extend({
   display: flex;
   align-items: center;
   padding: 10px;
-
-  @media (max-width: 1150px) {
-    flex-direction: column;
-  }
 }
 .site-title {
   margin-right: 25px;
