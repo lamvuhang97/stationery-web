@@ -4,7 +4,8 @@
       <img src="/assets/img/playlist.png" alt="" style="height:100px">
     </div>
     <div class="search">
-      <input type="text" placeholder="search here">
+      <input type="text" placeholder="Search here">
+      <img src="/assets/svg/search.svg" alt="">
     </div>
     <div class="right-side">
       <div class="top-sidebar">
@@ -103,9 +104,19 @@ export default {
   .search {
     text-align: center;
     width: 80%;
+    position: relative;
   }
   .search input {
     width: 80%;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid;
+  }
+  .search img {
+    width: 25px;
+    position: absolute;
+    right: 100px;
+    top: 5px;
   }
   .currentUser {
     width: 60% ;
