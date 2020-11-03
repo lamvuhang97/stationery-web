@@ -1,15 +1,20 @@
 <template>
-    <div class="card">
-        <img class="card-img" :src="productData.imgUrl" alt="">
-        <div class="card-img-overlay d-flex justify-content-end">
-            <!-- <i class="fas fa-heart"></i> -->
+    <div class="product-card">
+        <div class="product-image">
+            <img :src="productData.imgUrl" alt="">
+            <!-- <div class="card-img-overlay d-flex justify-content-end">
+                <i class="fas fa-heart"></i>
+            </div> -->
         </div>
-        <div class="card-body">
-            <h4 class="card-title">{{productData.name}}</h4>
-            <div class="buy d-flex justify-content-between align-items-center">
-                <div class="price text-success"><h5 class="mt-4">${{productData.price}}</h5></div>
-                <!-- <button @click="addToCart">afa</button> -->
-                <button class="btn btn-danger mt-3" @click="addToCart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+        <div class="product-info">
+            <h4 class="name">{{productData.name}}</h4>
+            <div class="buy">
+                <div class="price">
+                    <h5>${{productData.price}}</h5>
+                </div>
+                <div class="cart">
+                    <button class="btn btn-danger mt-3" @click="addToCart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                </div>
             </div>
         </div>
     </div>
@@ -28,12 +33,38 @@ export default {
         }
     },
     methods: {
-        addToCart() {  //not done yet
-            console.log('1');
-            // this.$emit('add-to-cart')
+        addToCart() {
+            this.$emit('add-to-cart')
         }
     }
 }
 </script>
 <style scoped>
+    .product-card{
+        max-width: 300px;
+    }
+    .product-image img{
+        width: 100%;
+        height: 200px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    .buy {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 15px;
+        align-items: center;
+    }
+    .product-info {
+        background-color: #ccc;
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+    .name {
+        margin: 0 15px;
+        padding-top: 10px;  
+    }
+    .cart {
+        margin-bottom: 15px;
+    }
 </style>
