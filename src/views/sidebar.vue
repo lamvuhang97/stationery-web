@@ -28,7 +28,7 @@
         <li class="navitem" role="presentation">
           <span class="navLink" @click="showCategory = !showCategory">All Category</span>
           <div class="allCategory" v-if="showCategory">
-            <div v-for="value in category" :key="value" class="cate">
+            <div v-for="value in allCategory" :key="value" class="cate">
                 <div v-for="item in value" :key="item" class="subCate">
                   <router-link to="/home" class="navlink">
                     <span>{{item}}</span>
@@ -66,14 +66,26 @@ export default {
     return {
       role: "",
       showCategory: false,
-      category: {
-        book : ['book', 'notebook', 'buller journal'],
-        paper: ['sticker', 'sticky note', 'paper'],
-        bag: ['tote bag', 'back bag', 'pen case'],
-        accessories: ['pen', 'tape', 'accessories'],
-        other: ['other']
-      }
+      allCategory: {}
+      // category: {
+      //   book : ['book', 'notebook', 'buller journal'],
+      //   paper: ['sticker', 'sticky note', 'paper'],
+      //   bag: ['tote bag', 'back bag', 'pen case'],
+      //   accessories: ['pen', 'tape', 'accessories'],
+      //   other: ['other']
+      // }
     };
+  },
+  async mounted() {
+    const categoryRes = await this.$api.category.getAllCategory()
+    categoryRes.data.data.forEach((item) => {
+      let arr =[]
+      item.categorysub.forEach((i) => {
+        arr.push(i.name)
+      })
+      this.allCategory[item.name] = arr
+    })
+    console.log(this.allCategory);
   }
 }
 </script>

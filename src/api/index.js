@@ -11,6 +11,7 @@ import { views } from "./views";
 import { collections } from "./collections";
 import { locations } from "./locations";
 import { tags } from "./tags";
+import { category } from "./category";
 
 const api = {
   response,
@@ -26,6 +27,7 @@ const api = {
   collections,
   locations,
   tags,
+  category,
 };
 
 export default api;
