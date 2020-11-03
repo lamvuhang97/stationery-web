@@ -26,9 +26,19 @@
     <div class="sidebar">
       <ul>
         <li class="navitem" role="presentation">
-          <router-link to="/" class="navlink">
+          <span class="navLink" @click="showCategory = !showCategory">All Category</span>
+          <div class="allCategory" v-if="showCategory">
+            <div v-for="value in category" :key="value" class="cate">
+                <div v-for="item in value" :key="item" class="subCate">
+                  <router-link to="/home" class="navlink">
+                    <span>{{item}}</span>
+                  </router-link>
+                </div>
+            </div>
+          </div>
+          <!-- <router-link to="/" class="navlink">
             <span>All Category</span>
-          </router-link>
+          </router-link> -->
         </li>
         <li class="navitem" role="presentation">
           <router-link to="/home" class="navlink">
@@ -54,7 +64,15 @@
 export default {
   data() {
     return {
-      role: ""
+      role: "",
+      showCategory: false,
+      category: {
+        book : ['book', 'notebook', 'buller journal'],
+        paper: ['sticker', 'sticky note', 'paper'],
+        bag: ['tote bag', 'back bag', 'pen case'],
+        accessories: ['pen', 'tape', 'accessories'],
+        other: ['other']
+      }
     };
   }
 }
@@ -75,16 +93,41 @@ export default {
   }
   .sidebar ul li {
     padding: 0 20px;
+    color: black;
   }
   a {
     color: black;
+    text-decoration: none;
   }
   .carousel-item img {
     width: 100%;
     height: 250px;
     object-fit: cover;
   }
-  .navitem:focus {
-    background-color: red;
+  .navitem:visited {
+    background-color: #dacfd9;
+  }
+  .allCategory {
+    display: flex;
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    background-color: white;
+    width: 100%;
+    margin-top: 20px;
+    padding: 0 75px;
+    justify-content: space-between;
+    border-top: 1px solid;
+  }
+  .allCategory .cate {
+    padding: 10px;
+    width: 100%;
+  }
+  .allCategory .cate .subCate {
+    padding: 10px;
+  }
+  .allCategory .cate .subCate:hover{
+    background-color: #dacfd9;
+    border-radius: 10px;
   }
 </style>

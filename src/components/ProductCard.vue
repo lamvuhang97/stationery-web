@@ -56,7 +56,7 @@ export default {
         align-items: center;
     }
     .product-info {
-        background-color: #ccc;
+        background-color: #e6e0e6;
         border-bottom-right-radius: 10px;
         border-bottom-left-radius: 10px;
     }

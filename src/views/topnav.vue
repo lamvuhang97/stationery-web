@@ -107,15 +107,16 @@ export default {
   }
   .search input {
     width: 80%;
-    padding: 5px;
+    padding: 10px;
     border-radius: 10px;
-    border: 1px solid;
+    border: none;
+    background-color: #e6e0e6;
   }
   .search img {
     width: 25px;
     position: absolute;
     right: 100px;
-    top: 5px;
+    top: 10px;
   }
   .currentUser {
     width: 60% ;
