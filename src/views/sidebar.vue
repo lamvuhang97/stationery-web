@@ -84,4 +84,7 @@ export default {
     height: 250px;
     object-fit: cover;
   }
+  .navitem:focus {
+    background-color: red;
+  }
 </style>

@@ -19,24 +19,23 @@
                 <img src="/assets/svg/account.svg" alt="">
               </a>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+                <a class="dropdown-item" href="#">Manage Account</a>
+                <a class="dropdown-item" href="#">Manage Shop</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated link</a>
+                <a class="dropdown-item" href="#">Logout</a>
               </div>
             </li>
             <li class="nav-item dropdown notification">
               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">
                 <img src="/assets/svg/bell.svg" alt="">
               </a>
-              <div class="dropdown-menu">
+              <!-- <div class="dropdown-menu">
                 <a class="dropdown-item" href="#">Action</a>
                 <a class="dropdown-item" href="#">Another action</a>
                 <a class="dropdown-item" href="#">Something else here</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Separated link</a>
-              </div>
+              </div> -->
             </li>
             <li class="nav-item dropdown cart">
               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">
