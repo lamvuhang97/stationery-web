@@ -10,6 +10,12 @@ export const category = {
         null
       );
     },
+    async getAllProductByCategorysum(name) {
+      return await axios.get(
+        Vue.prototype.$settings.baseURL + "/categorysum/" + name,
+        null
+      );
+    },
     async get(id) {
       if (id) {
         return await axios.get(

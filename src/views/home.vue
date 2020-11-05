@@ -1,31 +1,42 @@
 <template>
-<div class="container">
-  <div class="row">
-    <div class="col-12 col-sm-8 col-md-6 col-lg-4">
-        <product-card :product-data="productData" @add-to-cart="addToCart"></product-card>
+    <div>
+        <div class="top-selling home-section">
+            <product-section :name="'Top Selling'" @add-to-cart="addToCart"></product-section>
+        </div>
+        <div class="new-arrival home-section">
+            <product-section :name="'New Arrival'" @add-to-cart="addToCart"></product-section>
+        </div>
+        <div class="categorysum home-section" v-for="item in categorysumName" :key="item">
+            <product-section :name="item" @add-to-cart="addToCart"></product-section>
+        </div>
     </div>
-  </div>
-</div>
 </template>
 <script>
-import ProductCard from "../components/ProductCard.vue"
+import ProductSection from "../components/ProductSection.vue"
 export default {
     components: {
-        ProductCard
+        ProductSection
     },
     data() {
         return {
-            productData: {
-                imgUrl: '/assets/img/1.jpeg',
-                name: 'Example',
-                price: '432'
-            }
+            categorysumName: []
         }
     },
     methods: {
         addToCart() {
             console.log("add to cart")
         },
+    },
+    async mounted(){
+        const categoryRes = await this.$api.category.getAllCategory()
+        categoryRes.data.data.forEach((item) => {
+            this.categorysumName.push(item.name)
+        })
     }
 }
 </script>
+<style scoped>
+    .home-section {
+        margin-top: 40px;
+    }
+</style>

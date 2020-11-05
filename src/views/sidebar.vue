@@ -4,13 +4,13 @@
       <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active" data-interval="10000">
-            <img src="/assets/img/1.jpeg" class="d-block w-100" alt="...">
+            <img src="/assets/img/a.jpg" class="d-block w-100" alt="...">
           </div>
           <div class="carousel-item" data-interval="2000">
-            <img src="/assets/img/2.jpeg" class="d-block w-100" alt="...">
+            <img src="/assets/img/b.jpg" class="d-block w-100" alt="...">
           </div>
           <div class="carousel-item">
-            <img src="/assets/img/3.jpeg" class="d-block w-100" alt="...">
+            <img src="/assets/img/c.jpg" class="d-block w-100" alt="...">
           </div>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
@@ -90,6 +90,9 @@ export default {
 }
 </script>
 <style scoped>
+  .header {
+    padding-top: 100px;
+  }
   .text-light ul{
     width: 100% !important;
     display: flex;
@@ -113,7 +116,7 @@ export default {
   }
   .carousel-item img {
     width: 100%;
-    height: 250px;
+    height: 300px;
     object-fit: cover;
   }
   .navitem:visited {

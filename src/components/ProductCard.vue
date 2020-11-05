@@ -1,7 +1,7 @@
 <template>
     <div class="product-card">
         <div class="product-image">
-            <img :src="productData.imgUrl" alt="">
+            <img :src="imgUrl" alt="">
             <!-- <div class="card-img-overlay d-flex justify-content-end">
                 <i class="fas fa-heart"></i>
             </div> -->
@@ -32,6 +32,15 @@ export default {
             default: null
         }
     },
+    computed: {
+        imgUrl() {
+            if(this.productData.images.length > 0){
+                return this.productData.images[0].url.url
+            } else {
+                return '/assets/img/default_images/product.png'
+            }
+        }
+    },
     methods: {
         addToCart() {
             this.$emit('add-to-cart')
@@ -45,9 +54,10 @@ export default {
     }
     .product-image img{
         width: 100%;
-        height: 200px;
+        height: 250px;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
+        object-fit: cover;
     }
     .buy {
         display: flex;

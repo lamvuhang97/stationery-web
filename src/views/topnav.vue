@@ -89,6 +89,9 @@ export default {
     background-color: white;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
+    z-index: 100;
+    width: 100%;
   }
   .topnav .right-side {
         margin-right: 20px;
