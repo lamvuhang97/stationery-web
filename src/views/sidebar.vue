@@ -28,9 +28,9 @@
         <li class="navitem" role="presentation">
           <span class="navLink" @click="showCategory = !showCategory">All Category</span>
           <div class="allCategory" v-if="showCategory">
-            <div v-for="value in allCategory" :key="value" class="cate">
+            <div v-for="(value, key) in allCategory" :key="key" class="cate">
                 <div v-for="item in value" :key="item" class="subCate">
-                  <router-link to="/home" class="navlink">
+                  <router-link :to="{ name: 'Category', params: { categoryName: item }}" class="navlink">
                     <span>{{item}}</span>
                   </router-link>
                 </div>
@@ -75,6 +75,11 @@ export default {
       //   other: ['other']
       // }
     };
+  },
+  watch: {
+      '$route': function () {
+          this.showCategory = false
+      }
   },
   async mounted() {
     const categoryRes = await this.$api.category.getAllCategory()

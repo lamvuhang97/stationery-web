@@ -33,15 +33,24 @@ export default {
     methods: {
         addToCart() {
             this.$emit('add-to-cart')
+        },
+        async fetchData() {
+            this.productData = []
+            const res = await this.$api.category.getAllProductByCategorysum(this.name)
+            res.data.data.categorysub.forEach((item) => {
+                item.products.forEach((i) => {
+                    this.productData.push(i)
+                })
+            })
         }
     },
-    async mounted() {
-        const res = await this.$api.category.getAllProductByCategorysum(this.name)
-        res.data.data.categorysub.forEach((item) => {
-            item.products.forEach((i) => {
-                this.productData.push(i)
-            })
-        })
+    watch: {
+        name() {
+            this.fetchData()
+        }
+    },
+    async mounted() { 
+        this.fetchData()
         console.log(this.productData);
     }
 }

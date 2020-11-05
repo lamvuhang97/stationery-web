@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "../views/login.vue";
 import Home from "../views/home.vue";
+import Category from "../views/category.vue";
 import TopSelling from "../views/topSelling.vue";
 import NewArrival from "../views/newArrival.vue";
 
@@ -49,6 +50,14 @@ const routes = [
     path: "/home",
     name: "Home",
     component: Home,
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: "/category/:categoryName",
+    name: "Category",
+    component: Category,
     meta: {
       requiresAuth: false,
     },
