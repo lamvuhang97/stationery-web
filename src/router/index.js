@@ -5,6 +5,7 @@ import Home from "../views/home.vue";
 import Category from "../views/category.vue";
 import TopSelling from "../views/topSelling.vue";
 import NewArrival from "../views/newArrival.vue";
+import ProductDetail from "../views/productDetail.vue"
 
 // import Register from "../views/register.vue";
 // import ForgotPassword from "../views/forgotPassword.vue";
@@ -78,7 +79,14 @@ const routes = [
       requiresAuth: false,
     },
   },
-  
+  {
+    path: "/product/:id",
+    name: "ProductDetail",
+    component: ProductDetail,
+    meta: {
+      requiresAuth: false,
+    },
+  },
   {
     path: "*",
     component: Home,

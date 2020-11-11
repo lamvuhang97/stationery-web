@@ -1,14 +1,14 @@
 <template>
   <span>
-    <div v-if="!authenticated">
+    <!-- <div v-if="!authenticated">
       <router-view @authenticated="setAuthenticated" />
-    </div>
-    <div id="wrapper" class="wrapper" v-if="authenticated">
+    </div> -->
+    <div id="wrapper" class="wrapper" >
       <topnav></topnav>
       <sidebar></sidebar>
       <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
-          <router-view @authenticated="setAuthenticated" />
+          <router-view  />
         </div>
         <bottom-footer></bottom-footer>
       </div>

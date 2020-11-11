@@ -12,6 +12,7 @@ import { collections } from "./collections";
 import { locations } from "./locations";
 import { tags } from "./tags";
 import { category } from "./category";
+import { products } from "./products";
 
 const api = {
   response,
@@ -28,6 +29,7 @@ const api = {
   locations,
   tags,
   category,
+  products,
 };
 
 export default api;

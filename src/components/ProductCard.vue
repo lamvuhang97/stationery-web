@@ -1,5 +1,5 @@
 <template>
-    <div class="product-card">
+    <div class="product-card" @click="detail">
         <div class="product-image">
             <img :src="imgUrl" alt="">
             <!-- <div class="card-img-overlay d-flex justify-content-end">
@@ -44,6 +44,9 @@ export default {
     methods: {
         addToCart() {
             this.$emit('add-to-cart')
+        },
+        detail() {
+            this.$router.push({name: "ProductDetail", params: { id: this.productData.id }})
         }
     }
 }
