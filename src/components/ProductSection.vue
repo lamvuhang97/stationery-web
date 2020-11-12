@@ -36,6 +36,13 @@ export default {
         },
         async fetchData() {
             this.productData = []
+            if(this.name == "NewArrival") {
+                const res = await this.$api.products.getNewArrival()
+                console.log("kuckkkkk",res);
+                this.productData = res.data.data
+                return
+            }
+            
             const res = await this.$api.category.getAllProductByCategorysum(this.name)
             res.data.data.categorysub.forEach((item) => {
                 item.products.forEach((i) => {

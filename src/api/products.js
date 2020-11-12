@@ -16,6 +16,13 @@ export const products = {
         );
       }
     },
+
+    async getNewArrival() {
+      return await axios.get(
+        Vue.prototype.$settings.baseURL + "/products/new-arrival",
+        null
+      );
+    },
   
     async update(id, payload) {
       return await axios

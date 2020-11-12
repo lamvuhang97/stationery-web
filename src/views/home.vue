@@ -1,10 +1,10 @@
 <template>
     <div>
         <div class="top-selling home-section">
-            <product-section :name="'Top Selling'" @add-to-cart="addToCart"></product-section>
+            <product-section :name="'TopSelling'" @add-to-cart="addToCart"></product-section>
         </div>
         <div class="new-arrival home-section">
-            <product-section :name="'New Arrival'" @add-to-cart="addToCart"></product-section>
+            <product-section :name="'NewArrival'" @add-to-cart="addToCart"></product-section>
         </div>
         <div class="categorysum home-section" v-for="item in categorysumName" :key="item">
             <product-section :name="item" @add-to-cart="addToCart"></product-section>
