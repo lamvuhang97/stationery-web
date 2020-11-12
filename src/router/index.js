@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "../views/login.vue";
+import Account from "../views/account.vue";
 import Home from "../views/home.vue";
 import Category from "../views/category.vue";
 import TopSelling from "../views/topSelling.vue";
@@ -21,6 +22,14 @@ const routes = [
     component: Login,
     meta: {
       requiresAuth: false,
+    },
+  },
+  {
+    path: "/account",
+    name: "Account",
+    component: Account,
+    meta: {
+      requiresAuth: true,
     },
   },
   // {

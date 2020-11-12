@@ -5,7 +5,7 @@
     </div> -->
     <div id="wrapper" class="wrapper" >
       <topnav></topnav>
-      <sidebar></sidebar>
+      <sidebar v-if="showBar"></sidebar>
       <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
           <router-view  />
@@ -81,14 +81,22 @@ export default {
   },
   data() {
     return {
-      authenticated: localstorage.getAccessToken() != null
+      authenticated: localstorage.getAccessToken() != null,
+      showBar: true
     };
   },
-
+  watch: {
+      '$route': function () {
+          console.log(this.$route);
+          if(this.$route.fullPath === "/account"){
+            this.showBar = false 
+          }
+      }
+  },
   methods: {
     setAuthenticated(status) {
       this.authenticated = status;
-      this.$router.push({ name: "Dashboard" });
+      this.$router.push({ name: "Home" });
     },
     logout() {
       localstorage.clearToken();

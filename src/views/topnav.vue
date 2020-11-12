@@ -1,6 +1,6 @@
 <template>
   <div class="topnav">
-    <div class="logo">
+    <div class="logo" @click="returnHome">
       <img src="/assets/img/playlist.png" alt="" style="height:100px">
     </div>
     <div class="search">
@@ -8,7 +8,8 @@
       <img src="/assets/svg/search.svg" alt="">
     </div>
     <div class="right-side">
-      <div class="top-sidebar">
+      <a v-if="!authenticated" @click="showLogin"> Login</a>
+      <div class="top-sidebar" v-if="authenticated">
         <div class="currentUser">
           {{currentUser}}
         </div>
@@ -19,10 +20,10 @@
                 <img src="/assets/svg/account.svg" alt="">
               </a>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Manage Account</a>
+                <a class="dropdown-item" @click="userProfile">Manage Account</a>
                 <a class="dropdown-item" href="#">Manage Shop</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Logout</a>
+                <a class="dropdown-item" href="#" @click="handleLogout">Logout</a>
               </div>
             </li>
             <li class="nav-item dropdown notification">
@@ -62,25 +63,34 @@ export default {
   data() {
     return {
       currentUser: Vue.prototype.$localstorage.getName(),
+      authenticated: Vue.prototype.$localstorage.getAccessToken() != null
     };
   },
-  // methods: {
-  //   handleLogout() {
-  //     this.$parent.logout();
-  //   },
-  //   userProfile() {
-  //     // if (this.$route.name != "UsersUpdate") {
-  //     //   this.$api.users
-  //     //     .getUserInfo()
-  //     //     .then(async (response) => {
-  //     //       this.$router.push({ name: "UsersUpdate", params: response.data });
-  //     //     })
-  //     //     .catch(error => {
-  //     //       return Promise.reject(error);
-  //     //     })
-  //     // }
-  //   }
-  // },
+  methods: {
+    showLogin() {
+      this.$router.push({name: "Login"})
+    },
+    returnHome() {
+      this.$router.push({name: "Home"})
+    },
+    handleLogout() {
+      this.$parent.logout();
+    },
+    userProfile() {
+      console.log("1");
+      this.$router.push({name: "Account"})
+      // if (this.$route.name != "UsersUpdate") {
+      //   this.$api.users
+      //     .getUserInfo()
+      //     .then(async (response) => {
+      //       this.$router.push({ name: "UsersUpdate", params: response.data });
+      //     })
+      //     .catch(error => {
+      //       return Promise.reject(error);
+      //     })
+      // }
+    }
+  },
 };
 </script>
 <style scope>

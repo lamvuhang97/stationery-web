@@ -1,6 +1,7 @@
 import api from ".";
 import { settings } from "@/library/variables";
 import axios from 'axios';
+import Vue from "vue";
 
 export const authentications = {
   // async login(data) {
@@ -22,7 +23,7 @@ export const authentications = {
   // },
   async login(payload) {
     try {
-      return await axios.post("/auth/admin/login",payload)
+      return await axios.post("/auth/login",payload)
     } catch (err) {
       return api.response.error(err)
     }
@@ -46,6 +47,19 @@ export const authentications = {
       .post(settings.baseURL + "/properties/" + settings.propertyID + "/subscribers/" + id + '/reset-password', null)
       .catch(error => {
         return api.response.error(error.response.data);
+      });
+  },
+  async getProfile() {
+    return await axios
+      .get("/users/profile", {
+        headers: {
+          Authorization: Vue.prototype.$localstorage.getAccessToken()
+        }
+      })
+      .catch(error => {
+        // return api.response.error(error.response.data);
+        console.log("not login yet", error);
+        return
       });
   }
 };
