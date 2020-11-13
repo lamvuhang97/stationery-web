@@ -36,9 +36,21 @@ export default {
         },
         async fetchData() {
             this.productData = []
+            if(this.name == "TopSelling") {
+                const res = await this.$api.products.getTopSelling()
+                var tmp = []
+                res.data.data.forEach((item) => {
+                    tmp.push(item.productId)
+                })
+                var ids = tmp.join()
+                
+                const response = await this.$api.products.getProductsByGroupId(ids)
+                this.productData = response.data.data
+                return
+            }
+
             if(this.name == "NewArrival") {
                 const res = await this.$api.products.getNewArrival()
-                console.log("kuckkkkk",res);
                 this.productData = res.data.data
                 return
             }

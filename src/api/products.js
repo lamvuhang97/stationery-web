@@ -23,6 +23,20 @@ export const products = {
         null
       );
     },
+
+    async getTopSelling() {
+      return await axios.get(
+        Vue.prototype.$settings.baseURL + "/products/best-seller",
+        null
+      );
+    },
+
+    async getProductsByGroupId(ids) {
+      return await axios.get(
+        Vue.prototype.$settings.baseURL + "/products/group-id/" + ids,
+        null
+      );
+    },
   
     async update(id, payload) {
       return await axios
