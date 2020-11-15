@@ -49,9 +49,13 @@ export const carts = {
           return api.response.error(error.response.data);
         });
     },
-    async create(payload) {
+    async createCart(payload) {
       return await axios
-        .post(Vue.prototype.$settings.baseURL + "/properties/" + settings.propertyID + "/documents", payload)
+        .post("/carts", payload, {
+          headers: {
+            Authorization: Vue.prototype.$localstorage.getAccessToken()
+          }
+        })
         .catch(error => {
           return api.response.error(error.response.data);
         });

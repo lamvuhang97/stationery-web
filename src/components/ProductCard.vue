@@ -23,7 +23,10 @@
 export default {
     data() {
         return {
-
+            productToPost: {
+                productId: Number(this.productData.id),
+                productAmount: 1
+            }
         }
     },
     props: {
@@ -42,8 +45,11 @@ export default {
         }
     },
     methods: {
-        addToCart() {
-            this.$emit('add-to-cart')
+        async addToCart(e) {
+            e.stopPropagation();
+            const res = await this.$api.carts.createCart(this.productToPost)
+            console.log(res);
+
         },
         detail() {
             this.$router.push({name: "ProductDetail", params: { id: this.productData.id }})

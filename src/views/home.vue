@@ -23,9 +23,6 @@ export default {
         }
     },
     methods: {
-        addToCart() {
-            console.log("add to cart")
-        },
     },
     async mounted(){
         const categoryRes = await this.$api.category.getAllCategory()

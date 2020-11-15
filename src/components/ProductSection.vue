@@ -31,9 +31,6 @@ export default {
         }
     },
     methods: {
-        addToCart() {
-            this.$emit('add-to-cart')
-        },
         async fetchData() {
             this.productData = []
             if(this.name == "TopSelling") {

@@ -16,12 +16,12 @@
                 <div class="category"> Category: {{ productData.category }} </div>
                 <div class="number">
                     <label for="quantity" style="margin-right:10px">Num: </label>
-                    <input type="number" id="quantity" name="quantity" min="1" :max="productData.quantity">
+                    <input type="number" id="quantity" name="quantity" min="1" :max="productData.quantity" v-model="num">
                     <span style="margin-left:20px">Quantity: {{ productData.quantity }}</span>
                 </div>
                 <div class="action">
-                    <button class="btn btn-danger"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
-                    <button class="btn btn-danger">Buy now</button>
+                    <button class="btn btn-danger" @click="addToCart"><i class="fas fa-shopping-cart" ></i> Add to Cart</button>
+                    <button class="btn btn-danger" @click="test">Buy now</button>
                 </div>
             </div>
         </div>
@@ -49,8 +49,23 @@ export default {
         return {
             id: '',
             productData: {},
-            productImages: ["/assets/img/default_images/product.png"]
+            productImages: ["/assets/img/default_images/product.png"],
+            num:1,
+            productToPost: {}
         }
+    },
+    methods: {
+        test() {
+            console.log("test");
+        },
+        async addToCart() {
+            this.productToPost = {
+                productId: this.id,
+                productAmount: this.num
+            }
+            const res = await this.$api.carts.createCart(this.productToPost)
+            console.log(res);
+        },
     },
     async mounted() {
         this.id = this.$route.params.id
