@@ -39,16 +39,9 @@
               </div> -->
             </li>
             <li class="nav-item dropdown cart">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" @click="toCart">
                 <img src="/assets/svg/cart.svg" alt="">
               </a>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated link</a>
-              </div>
             </li>
             
           </ul>
@@ -75,6 +68,9 @@ export default {
     },
     handleLogout() {
       this.$parent.logout();
+    },
+    toCart() {
+      this.$router.push({name: "Cart"})
     },
     userProfile() {
       console.log("1");

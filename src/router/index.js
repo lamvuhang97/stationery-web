@@ -6,7 +6,8 @@ import Home from "../views/home.vue";
 import Category from "../views/category.vue";
 import TopSelling from "../views/topSelling.vue";
 import NewArrival from "../views/newArrival.vue";
-import ProductDetail from "../views/productDetail.vue"
+import ProductDetail from "../views/productDetail.vue";
+import Cart from "../views/cart.vue";
 
 // import Register from "../views/register.vue";
 // import ForgotPassword from "../views/forgotPassword.vue";
@@ -94,6 +95,14 @@ const routes = [
     component: ProductDetail,
     meta: {
       requiresAuth: false,
+    },
+  },
+  {
+    path: "/cart",
+    name: "Cart",
+    component: Cart,
+    meta: {
+      requiresAuth: true,
     },
   },
   {

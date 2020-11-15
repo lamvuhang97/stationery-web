@@ -61,6 +61,7 @@ export default {
                     this.productData.push(i)
                 })
             })
+            return
         }
     },
     watch: {
