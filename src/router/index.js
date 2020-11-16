@@ -8,6 +8,7 @@ import TopSelling from "../views/topSelling.vue";
 import NewArrival from "../views/newArrival.vue";
 import ProductDetail from "../views/productDetail.vue";
 import Cart from "../views/cart.vue";
+import User from "../views/user.vue"
 
 // import Register from "../views/register.vue";
 // import ForgotPassword from "../views/forgotPassword.vue";
@@ -103,6 +104,14 @@ const routes = [
     component: Cart,
     meta: {
       requiresAuth: true,
+    },
+  },
+  {
+    path: "/user/:id",
+    name: "User",
+    component: User,
+    meta: {
+      requiresAuth: false,
     },
   },
   {

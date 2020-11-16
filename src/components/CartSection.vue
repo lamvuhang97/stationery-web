@@ -4,9 +4,10 @@
             <div class="select">
                 <input type="checkbox">
             </div>
-            <div class="owner">
+            <router-link :to="{name: 'User', params: {id : listCart[0].product.ownerId}}" class="nav-link owner">
+                <i class="fas fa-store"></i>
                 <span>{{owner}}</span>
-            </div>
+            </router-link>
         </div>
         <div class="section-item">
             <cart-item v-for="(item, ind) in listCart" :key="ind" :data="item"></cart-item>
@@ -35,5 +36,13 @@ export default {
 <style scoped>
     .cart-section .header{
         display: flex;
+        align-items: center;
+    }
+    .owner {
+        padding-left: 15px;
+        display: flex;
+    }
+    .owner span {
+        padding-left: 5px;
     }
 </style>

@@ -446,6 +446,7 @@
 
         <div class="form-group">
           <button
+            v-if="!formbuilder.hiddenSave"
             class="btn btn-primary"
             type="button"
             @click="saveForm"

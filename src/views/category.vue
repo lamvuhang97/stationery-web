@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="top-selling home-section">
-            <product-section :name="categoryName" @add-to-cart="addToCart"></product-section>
+            <product-section :name="categoryName"></product-section>
         </div>
     </div>
 </template>
@@ -17,9 +17,6 @@ export default {
         }
     },
     methods: {
-        addToCart() {
-            console.log("add to cart")
-        },
     },
     watch: {
        '$route.params.categoryName': function () {

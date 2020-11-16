@@ -37,6 +37,13 @@ export const products = {
         null
       );
     },
+
+    async getProductsByOwner(id) {
+      return await axios.get(
+        Vue.prototype.$settings.baseURL + "/products/user/" + id,
+        null
+      );
+    },
   
     async update(id, payload) {
       return await axios

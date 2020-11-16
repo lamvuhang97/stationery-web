@@ -51,6 +51,12 @@ export default {
                 this.productData = res.data.data
                 return
             }
+
+            if(this.name == "user") {
+                const res = await this.$api.products.getNewArrival()
+                this.productData = res.data.data
+                return
+            }
             
             const res = await this.$api.category.getAllProductByCategorysum(this.name)
             res.data.data.categorysub.forEach((item) => {
