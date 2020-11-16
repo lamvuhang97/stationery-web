@@ -1,7 +1,7 @@
 <template>
     <div class="pdroduct-section">
         <div class="section-title">
-            <hr class="hr"> <span>{{name}}</span> <hr class="hr">
+            <hr class="hr"> <span>{{sectionHeader}}</span> <hr class="hr">
         </div>
         <div class="product-item container">
             <div class="row">
@@ -27,13 +27,15 @@ export default {
     }, 
     data() {
         return {
-            productData: []
+            productData: [], 
+            sectionHeader: ''
         }
     },
     methods: {
         async fetchData() {
             this.productData = []
             if(this.name == "TopSelling") {
+                this.sectionHeader = 'Bán chạy'
                 const res = await this.$api.products.getTopSelling()
                 var tmp = []
                 res.data.data.forEach((item) => {
@@ -47,6 +49,7 @@ export default {
             }
 
             if(this.name == "NewArrival") {
+                this.sectionHeader = 'Mới nhất'
                 const res = await this.$api.products.getNewArrival()
                 this.productData = res.data.data
                 return
@@ -58,6 +61,7 @@ export default {
                 return
             }
             
+            this.sectionHeader = this.name
             const res = await this.$api.category.getAllProductByCategorysum(this.name)
             res.data.data.categorysub.forEach((item) => {
                 item.products.forEach((i) => {

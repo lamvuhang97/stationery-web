@@ -14,7 +14,7 @@
                 <span class="price">{{data.product.price}} VND</span>
             </div>
             <div class="quantity">
-                <label for="quantity" style="margin-right:10px">Num: </label>
+                <label for="quantity" style="margin-right:10px">Số lượng: </label>
                 <input type="number" v-model="data.productAmount" id="quantity" name="quantity" min="1" :max="data.product.quantity">
             </div>
             <div class="total-price">
@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="delete">
-            <button class="btn btn-danger">Delete</button>
+            <button class="btn btn-danger">Xóa</button>
         </div>
     </div>
 </template>

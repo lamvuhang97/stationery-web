@@ -6,7 +6,7 @@
             <img class="preview" height="268" width="356" :src="imgUrl">
           </div>
           <div class="update-img">
-            <button class="btn btn-primary" @click="click1">Choose photo</button>
+            <button class="btn btn-primary" @click="click1">Chọn ảnh</button>
             <!-- <button class="btn btn-success" @click="create">Upload</button> -->
             <input type="file" ref="input1"
               style="display: none"
@@ -34,10 +34,10 @@ export default {
       imageData: null,
       imgUrlToPost: '',
       formbuilder: {
-        heading: "Create User",
+        heading: "Thông tin người dùng",
         columns: [
           {
-            label: "Username",
+            label: "Tên đăng nhập",
             field: "username",
             value: "",
             filterable: true,
@@ -60,7 +60,7 @@ export default {
             }
           },
           {
-            label: "Address",
+            label: "Địa chỉ",
             field: "address",
             value: "",
             filterable: true,
@@ -68,7 +68,7 @@ export default {
             placeholder: "Address of user"
           },
           {
-            label: "Phonenumber",
+            label: "Số điện thoại",
             field: "phonenumber",
             value: "",
             filterable: true,
@@ -76,7 +76,7 @@ export default {
             placeholder: "Phonenumber of user"
           },
           {
-            label: "Status",
+            label: "Trạng thái",
             field: "status",
             value: "",
             filterable: true,
@@ -86,7 +86,7 @@ export default {
         ],
         disabledSave: false,
         isLoading: false,
-        buttonsavelabel: "Save",
+        buttonsavelabel: "Lưu",
         reloadFormbuilder: true
       },
       roles: [],
@@ -114,7 +114,7 @@ export default {
           this.formbuilder.disabledSave = true;
         }
         if (response.status < 300) {
-          this.$toasted.success("User updated");
+          this.$toasted.success("Cập nhật thành công");
           this.formbuilder.disabledSave = false;
           this.$router.push({ name: "Users" });
         } else {
@@ -143,7 +143,7 @@ export default {
         } else {
           this.formbuilder.disabledSave = false;
           if (response.status === 409) {
-            this.$toasted.error("Email already existed");
+            this.$toasted.error("Email đã tồn tại");
           } else {
             this.$toasted.error(response.message);
           }
@@ -198,7 +198,7 @@ export default {
     },
   },
   async mounted() {
-      this.formbuilder.heading = "Account Manager";
+      this.formbuilder.heading = "Thông tin người dùng";
       this.formbuilder.optionDisabled = true;
       var response = await this.$api.authentications.getProfile();
       console.log("res", response);
@@ -212,8 +212,8 @@ export default {
           this.formbuilder.columns[item].value = data[field];
           if(field == 'status') {
             if(data[field] == true) {
-              this.formbuilder.columns[item].value = 'Active'
-            } else this.formbuilder.columns[item].value = 'Locked'
+              this.formbuilder.columns[item].value = 'Hoạt động'
+            } else this.formbuilder.columns[item].value = 'Khóa'
           }
         }
       }

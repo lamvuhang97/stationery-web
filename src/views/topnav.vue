@@ -20,8 +20,8 @@
                 <img src="/assets/svg/account.svg" alt="">
               </a>
               <div class="dropdown-menu">
-                <a class="dropdown-item" @click="userProfile">Manage Account</a>
-                <a class="dropdown-item" href="#">Manage Shop</a>
+                <a class="dropdown-item" @click="userProfile">Tài khoản</a>
+                <a class="dropdown-item" href="#">Cửa hàng</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" @click="handleLogout">Logout</a>
               </div>

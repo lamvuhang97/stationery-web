@@ -9,19 +9,19 @@
             <div class="infor">
                 <h2>{{ productData.name }}</h2>
                 <div class="rate-sold">
-                    <div class="rate">Rate: 4.5 stars </div>
-                    <div class="sold" style="margin-left:20px"> Sold: 234 items </div>
+                    <div class="rate">Đánh giá: 4.5 stars </div>
+                    <div class="sold" style="margin-left:20px"> Đã bán: 234 sản phẩm </div>
                 </div>
-                <div class="price"> Price: <span style="color:red">{{ productData.price }} VND</span></div>
-                <div class="category"> Category: {{ productData.category }} </div>
+                <div class="price"> Giá: <span style="color:red">{{ productData.price }} VND</span></div>
+                <div class="category"> Phân loại: {{ productData.category }} </div>
                 <div class="number">
-                    <label for="quantity" style="margin-right:10px">Num: </label>
+                    <label for="quantity" style="margin-right:10px">Số lượng: </label>
                     <input type="number" id="quantity" name="quantity" min="1" :max="productData.quantity" v-model="num">
-                    <span style="margin-left:20px">Quantity: {{ productData.quantity }}</span>
+                    <span style="margin-left:20px">Kho: {{ productData.quantity }}</span>
                 </div>
                 <div class="action">
-                    <button class="btn btn-danger" @click="addToCart"><i class="fas fa-shopping-cart" ></i> Add to Cart</button>
-                    <button class="btn btn-danger" @click="test">Buy now</button>
+                    <button class="btn btn-danger" @click="addToCart"><i class="fas fa-shopping-cart" ></i>Thêm vào giỏ hàng</button>
+                    <button class="btn btn-danger" @click="test">Mua ngay</button>
                 </div>
             </div>
         </div>
@@ -29,11 +29,11 @@
 
         </div>
         <div class="description">
-            <h4>Description</h4>
+            <h4>Mô tả</h4>
             <span>{{ productData.description }}</span>
         </div>
         <div class="review">
-            <h4>Review</h4>
+            <h4>Bình luận, đánh giá</h4>
         </div>
     </div>
 </template>

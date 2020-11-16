@@ -14,7 +14,7 @@
               <div class="col-lg-6">
                 <div class="p-5">
                   <div class="text-center">
-                    <h4 class="text-dark mb-4">Stationery Dashboard Login</h4>
+                    <h4 class="text-dark mb-4">The Stationery Login</h4>
                   </div>
                   <div class="text-danger error-message">
                     {{ message }}&nbsp;

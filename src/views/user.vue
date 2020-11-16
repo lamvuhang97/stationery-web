@@ -26,10 +26,10 @@ export default {
       userData: {},
       imgUrl: "/assets/img/logo.jpg",
       formbuilder: {
-        heading: "User Information",
+        heading: "Thông tin người dùng",
         columns: [
           {
-            label: "Username",
+            label: "Tên đăng nhập",
             field: "username",
             value: "",
             filterable: true,
@@ -45,7 +45,7 @@ export default {
             placeholder: "Email of user"
           },
           {
-            label: "Address",
+            label: "Địa chỉ",
             field: "address",
             value: "",
             filterable: true,
@@ -53,7 +53,7 @@ export default {
             placeholder: "Address of user"
           },
           {
-            label: "Phonenumber",
+            label: "Số điện thoại",
             field: "phonenumber",
             value: "",
             filterable: true,
@@ -61,7 +61,7 @@ export default {
             placeholder: "Phonenumber of user"
           },
           {
-            label: "Status",
+            label: "Trạng thái",
             field: "status",
             value: "",
             filterable: true,
@@ -83,9 +83,7 @@ export default {
   async mounted() {
     this.id = this.$route.params.id
     const res = await this.$api.users.get(this.id)
-    console.log(res);
     this.userData = res.data.data
-    console.log("sdhf",this.userData);
     if(this.userData.avatar != ''){
       this.imgUrl = this.userData.avatar
     }
@@ -96,8 +94,8 @@ export default {
         this.formbuilder.columns[item].value = this.userData[field];
         if(field == 'status') {
           if(this.userData[field] == true) {
-            this.formbuilder.columns[item].value = 'Active'
-          } else this.formbuilder.columns[item].value = 'Locked'
+            this.formbuilder.columns[item].value = 'Hoạt động'
+          } else this.formbuilder.columns[item].value = 'Khóa'
         }
       }
     }

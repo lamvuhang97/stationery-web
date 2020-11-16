@@ -26,7 +26,7 @@
     <div class="sidebar">
       <ul>
         <li class="navitem" role="presentation">
-          <span class="navLink" @click="showCategory = !showCategory">All Category</span>
+          <span class="navLink" @click="showCategory = !showCategory">Phân loại</span>
           <div class="allCategory" v-if="showCategory">
             <div v-for="(value, key) in allCategory" :key="key" class="cate">
                 <div v-for="item in value" :key="item" class="subCate">
@@ -42,17 +42,17 @@
         </li>
         <li class="navitem" role="presentation">
           <router-link to="/home" class="navlink">
-            <span>Home</span>
+            <span>Trang chủ</span>
           </router-link>
         </li>
         <li class="navitem" role="presentation">
           <router-link to="/topselling" class="navlink">
-            <span>Top Selling</span>
+            <span>Bán chạy</span>
           </router-link>
         </li>
         <li class="navitem" role="presentation">
           <router-link to="/newarrival" class="navlink">
-            <span>New Arrival</span>
+            <span>Mới nhất</span>
           </router-link>
         </li>
       </ul>
