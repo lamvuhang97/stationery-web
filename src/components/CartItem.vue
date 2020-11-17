@@ -1,8 +1,8 @@
 <template>
     <div class="cart-item">
         <div class="select">
-            <input type="checkbox">
-        </div>
+            <input type="checkbox" v-model="select" @click="selectedItem" :value="data.product.name">
+        </div>{{select}}
         <div class="image">
             <img :src="imageUrl" alt="">
         </div>
@@ -28,10 +28,29 @@
 </template>
 <script>
 export default {
+    data() {
+        return {
+            selectedProducts: [],
+            select: false
+        }
+    },
     props: {
         data: {
             type: Object,
             default: null
+        },
+        selectAll: {
+            type: Boolean,
+            default: false
+        }
+    },
+    watch: {
+        "selectAll"() {
+            if(this.selectAll == true) {
+                this.select = true
+            } else {
+                this.select = false
+            }
         }
     },
     computed: {
@@ -45,6 +64,18 @@ export default {
         }
     },
     methods: {
+        selectedItem(e) {
+            var params = {}
+            if(!this.select === false) {
+                params.selected = false
+                params.value = e.target.value
+            } else {
+                params.selected = true
+                params.value = e.target.value
+            }
+            console.log(params);
+            this.$emit("select-item", params)
+        }
     },
     mounted() {
     }
