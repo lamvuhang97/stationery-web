@@ -10,9 +10,26 @@
           <custom-form :formbuilder="formbuilder" @form-save-click="save"></custom-form>
         </div>
     </div>
-    <div class="products">
-      <product-section :name="'user'" :id="id" ></product-section>
+    <div class="sidebar">
+      <ul>
+        <li class="navitem" role="presentation">
+          <router-link :to="'/user/' + id + '/products'" class="navlink">
+            <span>Sản Phẩm</span>
+          </router-link>
+        </li>
+        <li class="navitem" role="presentation">
+          <router-link :to="'/user/' + id + '/top-selling'" class="navlink">
+            <span>Bán chạy</span>
+          </router-link>
+        </li>
+        <li class="navitem" role="presentation">
+          <router-link :to="'/user/' + id + '/new-arrival'" class="navlink">
+            <span>Mới nhất</span>
+          </router-link>
+        </li>
+      </ul>
     </div>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -80,6 +97,11 @@ export default {
   async beforeMount() {
     
   },
+  methods: {
+    test() {
+      this.$router.push({name:"UserProducts"})
+    }
+  },
   async mounted() {
     this.id = this.$route.params.id
     const res = await this.$api.users.get(this.id)
@@ -111,9 +133,10 @@ export default {
   }
   .information {
     padding-top: 100px;
-      display: flex;
-      justify-content: space-around;
-      margin-left: 40px;
+    display: flex;
+    justify-content: space-around;
+    margin-left: 40px;
+    align-items: center;
   }
   .avatar {
     width: 30%;
@@ -123,5 +146,20 @@ export default {
   }
   .profile {
     width: 70%;
+  }
+    .sidebar ul{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+  }
+  .sidebar ul li {
+    padding: 0 20px;
+    color: black;
+  }
+  a {
+    color: black;
+    text-decoration: none;
   }
 </style>

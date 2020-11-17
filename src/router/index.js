@@ -9,6 +9,7 @@ import NewArrival from "../views/newArrival.vue";
 import ProductDetail from "../views/productDetail.vue";
 import Cart from "../views/cart.vue";
 import User from "../views/user.vue"
+import UserProducts from "../views/userProducts"
 
 // import Register from "../views/register.vue";
 // import ForgotPassword from "../views/forgotPassword.vue";
@@ -113,6 +114,23 @@ const routes = [
     meta: {
       requiresAuth: false,
     },
+    children: [
+      {
+        path: 'products',
+        name: "UserProducts",
+        component: UserProducts
+      },
+      {
+        path: 'top-selling',
+        name: "TopSelling",
+        component: UserProducts
+      },
+      {
+        path: '/new-arrival',
+        name: "NewArrival",
+        component: UserProducts
+      }
+    ]
   },
   {
     path: "*",

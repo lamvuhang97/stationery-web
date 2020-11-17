@@ -87,10 +87,13 @@ export default {
   },
   watch: {
       '$route': function () {
-          console.log(this.$route);
-          if(this.$route.fullPath === "/account"){
+          console.log("route", this.$route);
+          if(this.$route.fullPath === "/account" || this.$route.name === "User"){
             this.showBar = false 
+          } else {
+            this.showBar = true
           }
+
       }
   },
   methods: {
