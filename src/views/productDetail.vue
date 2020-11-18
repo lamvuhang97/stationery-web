@@ -63,8 +63,9 @@ export default {
                 productId: this.id,
                 productAmount: this.num
             }
-            const res = await this.$api.carts.createCart(this.productToPost)
-            console.log(res);
+            await this.$store.dispatch('addCartItem', this.productToPost)
+            // const res = await this.$api.carts.createCart(this.productToPost)
+            // console.log(res);
         },
     },
     async mounted() {
