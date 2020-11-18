@@ -14,9 +14,18 @@ export default {
             cartByOwner:[]
         }
     },
+    computed: {
+        listCart(){
+            return this.$store.getters.listCart
+        } 
+    },
+    async beforeMount() {
+        await this.$store.dispatch('fetchCart')
+    },
     async mounted() {
-        const res = await this.$api.carts.getMyCart();
-        this.cartByOwner = res.data.data.reduce(function(acc, obj) {
+        console.log("1", this.listCart);
+        // const res = await this.$api.carts.getMyCart();
+        this.cartByOwner = this.listCart.reduce(function(acc, obj) {
             var key = obj.product.owner.username
             if(!acc[key]) {
                 acc[key] = []

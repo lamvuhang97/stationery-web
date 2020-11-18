@@ -41,6 +41,7 @@
             <li class="nav-item dropdown cart">
               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" @click="toCart">
                 <img src="/assets/svg/cart.svg" alt="">
+                <span class="num">{{cartSize}}</span>
               </a>
             </li>
             
@@ -61,8 +62,14 @@ export default {
   computed: {
     authenticated() {
       return  Vue.prototype.$localstorage.getAccessToken() != null
+    },
+    cartSize() {
+      return this.$store.getters.cartSize
     }
   },
+  async beforeMount() {
+        await this.$store.dispatch('fetchCart')
+    },
   methods: {
     showLogin() {
       this.$router.push({name: "Login"})
@@ -160,5 +167,20 @@ export default {
   } 
   .nav-link img {
     width: 20px;
+  }
+  .num {
+    border: 1px solid red;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+    position: absolute;
+    z-index: 2;
+    top: 9px;
+    left: 30px;
+    height: 17px;
+    width: 17px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 13px;
   }
 </style>

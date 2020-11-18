@@ -6,6 +6,7 @@ import VueNotification from 'vue-notification'
 import Sortable from 'sortablejs'
 import VueLocalStorage from 'vue-localstorage'
 import firebase from 'firebase'
+import store from './store/store';
 
 firebase.initializeApp({
   apiKey: "AIzaSyCBHaXdF-4dMYCOfo51QAHAQJbzf-f5L8U",
@@ -85,6 +86,7 @@ Vue.filter("expirationDate", function(value) {
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 
   
