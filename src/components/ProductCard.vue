@@ -47,8 +47,9 @@ export default {
     methods: {
         async addToCart(e) {
             e.stopPropagation();
-            const res = await this.$api.carts.createCart(this.productToPost)
-            console.log(res);
+            // const res = await this.$api.carts.createCart(this.productToPost)
+            await this.$store.dispatch('addCartItem', this.productToPost)
+            // console.log(res);
 
         },
         detail() {

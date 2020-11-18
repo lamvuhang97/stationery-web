@@ -12,8 +12,7 @@ export default new Vuex.Store({
     state: {
         tasks: [],
         newTask: '',
-        cart: [],
-        newCartItem : {}
+        cart: []
     },
     getters,
     mutations,

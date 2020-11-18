@@ -1,8 +1,10 @@
 import api from "../api"
 export default {
-    // addCartItem({commit}) {
-    //     commit('addCartItem', cart)
-    // },
+    async addCartItem({dispatch}, payload) {
+        const res = await api.carts.createCart(payload)
+        console.log(res);
+        dispatch('fetchCart')
+    },
     async fetchCart({commit}) {
         const res = await api.carts.getMyCart();
         var data = res.data.data
