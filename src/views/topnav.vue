@@ -56,8 +56,12 @@ export default {
   data() {
     return {
       currentUser: Vue.prototype.$localstorage.getName(),
-      authenticated: Vue.prototype.$localstorage.getAccessToken() != null
     };
+  },
+  computed: {
+    authenticated() {
+      return  Vue.prototype.$localstorage.getAccessToken() != null
+    }
   },
   methods: {
     showLogin() {

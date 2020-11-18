@@ -100,11 +100,14 @@ export default {
     setAuthenticated(status) {
       this.authenticated = status;
       this.$router.push({ name: "Home" });
+      this.$router.go()
+
     },
     logout() {
       localstorage.clearToken();
       this.authenticated = false;
       this.$router.push({ name: "Login" });
+      this.$router.go()
     }
   }
 };
