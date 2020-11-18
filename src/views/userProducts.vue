@@ -35,7 +35,15 @@ export default {
                 this.productData = res.data.data.rows
             }
             if(this.$route.name === "TopSelling") {
-                this.productData = []
+                const res = await this.$api.products.getTopSelling(this.id)
+                var tmp = []
+                res.data.data.forEach((item) => {
+                    tmp.push(item.productId)
+                })
+                var ids = tmp.join()
+                
+                const response = await this.$api.products.getProductsByGroupId(ids)
+                this.productData = response.data.data
             }
         }
     },

@@ -24,11 +24,19 @@ export const products = {
       );
     },
 
-    async getTopSelling() {
-      return await axios.get(
-        Vue.prototype.$settings.baseURL + "/products/best-seller",
-        null
-      );
+    async getTopSelling(id) {
+      if(id) {
+        return await axios.get(
+          Vue.prototype.$settings.baseURL + "/products/user/" + id + "/best-seller",
+          null
+        );
+      } else {
+        return await axios.get(
+          Vue.prototype.$settings.baseURL + "/products/best-seller",
+          null
+        );
+      }
+      
     },
 
     async getProductsByGroupId(ids) {
