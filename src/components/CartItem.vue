@@ -1,8 +1,12 @@
 <template>
     <div class="cart-item">
         <div class="select">
-            <input type="checkbox" v-model='languages' @change='updateCheckall()' :value="data.product.name">
-        </div>{{select}}
+            <input type="checkbox" 
+            :value="data.product.name"
+            :checked="isCheckAll"
+            @click="clickItem"
+            >
+        </div>
         <div class="image">
             <img :src="imageUrl" alt="">
         </div>
@@ -31,7 +35,6 @@ export default {
     data() {
         return {
             selectedProducts: [],
-            select: false
         }
     },
     props: {
@@ -39,19 +42,12 @@ export default {
             type: Object,
             default: null
         },
-        selectAll: {
+        isCheckAll: {
             type: Boolean,
             default: false
         }
     },
     watch: {
-        "selectAll"() {
-            if(this.selectAll == true) {
-                this.select = true
-            } else {
-                this.select = false
-            }
-        }
     },
     computed: {
         totalPrice() {
@@ -64,17 +60,8 @@ export default {
         }
     },
     methods: {
-        selectedItem(e) {
-            var params = {}
-            if(!this.select === false) {
-                params.selected = false
-                params.value = e.target.value
-            } else {
-                params.selected = true
-                params.value = e.target.value
-            }
-            console.log(params);
-            this.$emit("select-item", params)
+        clickItem(e) {
+            this.$emit("click-item", e.target)
         }
     },
     mounted() {

@@ -2,7 +2,7 @@
     <div class="cart-section">
         <div class="header">
             <div class="select">
-                <input type="checkbox" @click='checkAll()' v-model='isCheckAll'>
+                <input type="checkbox" :checked="checked" @click="clickAll">
             </div>
             <router-link :to="{name: 'User', params: {id : listCart[0].product.ownerId}}" class="nav-link owner">
                 <i class="fas fa-store"></i>
@@ -14,10 +14,11 @@
                 v-for="(item, ind) in listCart" 
                 :key="ind" 
                 :data="item" 
-                :select-all="isCheckAll"
-                @select-item="SelectItem"
+                :is-check-all="isCheckAll"
+                @click-item="clickItem"
             ></cart-item>
         </div>
+        <button @click="test">click</button>
     </div>
 </template>
 <script>
@@ -27,7 +28,8 @@ export default {
   data() {
       return {
           isCheckAll: false,
-          selectedList:[]
+          listSelected: [],
+          checked: false
       }
   },
   props: {
@@ -41,31 +43,42 @@ export default {
       }
   },
   methods: {
-      checkAll() {
-           this.isCheckAll = !this.isCheckAll;
-            this.selectedList = [];
-            if(this.isCheckAll){ // Check all
-                for (var key in this.listCart) {
-                this.selectedList.push(this.listCart[key]);
-                }
-            }
+      test() {
+          console.log("result",this.listSelected);
       },
-      SelectItem(params) {
-          console.log("params",params);
-          if(params.selected == true) {
-              this.selectedList.push(params.value)
+      clickAll(e) {
+          if(e.target.checked == true) {
+              this.isCheckAll = true
+              this.listSelected =[]
+              this.listSelected = this.listCart
           } else {
-              this.selectedList.forEach((item, ind) => {
-                  if(item == params.value) {
-                      this.selectedList.splice(ind, 1)
+              this.isCheckAll = false
+              this.listSelected =[]
+          }
+          if(this.listSelected.length == this.listCart.length) {
+              this.checked = true
+          } else {
+              this.checked = false
+          }
+      },
+      clickItem(params) {
+          if(params.checked == true) {
+              this.listCart.forEach((item) => {
+                  if(item.product.name == params.value) {
+                      this.listSelected.push(item)
+                  }
+              })
+          } else {
+              this.listSelected.forEach((item, ind) => {
+                  if(item.product.name == params.value ) {
+                      this.listSelected.splice(ind, 1)
                   }
               })
           }
-          console.log("khd",this.selectedList);
-          if(this.selectedList.length == this.listCart.length) {
-              this.allSelected = true
+          if(this.listSelected.length == this.listCart.length) {
+              this.checked = true
           } else {
-              this.allSelected = false
+              this.checked = false
           }
       }
   },
