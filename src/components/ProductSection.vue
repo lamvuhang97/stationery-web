@@ -2,7 +2,19 @@
     <div class="pdroduct-section">
         <div class="section-title">
             <hr class="hr"> <span>{{sectionHeader}}</span> <hr class="hr">
+            <div class="filter" v-if="$route.name != 'Home'">
+            <label for="filter">Loc theo:  </label> 
+            <select id="filter">
+                <option value="up">Gia cao dan</option>
+                <option value="down">Gia thap dan</option>
+                <option value="1">0 - 100.000VND</option>
+                <option value="2">100.000VND - 200.000VND</option>
+                <option value="3">200.000VND - 300.000VND</option>
+                <option value="4"> > 300.000VND</option>
+            </select>
         </div>
+        </div>
+        
         <div class="product-item container">
             <div class="row">
                 <div class="col-12 col-sm-8 col-md-6 col-lg-4" v-for="item in productData" :key="item">
@@ -23,6 +35,16 @@ export default {
         name: {
             type: String,
             default: ''
+        },
+        limit: {
+            type: Number,
+            default: 0,
+            required: false
+        },
+        offset: {
+            type: Number,
+            default: 0,
+            required: false
         }
     }, 
     data() {
@@ -36,7 +58,7 @@ export default {
             this.productData = []
             if(this.name == "TopSelling") {
                 this.sectionHeader = 'Bán chạy'
-                const res = await this.$api.products.getTopSelling()
+                const res = await this.$api.products.getTopSelling(this.limit)
                 var tmp = []
                 res.data.data.forEach((item) => {
                     tmp.push(item.productId)
@@ -50,7 +72,7 @@ export default {
 
             if(this.name == "NewArrival") {
                 this.sectionHeader = 'Mới nhất'
-                const res = await this.$api.products.getNewArrival()
+                const res = await this.$api.products.getNewArrival(this.limit)
                 this.productData = res.data.data
                 return
             }
@@ -62,13 +84,23 @@ export default {
             }
             
             this.sectionHeader = this.name
-            const res = await this.$api.category.getAllProductByCategorysum(this.name)
-            res.data.data.categorysub.forEach((item) => {
-                item.products.forEach((i) => {
-                    this.productData.push(i)
+            if(this.$route.name == "Home"){
+                const res = await this.$api.category.getAllProductByCategorysum(this.name)
+                res.data.data.categorysub.forEach((item) => {
+                    item.products.forEach((i) => {
+                        this.productData.push(i)
+                    })
                 })
-            })
-            return
+                return
+            } else {
+                console.log("2", this.name);
+                const res = await this.$api.category.getProductByCategory(this.name)
+                res.data.data.products.forEach((item) => {
+                        this.productData.push(item)
+                })
+                return
+            }
+            
         }
     },
     watch: {
@@ -97,5 +129,13 @@ export default {
         width: 100px;
         border: 3px solid #dacfd9;
     }
-
+    .filter {
+        position: absolute;
+        right: 145px;
+    }
+    .filter select{
+        padding: 2px 10px;
+        border-radius: 5px;
+        margin-left: 10px;
+    }
 </style>

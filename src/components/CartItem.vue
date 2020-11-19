@@ -1,7 +1,7 @@
 <template>
     <div class="cart-item">
         <div class="select">
-            <input type="checkbox" v-model="select" @click="selectedItem" :value="data.product.name">
+            <input type="checkbox" v-model='languages' @change='updateCheckall()' :value="data.product.name">
         </div>{{select}}
         <div class="image">
             <img :src="imageUrl" alt="">

@@ -16,17 +16,10 @@ export const category = {
         null
       );
     },
-    async get(id) {
-      if (id) {
+    async getProductByCategory(name) {
         return await axios.get(
-          Vue.prototype.$settings.baseURL + "/properties/" + settings.propertyID + "/documents/" + id
+          Vue.prototype.$settings.baseURL + "/categories/" + name
         );
-      } else {
-        return await axios.get(
-          Vue.prototype.$settings.baseURL + "/properties/" + settings.propertyID + "/documents",
-          null
-        );
-      }
     },
   
     async update(id, payload) {

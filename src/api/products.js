@@ -17,25 +17,25 @@ export const products = {
       }
     },
 
-    async getNewArrival() {
+    async getNewArrival(limit) {
       return await axios.get(
-        Vue.prototype.$settings.baseURL + "/products/new-arrival",
+        Vue.prototype.$settings.baseURL + "/products/new-arrival?limit=" + limit,
         null
       );
     },
 
-    async getTopSelling(id) {
-      if(id) {
-        return await axios.get(
-          Vue.prototype.$settings.baseURL + "/products/user/" + id + "/best-seller",
-          null
-        );
-      } else {
-        return await axios.get(
-          Vue.prototype.$settings.baseURL + "/products/best-seller",
-          null
-        );
-      }
+    async getTopSellingByUser(id) {
+      return await axios.get(
+        Vue.prototype.$settings.baseURL + "/products/user/" + id + "/best-seller",
+        null
+      );
+    },
+
+    async getTopSelling(limit) {
+      return await axios.get(
+        Vue.prototype.$settings.baseURL + "/products/best-seller?limit=" + limit,
+        null
+      );
       
     },
 

@@ -2,7 +2,7 @@
     <div class="cart-section">
         <div class="header">
             <div class="select">
-                <input type="checkbox" v-model="allSelected">
+                <input type="checkbox" @click='checkAll()' v-model='isCheckAll'>
             </div>
             <router-link :to="{name: 'User', params: {id : listCart[0].product.ownerId}}" class="nav-link owner">
                 <i class="fas fa-store"></i>
@@ -14,7 +14,7 @@
                 v-for="(item, ind) in listCart" 
                 :key="ind" 
                 :data="item" 
-                :select-all="allSelected"
+                :select-all="isCheckAll"
                 @select-item="SelectItem"
             ></cart-item>
         </div>
@@ -26,7 +26,7 @@ export default {
   components: { CartItem },
   data() {
       return {
-          allSelected: false,
+          isCheckAll: false,
           selectedList:[]
       }
   },
@@ -41,6 +41,15 @@ export default {
       }
   },
   methods: {
+      checkAll() {
+           this.isCheckAll = !this.isCheckAll;
+            this.selectedList = [];
+            if(this.isCheckAll){ // Check all
+                for (var key in this.listCart) {
+                this.selectedList.push(this.listCart[key]);
+                }
+            }
+      },
       SelectItem(params) {
           console.log("params",params);
           if(params.selected == true) {

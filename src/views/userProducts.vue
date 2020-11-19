@@ -35,7 +35,7 @@ export default {
                 this.productData = res.data.data.rows
             }
             if(this.$route.name === "TopSelling") {
-                const res = await this.$api.products.getTopSelling(this.id)
+                const res = await this.$api.products.getTopSellingByUser(this.id)
                 var tmp = []
                 res.data.data.forEach((item) => {
                     tmp.push(item.productId)
