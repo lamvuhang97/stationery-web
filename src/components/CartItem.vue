@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="delete">
-            <button class="btn btn-danger">Xóa</button>
+            <button class="btn btn-danger" @click="deleteCart">Xóa</button>
         </div>
     </div>
 </template>
@@ -71,6 +71,9 @@ export default {
         },
         async updateAmount() {
             await this.$store.dispatch('updateProductAmount',{id : this.data.id, data: {productAmount: this.data.productAmount}})
+        },
+        deleteCart() {
+            this.$emit('delete-cart', this.data.id)
         }
     },
     mounted() {

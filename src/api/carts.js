@@ -1,7 +1,6 @@
 import axios from "axios";
 import Vue from "vue";
 import api from ".";
-import { settings } from "@/library/variables";
 
 export const carts = {
     async getMyCart() {
@@ -24,9 +23,9 @@ export const carts = {
           return api.response.error(error.response.data);
         });
     },
-    async delete(id) {
+    async deleteCart(id) {
       return await axios
-        .delete(Vue.prototype.$settings.baseURL + "/properties/" + settings.propertyID + "/documents/" + id, null)
+        .delete("carts/" + id)
         .catch(error => {
           return api.response.error(error.response.data);
         });

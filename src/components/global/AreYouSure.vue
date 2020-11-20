@@ -4,7 +4,7 @@
       <div class="modal-body" @click.stop>
         <div class="modal-header">
           <p v-if="text === undefined" class="modal-heading">
-            You have unsaved changes. Leave the page without saving them?
+            Are you sure wanna delete this cart item?
           </p>
           <p v-if="text !== undefined" class="modal-heading">{{ text }}</p>
         </div>
@@ -54,11 +54,11 @@ export default Vue.extend({
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
-    min-width: 400px;
-    min-height: 200px;
+    width: 400px;
+    height: 200px;
     text-align: center;
-    background-color: $white;
-    border: 1px solid $black;
+    background-color: white;
+    border: 1px solid black;
 
     .modal-body {
       width: 100%;

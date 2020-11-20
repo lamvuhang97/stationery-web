@@ -21,7 +21,7 @@
         name="delete"
         :disabled="!shouldDeleteContent"
         class="button is-danger"
-        @click.prevent="$emit('deleteContent')"
+        @click.prevent="$emit('delete-content')"
       >
         {{ buttonText }}
       </button>

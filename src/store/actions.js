@@ -15,6 +15,11 @@ export default {
         console.log(res);
         dispatch('fetchCart')
     },
+    async deleteCart({dispatch}, payload) {
+        const res = await api.carts.deleteCart(payload)
+        console.log(res);
+        dispatch('fetchCart')
+    },
 
     getTask({commit}, task) {
         commit('getTask', task)

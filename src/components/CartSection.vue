@@ -16,6 +16,7 @@
                 :data="item" 
                 :is-check-all="isCheckAll"
                 @click-item="clickItem"
+                @delete-cart="deleteCart"
             ></cart-item>
         </div>
     </div>
@@ -76,6 +77,9 @@ export default {
           } else {
               this.checked = false
           }
+      },
+      deleteCart(id) {
+          this.$emit('delete-cart', id)
       }
   },
   mounted() {
