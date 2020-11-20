@@ -16,28 +16,10 @@ export const carts = {
           return
         });
     },
-    async getAllProductByCategorysum(name) {
-      return await axios.get(
-        Vue.prototype.$settings.baseURL + "/categorysum/" + name,
-        null
-      );
-    },
-    async get(id) {
-      if (id) {
-        return await axios.get(
-          Vue.prototype.$settings.baseURL + "/properties/" + settings.propertyID + "/documents/" + id
-        );
-      } else {
-        return await axios.get(
-          Vue.prototype.$settings.baseURL + "/properties/" + settings.propertyID + "/documents",
-          null
-        );
-      }
-    },
   
-    async update(id, payload) {
+    async updateProductAmount(id, payload) {
       return await axios
-        .patch(Vue.prototype.$settings.baseURL + "/properties/" + settings.propertyID + "/documents/" + id, payload)
+        .put("carts/" + id, payload)
         .catch(error => {
           return api.response.error(error.response.data);
         });

@@ -18,7 +18,6 @@
                 @click-item="clickItem"
             ></cart-item>
         </div>
-        <button @click="test">click</button>
     </div>
 </template>
 <script>
@@ -43,9 +42,6 @@ export default {
       }
   },
   methods: {
-      test() {
-          console.log("result",this.listSelected);
-      },
       clickAll(e) {
           if(e.target.checked == true) {
               this.isCheckAll = true

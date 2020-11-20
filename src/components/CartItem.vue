@@ -19,7 +19,13 @@
             </div>
             <div class="quantity">
                 <label for="quantity" style="margin-right:10px">Số lượng: </label>
-                <input type="number" v-model="data.productAmount" id="quantity" name="quantity" min="1" :max="data.product.quantity">
+                <input 
+                    type="number" id="quantity" 
+                    v-model="data.productAmount" 
+                    name="quantity" min="1" 
+                    :max="data.product.quantity"
+                    @change="updateAmount"
+                >
             </div>
             <div class="total-price">
                 <span>{{ totalPrice}} VND</span>
@@ -62,6 +68,9 @@ export default {
     methods: {
         clickItem(e) {
             this.$emit("click-item", e.target)
+        },
+        async updateAmount() {
+            await this.$store.dispatch('updateProductAmount',{id : this.data.id, data: {productAmount: this.data.productAmount}})
         }
     },
     mounted() {

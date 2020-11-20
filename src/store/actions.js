@@ -10,6 +10,11 @@ export default {
         var data = res.data.data
         commit('setCart', data)
     },
+    async updateProductAmount({dispatch}, payload) {
+        const res = await api.carts.updateProductAmount(payload.id, payload.data)
+        console.log(res);
+        dispatch('fetchCart')
+    },
 
     getTask({commit}, task) {
         commit('getTask', task)
