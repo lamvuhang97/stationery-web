@@ -8,8 +8,13 @@ import TopSelling from "../views/topSelling.vue";
 import NewArrival from "../views/newArrival.vue";
 import ProductDetail from "../views/productDetail.vue";
 import Cart from "../views/cart.vue";
-import User from "../views/user.vue"
-import UserProducts from "../views/userProducts"
+import User from "../views/user.vue";
+import UserProducts from "../views/userProducts";
+import Shop from "../views/shop";
+import MyProducts from "../views/myProducts";
+import Analyze from "../views/analyze";
+import Orders from "../views/orders";
+import ProductCRUD from "../views/productCRUD";
 
 // import Register from "../views/register.vue";
 // import ForgotPassword from "../views/forgotPassword.vue";
@@ -108,6 +113,36 @@ const routes = [
     },
   },
   {
+    path: "/shop",
+    name: "Shop",
+    component: Shop,
+    meta: {
+      requiresAuth: true,
+    },
+    children: [
+      {
+        path: 'products',
+        name: "MyProducts",
+        component: MyProducts
+      },
+      {
+        path: 'analyze',
+        name: "Analyze",
+        component: Analyze
+      },
+      {
+        path: 'orders',
+        name: "Orders",
+        component: Orders
+      },
+      {
+        path: 'new-product',
+        name: "ProductCRUD",
+        component: ProductCRUD
+      }
+    ]
+  },
+  {
     path: "/user/:id",
     name: "User",
     component: User,
@@ -126,7 +161,7 @@ const routes = [
         component: UserProducts
       },
       {
-        path: '/new-arrival',
+        path: 'new-arrival',
         name: "NewArrival",
         component: UserProducts
       }

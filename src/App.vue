@@ -88,7 +88,11 @@ export default {
   watch: {
       '$route': function () {
           console.log("route", this.$route);
-          if(this.$route.fullPath === "/account" || this.$route.name === "User"){
+          if(
+            this.$route.fullPath === "/account" || 
+            this.$route.name === "User" || 
+            this.$route.fullPath.includes("shop")
+            ){
             this.showBar = false 
           } else {
             this.showBar = true

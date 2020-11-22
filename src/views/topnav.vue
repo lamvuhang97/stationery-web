@@ -21,7 +21,7 @@
               </a>
               <div class="dropdown-menu">
                 <a class="dropdown-item" @click="userProfile">Tài khoản</a>
-                <a class="dropdown-item" href="#">Cửa hàng</a>
+                <a class="dropdown-item" @click="managerShop">Cửa hàng</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" @click="handleLogout">Logout</a>
               </div>
@@ -83,8 +83,10 @@ export default {
     toCart() {
       this.$router.push({name: "Cart"})
     },
+    managerShop() {
+      this.$router.push({name: "Shop"})
+    },
     userProfile() {
-      console.log("1");
       this.$router.push({name: "Account"})
       // if (this.$route.name != "UsersUpdate") {
       //   this.$api.users

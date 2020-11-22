@@ -147,7 +147,7 @@ export default {
   .profile {
     width: 70%;
   }
-    .sidebar ul{
+  .sidebar ul{
     list-style: none;
     display: flex;
     justify-content: center;
