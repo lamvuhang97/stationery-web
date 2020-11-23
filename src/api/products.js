@@ -17,6 +17,17 @@ export const products = {
       }
     },
 
+    async getMyProducts() {
+      return await axios.get(
+        Vue.prototype.$settings.baseURL + "/products/my-product",
+        {
+          headers: {
+            Authorization: Vue.prototype.$localstorage.getAccessToken()
+          }
+        }
+      );
+    },
+
     async getNewArrival(limit) {
       return await axios.get(
         Vue.prototype.$settings.baseURL + "/products/new-arrival?limit=" + limit,

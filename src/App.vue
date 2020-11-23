@@ -89,8 +89,8 @@ export default {
       '$route': function () {
           console.log("route", this.$route);
           if(
-            this.$route.fullPath === "/account" || 
-            this.$route.name === "User" || 
+            this.$route.fullPath.includes("account") || 
+            this.$route.fullPath.includes("user" )|| 
             this.$route.fullPath.includes("shop")
             ){
             this.showBar = false 

@@ -15,6 +15,7 @@ import MyProducts from "../views/myProducts";
 import Analyze from "../views/analyze";
 import Orders from "../views/orders";
 import ProductCRUD from "../views/productCRUD";
+import Transaction from "../views/transaction";
 
 // import Register from "../views/register.vue";
 // import ForgotPassword from "../views/forgotPassword.vue";
@@ -39,7 +40,18 @@ const routes = [
     meta: {
       requiresAuth: true,
     },
+    children: [
+      {
+        path: "transaction/:status",
+        name: "Transaction",
+        component: Transaction,
+        meta: {
+          requiresAuth: true,
+        },
+      },
+    ]
   },
+  
   // {
   //   path: "/register",
   //   name: "Register",

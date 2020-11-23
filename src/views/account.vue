@@ -17,6 +17,44 @@
           <custom-form :formbuilder="formbuilder" @form-save-click="save"></custom-form>
         </div>
     </div>
+    <h2 style="padding-left: 80px">Transaction</h2>
+    <div class="transaction">
+      <div class="sidebar">
+            <ul>
+                <li class="navitem" role="presentation">
+                <router-link :to="'/account/transaction/0'" class="navlink">
+                    <span>Tất cả</span>
+                </router-link>
+                </li>
+                <li class="navitem" role="presentation">
+                <router-link :to="'/account/transaction/1'" class="navlink">
+                    <span>Chờ xác nhận</span>
+                </router-link>
+                </li>
+                <li class="navitem" role="presentation">
+                <router-link :to="'/account/transaction/2'" class="navlink">
+                    <span>Đang vận chuyển</span>
+                </router-link>
+                </li>
+                <li class="navitem" role="presentation">
+                <router-link :to="'/account/transaction/3'" class="navlink">
+                    <span>Bị từ chối</span>
+                </router-link>
+                </li>
+                <li class="navitem" role="presentation">
+                <router-link :to="'/account/transaction/4'" class="navlink">
+                    <span>Thành công</span>
+                </router-link>
+                </li>
+                <li class="navitem" role="presentation">
+                <router-link :to="'/account/transaction/5'" class="navlink">
+                    <span>Thất bại</span>
+                </router-link>
+                </li>
+            </ul>
+        </div>
+        <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -245,4 +283,19 @@ img {
 .products{
   margin: 20px;
 }
+.sidebar ul{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+  }
+  .sidebar ul li {
+    padding: 0 20px;
+    color: black;
+  }
+  a {
+    color: black;
+    text-decoration: none;
+  }
 </style>

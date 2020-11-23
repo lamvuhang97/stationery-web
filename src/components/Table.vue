@@ -237,10 +237,12 @@ export default {
     loadItems() {
       this.columns = this.props.columns;
       if (this.props.data != undefined) {
+        console.log("have", this.props.data);
         this.totalRecords = this.props.data.length
         this.rows = this.props.data;
         return
       }
+      console.log("dont have");
       if(this.props.remoteURL){
         let remoteURL;
         if (this.props.remoteParams) {
@@ -278,12 +280,13 @@ export default {
         console.log(url);
         //this.$axios.get(url, { body: this.serverParams }).then(response => {
         this.$axios.get(url).then(response => {
+          console.log("response", response);
           if(response.data.meta){
             this.totalRecords = response.data.meta.total_items;
           } else {
             this.totalRecords = response.data.data.count
           }
-          console.log("response", response);
+          
           this.rows = response.data.data.rows;
           // if(this.props.page == 'view'){
           //   const filtered =[]
@@ -307,6 +310,7 @@ export default {
     }
   },
   mounted() {
+    console.log("adgfwief", this.props.data);
     this.loadItems();
   },
   watch: {
@@ -314,6 +318,9 @@ export default {
       console.log("Reload CHANGED ", newVal, oldVal);
       this.loadItems();
     },
+    props: function() {
+      this.loadItems()
+    }
     // filter: {
     //   immediate: true,
     //   deep: true,
@@ -349,6 +356,11 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+  .hello {
+    margin: 0px 80px;
+  }
+</style>
 <style>
 table td {
   vertical-align: middle !important;
