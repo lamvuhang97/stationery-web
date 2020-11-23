@@ -17,7 +17,7 @@
           <custom-form :formbuilder="formbuilder" @form-save-click="save"></custom-form>
         </div>
     </div>
-    <h2 style="padding-left: 80px">Transaction</h2>
+    <h2 style="padding-left: 80px">Đơn mua</h2>
     <div class="transaction">
       <div class="sidebar">
             <ul>

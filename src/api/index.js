@@ -14,6 +14,7 @@ import { tags } from "./tags";
 import { category } from "./category";
 import { products } from "./products";
 import { carts } from "./carts";
+import { orders }from "./orders";
 
 const api = {
   response,
@@ -31,7 +32,8 @@ const api = {
   tags,
   category,
   products,
-  carts
+  carts, 
+  orders
 };
 
 export default api;

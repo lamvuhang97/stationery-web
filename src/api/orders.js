@@ -1,6 +1,5 @@
 import axios from "axios";
 import Vue from "vue";
-import api from ".";
 
 export const orders = {
     async getMyOrder() {
@@ -15,6 +14,19 @@ export const orders = {
           return
         });
     },
+
+    async getOrderdetailsByOrder(id) {
+      return await axios.get("orderdetails/order/" + id, {
+        headers: {
+          Authorization: Vue.prototype.$localstorage.getAccessToken()
+        }
+      })
+      .catch(error => {
+        // return api.response.error(error.response.data);
+        console.log("not login yet", error);
+        return
+      });
+    }
   
     // async updateProductAmount(id, payload) {
     //   return await axios

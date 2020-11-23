@@ -8,6 +8,7 @@ export default {
     data() {
         return {
             fetched: false,
+            orderList: [],
             props: {
                 norowsfound: "product",
                 searchname: "Search for a product by name...",
@@ -20,7 +21,7 @@ export default {
                 },
                 {
                     label: "Nguoi ban",
-                    field: "user.username",
+                    field: "owner.username",
                     type: 'string',
                     filterable: true
                 },
@@ -84,7 +85,7 @@ export default {
             this.$toasted.error(response.message);
             }
         } else {
-            this.$router.push({ name: "ProductDetail", params: params.row });
+            this.$router.push({ name: "OrderDetail", params: params.row });
         }
         },
         async fetchData(status) {

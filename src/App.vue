@@ -91,7 +91,8 @@ export default {
           if(
             this.$route.fullPath.includes("account") || 
             this.$route.fullPath.includes("user" )|| 
-            this.$route.fullPath.includes("shop")
+            this.$route.fullPath.includes("shop") ||
+            this.$route.fullPath.includes("order-detail")
             ){
             this.showBar = false 
           } else {

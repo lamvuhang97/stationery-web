@@ -16,6 +16,7 @@ import Analyze from "../views/analyze";
 import Orders from "../views/orders";
 import ProductCRUD from "../views/productCRUD";
 import Transaction from "../views/transaction";
+import OrderDetail from "../views/orderDetail"
 
 // import Register from "../views/register.vue";
 // import ForgotPassword from "../views/forgotPassword.vue";
@@ -51,7 +52,14 @@ const routes = [
       },
     ]
   },
-  
+  {
+    path: "/order-detail",
+    name: "OrderDetail",
+    component: OrderDetail,
+    meta: {
+      requiresAuth: true,
+    },
+  },
   // {
   //   path: "/register",
   //   name: "Register",
