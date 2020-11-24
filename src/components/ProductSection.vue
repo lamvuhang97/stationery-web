@@ -55,10 +55,11 @@ export default {
     },
     methods: {
         async fetchData() {
+            var limit = 3
             this.productData = []
             if(this.name == "TopSelling") {
                 this.sectionHeader = 'Bán chạy'
-                const res = await this.$api.products.getTopSelling(this.limit)
+                const res = await this.$api.products.getTopSelling(limit)
                 var tmp = []
                 res.data.data.forEach((item) => {
                     tmp.push(item.productId)
@@ -72,7 +73,7 @@ export default {
 
             if(this.name == "NewArrival") {
                 this.sectionHeader = 'Mới nhất'
-                const res = await this.$api.products.getNewArrival(this.limit)
+                const res = await this.$api.products.getNewArrival(limit)
                 this.productData = res.data.data
                 return
             }

@@ -82,25 +82,39 @@ export default {
   data() {
     return {
       authenticated: localstorage.getAccessToken() != null,
-      showBar: true
+      // showBar: true
     };
   },
-  watch: {
-      '$route': function () {
-          console.log("route", this.$route);
-          if(
-            this.$route.fullPath.includes("account") || 
-            this.$route.fullPath.includes("user" )|| 
-            this.$route.fullPath.includes("shop") ||
-            this.$route.fullPath.includes("order-detail")
-            ){
-            this.showBar = false 
-          } else {
-            this.showBar = true
-          }
-
+  computed: {
+    showBar() {
+      if(
+        this.$route.fullPath.includes("account") || 
+        this.$route.fullPath.includes("user" )|| 
+        this.$route.fullPath.includes("shop") ||
+        this.$route.fullPath.includes("order-detail")
+        ){
+        return false 
+      } else {
+        return true
       }
+    }
   },
+  // watch: {
+  //     '$route': function () {
+  //         console.log("route", this.$route);
+  //         if(
+  //           this.$route.fullPath.includes("account") || 
+  //           this.$route.fullPath.includes("user" )|| 
+  //           this.$route.fullPath.includes("shop") ||
+  //           this.$route.fullPath.includes("order-detail")
+  //           ){
+  //           this.showBar = false 
+  //         } else {
+  //           this.showBar = true
+  //         }
+
+  //     }
+  // },
   methods: {
     setAuthenticated(status) {
       this.authenticated = status;

@@ -2,6 +2,19 @@ import axios from "axios";
 import Vue from "vue";
 
 export const orders = {
+    async getMyTransaction() {
+      return await axios.get("orders/my-transaction", {
+          headers: {
+            Authorization: Vue.prototype.$localstorage.getAccessToken()
+          }
+        })
+        .catch(error => {
+          // return api.response.error(error.response.data);
+          console.log("not login yet", error);
+          return
+        });
+    },
+
     async getMyOrder() {
       return await axios.get("orders/my-order", {
           headers: {

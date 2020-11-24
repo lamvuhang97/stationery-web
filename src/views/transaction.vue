@@ -20,8 +20,8 @@ export default {
                     filterable: true
                 },
                 {
-                    label: "Nguoi ban",
-                    field: "owner.username",
+                    label: this.type === "my-transaction" ? "Nguoi ban" : "Nguoi mua",  // => not done yet
+                    field: this.userField,
                     type: 'string',
                     filterable: true
                 },
@@ -56,6 +56,13 @@ export default {
     computed: {
         status() {
             return this.$route.params.status;
+        },
+        type() {
+            if(this.$route.fullPath.includes("account")) {
+                return 'my-transaction'
+            } else {
+                return 'my-order'
+            }
         }
     },
     watch: {
@@ -67,6 +74,13 @@ export default {
         }
     },
     methods: {
+        userLabel(rowObj) {
+            console.log(rowObj);
+            return this.type === 'my-transaction' ? "Nguoi ban" : "Nguoi mua"
+        },
+        userField(rowObj) {
+            return this.type === 'my-transaction' ? rowObj.owner.username : rowObj.user.username
+        },
         statuses(rowObj) {
         if(rowObj.status === true){
             return "Enable"
@@ -89,16 +103,26 @@ export default {
         }
         },
         async fetchData(status) {
-          await this.$axios.get(this.$settings.baseURL + "/orders/my-order/" + status).then(response => {
-          this.props.data = response.data.data.rows;
-          this.fetched = true
+            // if(this.$route.fullPath.includes("transaction")) {
+            //     this.type = 'my-transaction'
+            // } else {
+            //     this.type ='my-order'
+            // }
+            await this.$axios.get(this.$settings.baseURL + "/orders/" + this.type + "/" + status).then(response => {
+            this.props.data = response.data.data.rows;
+            this.fetched = true
         });
         }
     },
     
    async mounted() {
        console.log("mount");
-       await this.$axios.get(this.$settings.baseURL + "/orders/my-order/" + this.$route.params.status).then(response => {
+    //    if(this.$route.fullPath.includes("transaction")) {
+    //        this.type = 'my-transaction'
+    //    } else {
+    //        this.type ='my-order'
+    //    }
+       await this.$axios.get(this.$settings.baseURL + "/orders/" + this.type + "/" + this.$route.params.status).then(response => {
           this.props.data = response.data.data.rows;
           this.fetched = true
         });

@@ -153,7 +153,17 @@ const routes = [
       {
         path: 'orders',
         name: "Orders",
-        component: Orders
+        component: Orders,
+        children: [
+          {
+            path: "transaction/:status",
+            name: "Transaction",
+            component: Transaction,
+            meta: {
+              requiresAuth: true,
+            },
+          },
+        ]
       },
       {
         path: 'new-product',

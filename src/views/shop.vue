@@ -1,6 +1,5 @@
 <template>
     <div class="manage-shop">
-        <h1>sjdfhiasu</h1>
         <div class="sidebar">
             <ul>
                 <li class="navitem" role="presentation">
