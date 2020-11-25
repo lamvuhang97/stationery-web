@@ -84,10 +84,10 @@ export default {
       this.$router.push({name: "Cart"})
     },
     managerShop() {
-      this.$router.push({name: "Shop"})
+      this.$router.push({path: "/shop/analyze"})
     },
     userProfile() {
-      this.$router.push({name: "Account"})
+      this.$router.push({path: "/account/transaction/0"})
       // if (this.$route.name != "UsersUpdate") {
       //   this.$api.users
       //     .getUserInfo()

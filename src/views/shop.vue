@@ -8,7 +8,7 @@
                 </router-link>
                 </li>
                 <li class="navitem" role="presentation">
-                <router-link :to="'/shop/orders'" class="navlink">
+                <router-link :to="'/shop/orders/transaction/0'" class="navlink">
                     <span>Đơn bán</span>
                 </router-link>
                 </li>

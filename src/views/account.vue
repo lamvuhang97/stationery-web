@@ -137,17 +137,24 @@ export default {
       console.log("params", params);
       this.formbuilder.disabledSave = true;
       var response;
-      if (this.$route.params.id) {
+      var patchData
         if(this.imageData != null){
           this.create()
-        } 
-        const patchData = {
-          email: params.email,
-          address: params.address,
-          phonenumber: params.phonenumber,
-          avatar: this.imgUrlToPost
+          patchData = {
+            email: params.email,
+            phonenumber: params.phonenumber,
+            address: params.address,
+            avatar: this.imgUrlToPost
+          }
+        } else {
+          patchData = {
+            email: params.email,
+            phonenumber: params.phonenumber,
+            address: params.address,
+          }
         }
-        response = await this.$api.users.update(this.$route.params.id, patchData);
+        
+        response = await this.$api.authentications.updateProfile(patchData);
         if (response != null) {
           this.formbuilder.disabledSave = true;
         }
@@ -159,34 +166,6 @@ export default {
           this.$toasted.error(response.message);
           this.formbuilder.disabledSave = false;
         }
-      } else {
-        if(this.imageData != null){
-          this.create()
-        }
-        response = await this.$api.users.create({
-          username: params.username,
-          password: params.password,
-          email: params.email,
-          address: params.address,
-          phonenumber: params.phonenumber,
-          avatar: this.imgUrlToPost
-        });
-        if (response != null) {
-          this.formbuilder.disabledSave = true;
-        }
-        if (response.status < 300) {
-          this.$toasted.success("User created");
-          this.formbuilder.disabledSave = false;
-          this.$router.push({ name: "Users" });
-        } else {
-          this.formbuilder.disabledSave = false;
-          if (response.status === 409) {
-            this.$toasted.error("Email đã tồn tại");
-          } else {
-            this.$toasted.error(response.message);
-          }
-        }
-      }
     },
     click1() {
         this.$refs.input1.click()   

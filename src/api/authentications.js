@@ -61,5 +61,18 @@ export const authentications = {
         console.log("not login yet", error);
         return
       });
+  },
+  async updateProfile(payload) {
+    return await axios
+      .put("/users/profile", payload,{
+        headers: {
+          Authorization: Vue.prototype.$localstorage.getAccessToken()
+        }
+      })
+      .catch(error => {
+        // return api.response.error(error.response.data);
+        console.log("not login yet", error);
+        return
+      });
   }
 };
