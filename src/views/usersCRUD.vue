@@ -207,12 +207,14 @@ export default {
         this.$refs.input1.click()   
     },
     previewImage(event) {
+      console.log("1");
         this.uploadValue=0;
         this.imgUrl=null;
         this.imageData = event.target.files[0];
         this.onUpload()
     },
     onUpload(){
+      console.log("2");
         this.imgUrl=null;
         const storageRef=firebase.storage().ref(`${this.imageData.name}`).put(this.imageData);
         storageRef.on(`state_changed`,snapshot=>{
@@ -227,6 +229,7 @@ export default {
         );
     },
     create() {
+      console.log("3");
         const post = {
           photo: this.imgUrl,        
         }

@@ -82,7 +82,7 @@ export default {
       }
   },
   async mounted() {
-    const categoryRes = await this.$api.category.getAllCategory()
+    const categoryRes = await this.$api.category.getAllCategorysum()
     categoryRes.data.data.forEach((item) => {
       let arr =[]
       item.categorysub.forEach((i) => {

@@ -78,9 +78,13 @@ export const products = {
           return api.response.error(error.response.data);
         });
     },
-    async create(payload) {
+    async createProduct(payload) {
       return await axios
-        .post(Vue.prototype.$settings.baseURL + "/properties/" + settings.propertyID + "/documents", payload)
+        .post(Vue.prototype.$settings.baseURL + "/products", payload, {
+          headers: {
+            Authorization: Vue.prototype.$localstorage.getAccessToken()
+          }
+        })
         .catch(error => {
           return api.response.error(error.response.data);
         });

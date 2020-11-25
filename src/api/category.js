@@ -4,7 +4,13 @@ import api from ".";
 import { settings } from "@/library/variables";
 
 export const category = {
-    async getAllCategory() {
+  async getAllCategory() {
+    return await axios.get(
+      Vue.prototype.$settings.baseURL + "/categories",
+      null
+    );
+  },
+    async getAllCategorysum() {
       return await axios.get(
         Vue.prototype.$settings.baseURL + "/categorysum",
         null

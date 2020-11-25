@@ -25,7 +25,7 @@ export default {
     methods: {
     },
     async mounted(){
-        const categoryRes = await this.$api.category.getAllCategory()
+        const categoryRes = await this.$api.category.getAllCategorysum()
         categoryRes.data.data.forEach((item) => {
             this.categorysumName.push(item.name)
         })
