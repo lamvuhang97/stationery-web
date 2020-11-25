@@ -21,6 +21,7 @@
 <script>
 import { required } from "vuelidate/lib/validators";
 import VueUploadMultipleImage from 'vue-upload-multiple-image'
+import firebase from 'firebase';
 export default {
     components: {
         VueUploadMultipleImage,
@@ -30,6 +31,8 @@ export default {
             categoryList: [],
             images: [],
             imageFormData: [],
+            imgUrlArr: [],
+            imgUrlToPost: [],
             formbuilder: {
             heading: "Thong tin san pham",
             columns: [
@@ -106,10 +109,9 @@ export default {
     },
     methods: {
         async save(params) {
-            console.log(params);
+            var pId = 0
             this.productToPost = {
                 name : params.name,
-                // ownerId: myId,
                 categoryId: params.category.id,
                 price: params.price,
                 quantity: params.quantity,
@@ -118,17 +120,59 @@ export default {
             }
             await this.$api.products.createProduct(this.productToPost)
             .then(res => {
-                console.log(res);
+                pId = res.data.id
             })
-            console.log("rrrrrrrr", this.imageFormData);
+            this.imgUrlArr.forEach((item) => {
+                this.create(item)
+            })
+
+            // upload url to image table 
+            this.imgUrlToPost.forEach(async(item) => {
+                await this.$api.products.postImageUrl({url : item})
+                .then(async res => {
+                    await this.$api.products.postProductImage({productId : pId, imageId: res.data.id})
+                    .then(res => {
+                        console.log("res up  product img", res);
+                    })
+                })
+            })
+
+        
         },
         uploadImageSuccess(formData, index, fileList) {
             console.log('data', formData, index, fileList)
             this.imageFormData = fileList
-            // Upload image api
-            // axios.post('http://your-url-upload', { data: formData }).then(response => {
-            //   console.log(response)
-            // })
+
+            var uploadValue
+            this.imgUrlArr=[];
+            formData.forEach((item) => {
+                const storageRef=firebase.storage().ref(`${item.name}`).put(item);
+                storageRef.on(`state_changed`,snapshot=>{
+                    uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+                }, error=>{console.log(error.message)},
+                ()=>{
+                    uploadValue=100;
+                    console.log(uploadValue);
+                    storageRef.snapshot.ref.getDownloadURL().then((url)=>{
+                            this.imgUrlArr.push(url)
+                        });
+                    }      
+                );
+            })
+            
+        },
+        create(imgUrl) {
+            const post = {
+                photo: imgUrl,        
+            }
+            this.imgUrlToPost.push(post.photo)
+            firebase.database().ref('PhotoGallery').push(post)
+            .then((response) => {
+            console.log(response);
+            })
+            .catch(err => {
+            console.log(err)
+            })
         },
         beforeRemove (index, done, fileList) {
             console.log('index', index, fileList)

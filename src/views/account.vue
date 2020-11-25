@@ -161,7 +161,7 @@ export default {
         if (response.status < 300) {
           this.$toasted.success("Cập nhật thành công");
           this.formbuilder.disabledSave = false;
-          this.$router.push({ name: "Users" });
+          // this.$router.push({ name: "Users" });
         } else {
           this.$toasted.error(response.message);
           this.formbuilder.disabledSave = false;
@@ -174,21 +174,22 @@ export default {
         this.uploadValue=0;
         this.imgUrl=null;
         this.imageData = event.target.files[0];
+        console.log("image data", this.imageData);
         this.onUpload()
     },
     onUpload(){
-        this.imgUrl=null;
-        const storageRef=firebase.storage().ref(`${this.imageData.name}`).put(this.imageData);
-        storageRef.on(`state_changed`,snapshot=>{
-            this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
-        }, error=>{console.log(error.message)},
-        ()=>{
-            this.uploadValue=100;
-            storageRef.snapshot.ref.getDownloadURL().then((url)=>{
-                    this.imgUrl =url;
-                });
-            }      
-        );
+      this.imgUrl=null;
+      const storageRef=firebase.storage().ref(`${this.imageData.name}`).put(this.imageData);
+      storageRef.on(`state_changed`,snapshot=>{
+          this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+      }, error=>{console.log(error.message)},
+      ()=>{
+          this.uploadValue=100;
+          storageRef.snapshot.ref.getDownloadURL().then((url)=>{
+                  this.imgUrl =url;
+              });
+          }      
+      );
     },
     create() {
         const post = {

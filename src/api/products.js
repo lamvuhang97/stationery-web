@@ -88,6 +88,22 @@ export const products = {
         .catch(error => {
           return api.response.error(error.response.data);
         });
+    },
+
+    async postImageUrl(payload) {
+      return await axios
+        .post(Vue.prototype.$settings.baseURL + "/images", payload)
+        .catch(error => {
+          return api.response.error(error.response.data);
+        });
+    },
+
+    async postProductImage(payload) {
+      return await axios
+        .post(Vue.prototype.$settings.baseURL + "/images/product-image", payload)
+        .catch(error => {
+          return api.response.error(error.response.data);
+        });
     }
   };
   
