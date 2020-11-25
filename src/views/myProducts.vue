@@ -46,7 +46,7 @@ export default {
           },
           {
             label: "",
-            field: "removebutton",
+            field: "editbutton",
             sortable: false,
             page: "user"
           }
@@ -69,14 +69,8 @@ export default {
       }
     },
     async cellClick(params) {
-      if (params.column.field == "removebutton") {
-        var response = await this.$api.users.delete(params.row.id);
-        if (response.status < 300) {
-          this.$toasted.success("Deleted User");
-          this.reload = !this.reload;
-        } else {
-          this.$toasted.error(response.message);
-        }
+      if (params.column.field == "editbutton") {
+        this.$router.push({ name: "ProductCRUD", params: params.row });
       } else {
         this.$router.push({ name: "ProductDetail", params: params.row });
       }

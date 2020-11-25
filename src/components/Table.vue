@@ -92,6 +92,15 @@
         </span>
 
         <span
+          v-if="props.column.field == 'editbutton'"
+          @contextmenu.prevent="openMenu($event, props.row)"
+        >
+          <button
+            class="btn btn-warning"
+          >Chinh Sua</button>
+        </span>
+
+        <span
           v-if="props.column.field == 'entitlement'"
           @contextmenu.prevent="openMenu($event, props.row)"
         >

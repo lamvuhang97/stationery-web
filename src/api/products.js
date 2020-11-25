@@ -104,6 +104,14 @@ export const products = {
         .catch(error => {
           return api.response.error(error.response.data);
         });
+    },
+
+    async getProductImage(productId) {
+      return await axios
+        .get(Vue.prototype.$settings.baseURL + "/images/product/" + productId)
+        .catch(error => {
+          return api.response.error(error.response.data);
+        });
     }
   };
   

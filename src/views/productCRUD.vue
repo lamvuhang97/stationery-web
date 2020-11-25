@@ -16,6 +16,9 @@
                 :data-images="images"
             ></vue-upload-multiple-image>
         </div>
+        <div class="currenct-image">
+            <img v-for="img in currentImg" :key="img" :src="img" alt="">
+        </div>
     </div>
 </template>
 <script>
@@ -33,6 +36,7 @@ export default {
             imageFormData: [],
             imgUrlArr: [],
             imgUrlToPost: [],
+            currentImg: [],
             formbuilder: {
             heading: "Thong tin san pham",
             columns: [
@@ -103,9 +107,40 @@ export default {
             })
         })
     },
-    mounted() {
+    async mounted() {
         this.formbuilder.columns[1].options = this.categoryList
+        console.log(this.$route.params);
+            if(this.$route.params) {
+            this.formbuilder.columns.push(
+                {
+                label: "Status",
+                field: "status",
+                value: "",
+                filterable: true,
+                inputtype: true,
+                placeholder: "Status of user"
+                }
+            )
 
+            for (var item in this.formbuilder.columns) {
+                var field = this.formbuilder.columns[item].field;
+                this.formbuilder.columns[item].value = this.$route.params[field];
+                if(field == 'status') {
+                    if(this.$route.params[field] == true) {
+                    this.formbuilder.columns[item].value = 'Active'
+                    } else this.formbuilder.columns[item].value = 'Locked'
+                }
+            }
+
+            await this.$api.products.getProductImage(this.$route.params.id)
+            .then (res => {
+                res.data.data.forEach((i) => {
+                    this.currentImg.push(i.url.url)
+                })
+            })
+
+        }
+        
     },
     methods: {
         async save(params) {
