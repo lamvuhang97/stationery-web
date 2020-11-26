@@ -57,6 +57,7 @@ export default {
           } else {
               this.checked = false
           }
+          this.$emit('selected-cart-item', [this.listSelected, this.owner])
       },
       clickItem(params) {
           if(params.checked == true) {
@@ -77,6 +78,7 @@ export default {
           } else {
               this.checked = false
           }
+          this.$emit('selected-cart-item', [this.listSelected, this.owner])
       },
       deleteCart(id) {
           this.$emit('delete-cart', id)

@@ -16,7 +16,8 @@ import Analyze from "../views/analyze";
 import Orders from "../views/orders";
 import ProductCRUD from "../views/productCRUD";
 import Transaction from "../views/transaction";
-import OrderDetail from "../views/orderDetail"
+import OrderDetail from "../views/orderDetail";
+import Checkout from "../views/checkout";
 
 // import Register from "../views/register.vue";
 // import ForgotPassword from "../views/forgotPassword.vue";
@@ -196,6 +197,14 @@ const routes = [
         component: UserProducts
       }
     ]
+  },
+  {
+    path: "/checkout",
+    component: Checkout,
+    name: "Checkout",
+    meta: {
+      requiresAuth: false,
+    },
   },
   {
     path: "*",

@@ -7,7 +7,15 @@
             :list-cart="item" 
             :owner="ind"
             @delete-cart="confirmDelete"
+            @selected-cart-item="selectedCartItem"
         ></cart-section>
+        <div style="height: 20px"></div>
+        <div class="banner" v-if="showBanner">
+            <span>Nguoi ban: {{selectedOwner}} </span>
+            <span>So luong: {{selectedItem.length}}</span>
+            <span>Tong tien: xxx</span>
+            <button class="btn btn-success" @click="toCheckout">Dat hang</button>
+        </div>
     </div>
 </template>
 <script>
@@ -22,7 +30,10 @@ export default {
         return {
             cartByOwner:[],
             showModal: false,
-            currentId: ''
+            showBanner: false,
+            currentId: '',
+            selectedItem: [],
+            selectedOwner: ''
         }
     },
     computed: {
@@ -41,6 +52,14 @@ export default {
                 acc[key].push(obj)
                 return acc
             }, {});
+        },
+        "selectedItem"() {
+            console.log(this.selectedItem);
+            if(this.selectedItem.length == 0) {
+                this.showBanner = false
+            } else {
+                this.showBanner = true
+            }
         }
     },
     methods: {
@@ -51,6 +70,14 @@ export default {
         async deleteCart() {
             await this.$store.dispatch('deleteCart',this.currentId);
             this.showModal = false
+        },
+        selectedCartItem(param) {
+            console.log(param);
+            this.selectedItem = param[0]
+            this.selectedOwner = param[1]
+        },
+        toCheckout() {
+            this.$router.push({name: "Checkout", params: {ownerId: this.selectedOwner, items: this.selectedCartItem}})
         }
     },
     async beforeMount() {
@@ -71,7 +98,17 @@ export default {
 }
 </script>
 <style scoped>
-    .cart {
-
+    .banner {
+        padding: 20px;
+        border: 1px solid;
+        position: fixed;
+        bottom: 10px;
+        background-color: white;
+        width: 78%;
+        margin: auto;
+        right: 140px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 </style>
