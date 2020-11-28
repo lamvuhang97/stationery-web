@@ -17,7 +17,13 @@
             ></vue-upload-multiple-image>
         </div>
         <div class="currenct-image">
-            <img v-for="img in currentImg" :key="img" :src="img" alt="">
+            <div class="img" v-for="img in currentImg" :key="img.id">
+                <img  :src="img.url.url" alt="">
+                <span class="button-x" @click="clickX(img.id)">
+                    x
+                </span>
+            </div>
+            
         </div>
     </div>
 </template>
@@ -37,6 +43,9 @@ export default {
             imgUrlArr: [],
             imgUrlToPost: [],
             currentImg: [],
+            isDelete: false,
+            deleteList: [],
+            productIdToPost: 0,
             formbuilder: {
             heading: "Thong tin san pham",
             columns: [
@@ -134,9 +143,10 @@ export default {
 
             await this.$api.products.getProductImage(this.$route.params.id)
             .then (res => {
-                res.data.data.forEach((i) => {
-                    this.currentImg.push(i.url.url)
-                })
+                // res.data.data.forEach((i) => {
+                //     this.currentImg.push(i.url.url)
+                // })
+                this.currentImg = res.data.data
             })
 
         }
@@ -144,6 +154,7 @@ export default {
     },
     methods: {
         async save(params) {
+            console.log(params);
             var pId = 0
             this.productToPost = {
                 name : params.name,
@@ -153,26 +164,87 @@ export default {
                 description: params.description,
                 status: true
             }
-            await this.$api.products.createProduct(this.productToPost)
-            .then(res => {
-                pId = res.data.id
-            })
-            this.imgUrlArr.forEach((item) => {
-                this.create(item)
-            })
+            if(this.$route.params) {
+                this.productIdToPost = this.$route.params.id
+                var ok = false
+                await this.$api.products.updateProduct(this.$route.params.id, this.productToPost)
+                .then(res => {
+                    console.log(res);
+                    ok = (res.status == 200) ? true : false
+                })
 
-            // upload url to image table 
-            this.imgUrlToPost.forEach(async(item) => {
-                await this.$api.products.postImageUrl({url : item})
-                .then(async res => {
-                    await this.$api.products.postProductImage({productId : pId, imageId: res.data.id})
-                    .then(res => {
-                        console.log("res up  product img", res);
+                if(this.isDelete == true) {
+                    this.deleteList.forEach(async (item) => {
+                        await this.$api.products.deleteProductImage(item)
+                        .then(res => {
+                            console.log(res);
+                            ok = (res.status == 200) ? true : false
+                        })
+                    })
+                }
+
+                this.imgUrlArr.forEach((item) => {
+                    this.create(item)
+                })
+                // upload url to image table ==> not done yet
+                this.imgUrlToPost.forEach(async(item) => {
+                    await this.$api.products.postImageUrl({url : item})
+                    .then(async res => {
+                        var payload ={
+                            productId: this.productIdToPost,
+                            imageId: res.data.id
+                        }
+                        await this.$api.products.postProductImage(payload)
+                        .then(res => {
+                            console.log("res up  product img", res);
+                            ok = (res.status == 200) ? true : false
+                        })
                     })
                 })
-            })
 
-        
+                if (ok) {
+                this.$toasted.success("User updated");
+                this.formbuilder.disabledSave = false;
+                this.$router.push({ name: "Shop" });
+                } else {
+                this.$toasted.error("Fail");
+                this.formbuilder.disabledSave = false;
+                }
+
+            } else {
+                await this.$api.products.createProduct(this.productToPost)
+                .then(res => {
+                    pId = res.data.id
+                })
+                this.imgUrlArr.forEach((item) => {
+                    this.create(item)
+                })
+
+                // upload url to image table 
+                this.imgUrlToPost.forEach(async(item) => {
+                    await this.$api.products.postImageUrl({url : item})
+                    .then(async res => {
+                        await this.$api.products.postProductImage({productId : pId, imageId: res.data.id})
+                        .then(res => {
+                            console.log("res up  product img", res);
+                        })
+                    })
+                })
+            }
+            
+        },
+        clickX(id) {
+            console.log(id);
+            var pos
+            this.currentImg.forEach((val, idx) => {
+                if(val.id == id ) {
+                    pos = idx
+                    this.deleteList.push(val.id)
+                }
+            })
+            this.currentImg.splice(1, pos)
+            console.log(this.currentImg);
+            this.isDelete = true
         },
         uploadImageSuccess(formData, index, fileList) {
             console.log('data', formData, index, fileList)
@@ -253,5 +325,29 @@ export default {
 .image-list-container .image-list-item .centered img {
         max-width: 60px;
     max-height: 60px;
+}
+img {
+    width: 200px;
+}
+.img {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.button-x {
+    position: absolute;
+    border: 1px solid red;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+    width: 20px;
+    height: 20px;
+    right: -7px;
+    top: -7px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>

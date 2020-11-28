@@ -1,7 +1,6 @@
 import axios from "axios";
 import Vue from "vue";
 import api from ".";
-import { settings } from "@/library/variables";
 
 export const products = {
     async get(id) {
@@ -64,16 +63,16 @@ export const products = {
       );
     },
   
-    async update(id, payload) {
+    async updateProduct(id, payload) {
       return await axios
-        .patch(Vue.prototype.$settings.baseURL + "/properties/" + settings.propertyID + "/documents/" + id, payload)
+        .put(Vue.prototype.$settings.baseURL + "/products/" + id, payload)
         .catch(error => {
           return api.response.error(error.response.data);
         });
     },
-    async delete(id) {
+    async deleteProductImage(id) {
       return await axios
-        .delete(Vue.prototype.$settings.baseURL + "/properties/" + settings.propertyID + "/documents/" + id, null)
+        .delete(Vue.prototype.$settings.baseURL + "/images/" + id, null)
         .catch(error => {
           return api.response.error(error.response.data);
         });
@@ -99,6 +98,7 @@ export const products = {
     },
 
     async postProductImage(payload) {
+      console.log("payload", payload);
       return await axios
         .post(Vue.prototype.$settings.baseURL + "/images/product-image", payload)
         .catch(error => {
