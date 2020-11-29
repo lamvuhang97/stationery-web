@@ -219,7 +219,6 @@ export default {
       this.formbuilder.heading = "Thông tin người dùng";
       this.formbuilder.optionDisabled = true;
       var response = await this.$api.authentications.getProfile();
-      console.log("res", response);
       var data = response.data;
       if(data.avatar != ''){
         this.imgUrl = data.avatar

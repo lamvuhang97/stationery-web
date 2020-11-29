@@ -13,7 +13,7 @@
         <div class="banner" v-if="showBanner">
             <span>Nguoi ban: {{selectedOwner}} </span>
             <span>So luong: {{selectedItem.length}}</span>
-            <span>Tong tien: xxx</span>
+            <span>Tong tien: {{priceInBanner}}</span>
             <button class="btn btn-success" @click="toCheckout">Dat hang</button>
         </div>
     </div>
@@ -39,8 +39,14 @@ export default {
     computed: {
         listCart(){
             return this.$store.getters.listCart
-        } 
-
+        },
+        priceInBanner(){
+            var price = 0;
+            this.selectedItem.forEach((item) => {
+                price += Number(item.product.price) * Number(item.productAmount)
+            })
+            return price
+        }
     },
     watch: {
         "listCart"() {
@@ -72,12 +78,13 @@ export default {
             this.showModal = false
         },
         selectedCartItem(param) {
+            console.log("hehe");
             console.log(param);
             this.selectedItem = param[0]
             this.selectedOwner = param[1]
         },
         toCheckout() {
-            this.$router.push({name: "Checkout", params: {ownerId: this.selectedOwner, items: this.selectedCartItem}})
+            this.$router.push({name: "Checkout", params: {owner: this.selectedOwner, items: this.selectedItem, price: this.priceInBanner}})
         }
     },
     async beforeMount() {

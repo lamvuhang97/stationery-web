@@ -1,5 +1,6 @@
 <template>
     <div class="product-card" @click="detail">
+        <alert class="alert" v-if="showModal" @yes="showModal=false" :text="'Ban khong the mua san pham cua chinh minh'"></alert>
         <div class="product-image">
             <img :src="imgUrl" alt="">
             <!-- <div class="card-img-overlay d-flex justify-content-end">
@@ -20,9 +21,14 @@
     </div>
 </template>
 <script>
+import Alert from "../components/global/Alert"
 export default {
+    components: {
+        Alert
+    },
     data() {
         return {
+            showModal: false,
             productToPost: {
                 productId: Number(this.productData.id),
                 productAmount: 1
@@ -47,10 +53,14 @@ export default {
     methods: {
         async addToCart(e) {
             e.stopPropagation();
-            // const res = await this.$api.carts.createCart(this.productToPost)
-            await this.$store.dispatch('addCartItem', this.productToPost)
-            // console.log(res);
-
+            await this.$api.authentications.getProfile()
+            .then(async res => {
+                if(this.productData.ownerId != res.data.id) {
+                    await this.$store.dispatch('addCartItem', this.productToPost)
+                } else {
+                 this.showModal = true
+                }
+            })
         },
         detail() {
             this.$router.push({name: "ProductDetail", params: { id: this.productData.id }})

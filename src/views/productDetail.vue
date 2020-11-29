@@ -1,5 +1,6 @@
 <template>
     <div class="product-detail container">
+        <alert class="alert" v-if="showModal" @yes="showModal=false" :text="'Ban khong the mua san pham cua chinh minh'"></alert>
         <div class="general">
             <carousel :perPage="1" :autoplayHoverPause="true" :paginationEnabled="false" class="images">
                 <slide v-for="item in productImages" :key="item">
@@ -39,14 +40,18 @@
 </template>
 <script>
 import { Carousel, Slide } from 'vue-carousel';
+import Alert from "../components/global/Alert.vue"
+import Vue from 'vue';
 export default {
     name: "ProductDetail",
     components: {
         Carousel,
-        Slide
+        Slide,
+        Alert
     },
     data() {
         return {
+            showModal: false,
             id: '',
             productData: {},
             productImages: ["/assets/img/default_images/product.png"],
@@ -63,15 +68,16 @@ export default {
                 productId: this.id,
                 productAmount: this.num
             }
-            await this.$store.dispatch('addCartItem', this.productToPost)
-            // const res = await this.$api.carts.createCart(this.productToPost)
-            // console.log(res);
+            if(this.productData.owner != Vue.prototype.$localstorage.getName()) {
+                await this.$store.dispatch('addCartItem', this.productToPost)
+            } else {
+                this.showModal = true
+            }
         },
     },
     async mounted() {
         this.id = this.$route.params.id
         const res = await this.$api.products.get(this.id)
-        console.log(res);
         this.productData = res.data.data
         if(this.productData.images.length > 0) {
             this.productImages =[]
@@ -84,6 +90,9 @@ export default {
 }
 </script>
 <style scoped>
+    .alert {
+        z-index: 1000;
+    }
     img {
         width: 100%;
         height: 300px;
