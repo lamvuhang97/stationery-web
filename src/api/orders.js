@@ -65,6 +65,19 @@ export const orders = {
         console.log("not login yet", error);
         return
       });
+    },
+
+    async updateOrderStatus(payload) {
+      return await axios.put("orders/" + payload.orderId, {id: payload.statusId}, {
+        headers: {
+          Authorization: Vue.prototype.$localstorage.getAccessToken()
+        }
+      })
+      .catch(error => {
+        // return api.response.error(error.response.data);
+        console.log("not login yet", error);
+        return
+      });
     }
 
   };

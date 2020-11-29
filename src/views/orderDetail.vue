@@ -1,5 +1,7 @@
 <template>
     <div class="order-detail container">
+        <h2 v-if="isMyOrder">Don ban</h2>
+        <h2 v-if="!isMyOrder">Don mua</h2>
         <div class="header">
             <router-link :to="{name: 'User', params: {id : data.ownerId}}" class="nav-link owner">
                 <i class="fas fa-store"></i>
@@ -28,6 +30,10 @@
             <span>Hinh thuc thanh toan: {{data.payment.name}}</span>
             <span>Thoi gian dat: {{data.createdAt}}</span>
         </div>
+        <div class="actions" v-if="data.status.name == 'waiting' && isMyOrder">
+            <button class="btn btn-primary" @click="accept">Xac nhan don hang</button>
+            <button class="btn btn-danger" @click="reject">Tu choi don hang</button>
+        </div>
     </div>
 </template>
 <script>
@@ -41,23 +47,40 @@ export default {
             data: null,
             products: [],
             fetched: false,
-            total: 0
+            total: 0,
+            isMyOrder: false
         }
     },
     methods: {
         toProductDetail(id) {
             this.$router.push({name: "ProductDetail", params: { id: id}})
-        }
+        },
+        async accept() {
+            await this.$api.orders.updateOrderStatus({orderId: this.data.id,statusId: 2})
+            .then(res => {
+                console.log("after update", res);
+            })
+        },
+        async reject() {
+            await this.$api.orders.updateOrderStatus({orderId: this.data.id, statusId: 3})
+            .then(res => {
+                console.log("after update", res);
+            })
+        },
     },
     async beforeMount() {
-        this.data = this.$route.params
+        console.log(this.$route.params);
+        this.data = this.$route.params.data
         const res = await this.$api.orders.getOrderdetailsByOrder(this.data.id)
         res.data.data.forEach((item) => {
             this.products.push(item)
             this.total += item.productAmount * Number(item.productPrice)
         })
         this.fetched = true
-        console.log("f",this.products);
+        if(this.$route.params.type == "my-order") {
+            this.isMyOrder = true
+        }
+        console.log(this.isMyOrder);
     }
 }
 </script>
