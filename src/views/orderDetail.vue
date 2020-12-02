@@ -1,7 +1,7 @@
 <template>
     <div class="order-detail container">
-        <h2 v-if="isMyOrder">Don ban</h2>
-        <h2 v-if="!isMyOrder">Don mua</h2>
+        <h2 v-if="isMyOrder">Đơn bán</h2>
+        <h2 v-if="!isMyOrder">Đơn mua</h2>
         <div class="header">
             <router-link :to="{name: 'User', params: {id : data.ownerId}}" class="nav-link owner">
                 <i class="fas fa-store"></i>
@@ -19,20 +19,20 @@
         </div>
         <hr>
         <div class="sum">
-            <span>{{products.length}} san pham</span>
-            <span>Tong tien: {{total}}</span>
+            <span>{{products.length}} sản phẩm</span>
+            <span>Tổng tiền: {{total}}</span>
         </div>
         <div class="order-infor">
-            <h4>Thong tin don hang</h4>
-            <span>Dia chi: {{data.address}}</span>
-            <span>So dien thoai: {{data.phonenumber}}</span>
-            <span>Ma don hang: {{data.id}}</span>
-            <span>Hinh thuc thanh toan: {{data.payment.name}}</span>
-            <span>Thoi gian dat: {{data.createdAt}}</span>
+            <h4>Thông tin đơn hàng</h4>
+            <span>Địa chỉ: {{data.address}}</span>
+            <span>Số điện thoại: {{data.phonenumber}}</span>
+            <span>Mã đơn hàng: {{data.id}}</span>
+            <span>Hình thức thanh toán: {{data.payment.name}}</span>
+            <span>Thời gian đặt: {{data.createdAt}}</span>
         </div>
         <div class="actions" v-if="data.status.name == 'waiting' && isMyOrder">
-            <button class="btn btn-primary" @click="accept">Xac nhan don hang</button>
-            <button class="btn btn-danger" @click="reject">Tu choi don hang</button>
+            <button class="btn btn-primary" @click="accept">Xác nhận đơn hàng</button>
+            <button class="btn btn-danger" @click="reject">Từ chối đơn hàng</button>
         </div>
     </div>
 </template>
@@ -59,12 +59,16 @@ export default {
             await this.$api.orders.updateOrderStatus({orderId: this.data.id,statusId: 2})
             .then(res => {
                 console.log("after update", res);
+                this.$toasted.success("Đã xác nhận đơn hàng")
+                this.$router.push({path: "/shop/orders/transaction/2"})
             })
         },
         async reject() {
             await this.$api.orders.updateOrderStatus({orderId: this.data.id, statusId: 3})
             .then(res => {
                 console.log("after update", res);
+                this.$toasted.success("Đã từ chối đơn hàng")
+                this.$router.push({path: "/shop/orders/transaction/3"})
             })
         },
     },

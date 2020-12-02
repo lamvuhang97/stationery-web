@@ -4,7 +4,7 @@
       <img src="/assets/img/playlist.png" alt="" style="height:100px">
     </div>
     <div class="search">
-      <input type="text" placeholder="Search here">
+      <input type="text" placeholder="Search here" v-on:keyup.enter="toSearch">
       <img src="/assets/svg/search.svg" alt="">
     </div>
     <div class="right-side">
@@ -76,6 +76,9 @@ export default {
     },
     returnHome() {
       this.$router.push({name: "Home"})
+    },
+    toSearch(e) {
+      this.$router.push({path: "/search?searchkey=" + e.target.value})
     },
     handleLogout() {
       this.$parent.logout();

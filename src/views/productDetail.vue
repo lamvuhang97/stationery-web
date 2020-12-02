@@ -11,10 +11,11 @@
                 <h2>{{ productData.name }}</h2>
                 <div class="rate-sold">
                     <div class="rate">Đánh giá: 4.5 stars </div>
-                    <div class="sold" style="margin-left:20px"> Đã bán: 234 sản phẩm </div>
+                    <div class="sold" style="margin-left:20px"> Đã bán: {{productData.sold}} sản phẩm </div>
                 </div>
                 <div class="price"> Giá: <span style="color:red">{{ productData.price }} VND</span></div>
                 <div class="category"> Phân loại: {{ productData.category }} </div>
+                <div class="weight">Khối lượng: {{productData.weight}}</div>
                 <div class="number">
                     <label for="quantity" style="margin-right:10px">Số lượng: </label>
                     <input type="number" id="quantity" name="quantity" min="1" :max="productData.quantity" v-model="num">
@@ -22,13 +23,16 @@
                 </div>
                 <div class="action">
                     <button class="btn btn-danger" @click="addToCart"><i class="fas fa-shopping-cart" ></i>Thêm vào giỏ hàng</button>
-                    <button class="btn btn-danger" @click="test">Mua ngay</button>
+                    <button class="btn btn-danger" >Mua ngay</button>
                 </div>
             </div>
         </div>
-        <div class="owner">
-
-        </div>
+        <router-link :to="{name: 'User', params: {id : ownerData.id}}" class="nav-link owner">
+            <div class="owner-infor">
+                <img :src="ownerImg" alt="">
+                <span>{{ownerData.username}}</span>
+            </div>
+        </router-link>
         <div class="description">
             <h4>Mô tả</h4>
             <span>{{ productData.description }}</span>
@@ -54,15 +58,22 @@ export default {
             showModal: false,
             id: '',
             productData: {},
+            ownerData: {},
             productImages: ["/assets/img/default_images/product.png"],
             num:1,
             productToPost: {}
         }
     },
+    computed: {
+        ownerImg() {
+            if(this.ownerData.avatar != "") {
+                return this.ownerData.avatar
+            } else {
+                return "/assets/img/logo.jpg"
+            }
+        }
+    },
     methods: {
-        test() {
-            console.log("test");
-        },
         async addToCart() {
             this.productToPost = {
                 productId: this.id,
@@ -85,7 +96,9 @@ export default {
                 this.productImages.push(item.url.url)
             })
         }
-        
+        console.log(this.productImages);
+        const response = await this.$api.users.get(this.productData.ownerId)
+        this.ownerData = response.data.data
     }
 }
 </script>
@@ -124,5 +137,15 @@ export default {
     }
     .action button {
         margin-right: 20px;
+    }
+    .owner-infor img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 15px;
+    }
+    .owner-infor {
+        display: flex;
+        align-items: center;
     }
 </style>

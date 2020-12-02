@@ -63,6 +63,28 @@ export const products = {
       );
     },
   
+    async getProductAnalyze() {
+      return await axios.get("products/my-product/analyze", {
+        headers: {
+          Authorization: Vue.prototype.$localstorage.getAccessToken()
+        }
+      })
+      .catch(error => {
+        // return api.response.error(error.response.data);
+        console.log("not login yet", error);
+        return
+      });
+    }, 
+
+    async searchProduct(searchkey) {
+      return await axios.get("products/search?searchkey=" + searchkey)
+      .catch(error => {
+        // return api.response.error(error.response.data)
+        console.log("notfound", error);
+        return
+      });
+    },
+
     async updateProduct(id, payload) {
       return await axios
         .put(Vue.prototype.$settings.baseURL + "/products/" + id, payload)
@@ -70,6 +92,7 @@ export const products = {
           return api.response.error(error.response.data);
         });
     },
+
     async deleteProductImage(id) {
       return await axios
         .delete(Vue.prototype.$settings.baseURL + "/images/" + id, null)

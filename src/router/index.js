@@ -18,6 +18,7 @@ import ProductCRUD from "../views/productCRUD";
 import Transaction from "../views/transaction";
 import OrderDetail from "../views/orderDetail";
 import Checkout from "../views/checkout";
+import Search from "../views/search";
 
 // import Register from "../views/register.vue";
 // import ForgotPassword from "../views/forgotPassword.vue";
@@ -31,6 +32,14 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: "/search",
+    name: "Search",
+    component: Search,
     meta: {
       requiresAuth: false,
     },

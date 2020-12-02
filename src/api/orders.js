@@ -41,6 +41,32 @@ export const orders = {
       });
     },
 
+    async getOrderAnalyze() {
+      return await axios.get("orders/my-order/analyze", {
+        headers: {
+          Authorization: Vue.prototype.$localstorage.getAccessToken()
+        }
+      })
+      .catch(error => {
+        // return api.response.error(error.response.data);
+        console.log("not login yet", error);
+        return
+      });
+    },
+
+    async getSaleAnalyze() {
+      return await axios.get("orders/my-order/sale-analyze", {
+        headers: {
+          Authorization: Vue.prototype.$localstorage.getAccessToken()
+        }
+      })
+      .catch(error => {
+        // return api.response.error(error.response.data);
+        console.log("not login yet", error);
+        return
+      });
+    },
+
     async createOrder(payload) {
       return await axios.post("orders", payload, {
         headers: {

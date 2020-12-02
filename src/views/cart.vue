@@ -11,10 +11,10 @@
         ></cart-section>
         <div style="height: 20px"></div>
         <div class="banner" v-if="showBanner">
-            <span>Nguoi ban: {{selectedOwner}} </span>
-            <span>So luong: {{selectedItem.length}}</span>
-            <span>Tong tien: {{priceInBanner}}</span>
-            <button class="btn btn-success" @click="toCheckout">Dat hang</button>
+            <span>Người bán: {{selectedOwner}} </span>
+            <span>Số lượng: {{selectedItem.length}}</span>
+            <span>Tổng tiền: {{priceInBanner}}</span>
+            <button class="btn btn-success" @click="toCheckout">Đặt hàng</button>
         </div>
     </div>
 </template>
@@ -46,6 +46,13 @@ export default {
                 price += Number(item.product.price) * Number(item.productAmount)
             })
             return price
+        },
+        totalWeight() {
+            var totalWeight = 0;
+            this.selectedItem.forEach((item) => {
+                totalWeight += Number(item.product.weight) * Number(item.productAmount)
+            })
+            return totalWeight
         }
     },
     watch: {
@@ -84,7 +91,7 @@ export default {
             this.selectedOwner = param[1]
         },
         toCheckout() {
-            this.$router.push({name: "Checkout", params: {owner: this.selectedOwner, items: this.selectedItem, price: this.priceInBanner}})
+            this.$router.push({name: "Checkout", params: {owner: this.selectedOwner, items: this.selectedItem, price: this.priceInBanner, weight: this.totalWeight}})
         }
     },
     async beforeMount() {

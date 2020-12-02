@@ -16,6 +16,15 @@ export const users = {
     }
   },
 
+  async searchUser(searchkey) {
+    return await axios.get("users/search?searchkey=" + searchkey)
+    .catch(error => {
+      // return api.response.error(error.response.data)
+      console.log("notfound", error);
+      return
+    });
+  },
+
   async update(id, payload) {
     return await axios
       .put(Vue.prototype.$settings.baseURL + "/users/" + id, payload)

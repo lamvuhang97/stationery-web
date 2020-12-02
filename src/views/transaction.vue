@@ -27,7 +27,7 @@ export default {
                 },
                 {
                     label: "Tong tien",
-                    field: "price",
+                    field: "total",
                     type: 'string',
                     filterable: true
                 },

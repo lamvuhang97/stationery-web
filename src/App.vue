@@ -69,7 +69,7 @@ Vue.prototype.$axios.interceptors.response.use(
 Vue.use(Toasted, {
   duration: 3000,
   theme: "outline",
-  position: "top-right",
+  position: "top-center",
   containerClass: "toastcontainer"
 });
 export default {

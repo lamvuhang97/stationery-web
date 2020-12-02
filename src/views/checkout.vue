@@ -1,44 +1,50 @@
 <template>
     <div class="checkout container">
         <div class="infor-checkout">
-            <h2>Thong tin nhan hang</h2>
+            <h2>Thông tin nhận hàng</h2>
             <div class="infor-content">
                 <div class="infor-user">
                     <div>
-                        <label for="name">Ten nguoi nhan</label>
+                        <label for="name">Tên người nhận</label>
                         <input type="text" id="name" readonly v-model="dataUser.username">
                     </div>
                     <div>
-                        <label for="address">Dia chi nhan hang</label>
+                        <label for="address">Địa chỉ nhận hàng</label>
                         <input type="text" id="address" v-model="dataUser.address">
                     </div>
                     <div>
-                        <label for="phone">So dien thoai</label>
+                        <label for="phone">Số điện thoại</label>
                         <input type="text" id="phone" v-model="dataUser.phonenumber">
                     </div>
                     <div>
-                        <label for="note">Ghi chu</label>
+                        <label for="note">Ghi chú</label>
                         <input type="text" id="note" v-model="note">
                     </div>
                 </div>
                 <div class="infor-payment">
                     <div class="payment">
-                        <div>Phuong thuc thanh toan</div>
+                        <div>Phương thức thanh toán</div>
                         <input type="radio" id="cod" value="1" name="payment" @change="selectPayment" checked>
-                        <label for="cod">Thanh toan khi nhan hang</label>
+                        <label for="cod">Thanh toán khi nhận hàng</label>
                         <input type="radio" id="paypal" value="3" name="payment" @change="selectPayment">
-                        <label for="cod">Thanh toan truc tuyen</label>
+                        <label for="cod">Thanh toán trực tuyến</label>
+                    </div>
+                    <div class="payment">
+                        Tiền hàng: {{dataParams.price}}
+                    </div>
+                    <div class="ship">
+                        Tiền vận chuyển: {{ship}}
                     </div>
                     <div class="total-payment">
-                        Tong tien: {{dataParams.price}}
+                        Tổng tiền: {{dataParams.price + ship}}
                     </div>
-                    <button class="btn btn-primary" @click="confirm"> Dat hang</button>
+                    <button class="btn btn-primary" @click="confirm"> Đặt hàng</button>
                 </div>
             </div>
         </div>
         <div class="products">
-            <h2>San pham</h2>
-            <div class="owner"> Nguoi ban: {{dataParams.owner}}</div>
+            <h2>Sản phẩm</h2>
+            <div class="owner"> Người bán: {{dataParams.owner}}</div>
                 <div class="product-item" v-for="item in dataParams.items" :key="item">
                     <div class="image">
                         <img 
@@ -79,6 +85,15 @@ export default {
             if(this.d.product.images.length > 0 ) {
                 return this.data.product.images[0].url.url
             } else return "/assets/img/default_images/product.png"
+        },
+        ship() {
+            if(this.dataParams.weight <= 1000 ) {
+                return 20000
+            } else if(this.dataParams.weight > 2000) {
+                return 30000
+            } else {
+                return 25000
+            }
         }
     },
     methods: {
@@ -92,7 +107,9 @@ export default {
                 address: this.dataUser.address,
                 statusId: 1,
                 paymentId: Number(this.selectedPayment),
-                orderNote: this.note
+                orderNote: this.note,
+                total: this.dataParams.price,
+                ship: this.ship
             }
             console.log(this.orderToPost);
             await this.$api.orders.createOrder(this.orderToPost)
@@ -110,8 +127,12 @@ export default {
                     await this.$api.orders.createOrderdetail(this.orderdetailToPost)
                     .then(async response => {
                         console.log(response);
+                        console.log("dataParams", this.dataParams);
+                        this.dataParams.items.forEach(async p => {
+                            await this.$api.products.updateProduct(p.productId, {quantity: p.product.quantity - p.productAmount, sold: p.product.sold + p.productAmount})
+                        })
                         this.$router.push({path: "/account/transaction/0"})
-                        await this.$store.dispatch('deleteCart',cartId);
+                        await this.$store.dispatch('deleteCart',cartId)
                     })
                 })
             })

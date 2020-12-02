@@ -5,8 +5,8 @@
         </div>
         <div class="image">
             <div class="title">
-                <h4>Hinh anh san pham</h4>
-                <span>Them hinh anh se giup cho san pham cua ban tiep can khach hang de dang hon</span>
+                <h4>Hình ảnh sản phẩm</h4>
+                <span>Thêm hình ảnh sẽ giúp sản phẩm của bạn tiếp cận khách hàng dễ dàng hơn</span>
             </div>
             <vue-upload-multiple-image
                 @upload-success="uploadImageSuccess"
@@ -47,10 +47,10 @@ export default {
             deleteList: [],
             productIdToPost: 0,
             formbuilder: {
-            heading: "Thong tin san pham",
+            heading: "Thông tin sản phẩm",
             columns: [
                 {
-                    label: "Ten san pham",
+                    label: "Tên sản phẩm",
                     field: "name",
                     value: "",
                     filterable: true,
@@ -61,7 +61,7 @@ export default {
                     }
                 },
                 {
-                    label: "Phan loai",
+                    label: "Phận loại",
                     multiselecttype: true,
                     field: "category",
                     placeholder: "",
@@ -69,7 +69,7 @@ export default {
                     labelBy: 'name'
                 },
                 {
-                    label: "Gia",
+                    label: "Giá",
                     field: "price",
                     value: "",
                     filterable: true,
@@ -80,7 +80,18 @@ export default {
                     }
                 },
                 {
-                    label: "So luong kho",
+                    label: "Khối lượng",
+                    field: "weight",
+                    value: "",
+                    filterable: true,
+                    inputemail: true,
+                    placeholder: "",
+                    validate: {
+                        required,
+                    }
+                },
+                {
+                    label: "Số lượng kho",
                     field: "quantity",
                     value: "",
                     filterable: true,
@@ -88,7 +99,7 @@ export default {
                     placeholder: ""
                 },
                 {
-                    label: "Mo ta san pham",
+                    label: "Mô tả sản phẩm",
                     field: "description",
                     value: "",
                     filterable: true,
@@ -118,8 +129,8 @@ export default {
     },
     async mounted() {
         this.formbuilder.columns[1].options = this.categoryList
-        console.log(this.$route.params);
-            if(this.$route.params) {
+        console.log("params", this.$route.params);
+        if(this.$route.params.id) {
             this.formbuilder.columns.push(
                 {
                 label: "Status",
@@ -162,9 +173,10 @@ export default {
                 price: params.price,
                 quantity: params.quantity,
                 description: params.description,
+                weight: params.weight,
                 status: true
             }
-            if(this.$route.params) {
+            if(this.$route.params.id) {
                 this.productIdToPost = this.$route.params.id
                 var ok = false
                 await this.$api.products.updateProduct(this.$route.params.id, this.productToPost)
@@ -186,7 +198,6 @@ export default {
                 this.imgUrlArr.forEach((item) => {
                     this.create(item)
                 })
-                // upload url to image table ==> not done yet
                 this.imgUrlToPost.forEach(async(item) => {
                     await this.$api.products.postImageUrl({url : item})
                     .then(async res => {

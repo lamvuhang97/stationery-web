@@ -2,17 +2,17 @@
     <div class="pdroduct-section">
         <div class="section-title">
             <hr class="hr"> <span>{{sectionHeader}}</span> <hr class="hr">
-            <div class="filter" v-if="$route.name != 'Home'">
-            <label for="filter">Loc theo:  </label> 
-            <select id="filter">
-                <option value="up">Gia cao dan</option>
-                <option value="down">Gia thap dan</option>
-                <option value="1">0 - 100.000VND</option>
-                <option value="2">100.000VND - 200.000VND</option>
-                <option value="3">200.000VND - 300.000VND</option>
-                <option value="4"> > 300.000VND</option>
-            </select>
-        </div>
+            <!-- <div class="filter" v-if="$route.name != 'Home'">
+                <label for="filter">Loc theo:  </label> 
+                <select id="filter">
+                    <option value="up">Gia cao dan</option>
+                    <option value="down">Gia thap dan</option>
+                    <option value="1">0 - 100.000VND</option>
+                    <option value="2">100.000VND - 200.000VND</option>
+                    <option value="3">200.000VND - 300.000VND</option>
+                    <option value="4"> > 300.000VND</option>
+                </select>
+            </div> -->
         </div>
         
         <div class="product-item container">
