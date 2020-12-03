@@ -17,6 +17,7 @@
                 <span>{{ productPrice}} VND</span>
             </div>
         </div>
+        <button class="review" @click="review" v-if="!data.isReview && status == 'success'">Đánh giá</button>
     </div>
 </template>
 <script>
@@ -25,13 +26,17 @@ export default {
         return {
             selectedProducts: [],
             dataProduct: null,
-            fetched: false
+            fetched: false,
         }
     },
     props: {
         data: {
             type: Object,
             default: null
+        },
+        status: {
+            type: String,
+            default: ""
         }
     },
     watch: {
@@ -49,6 +54,10 @@ export default {
     methods: {
         toProductDetail() {
             this.$emit('to-product-detail', this.dataProduct.id)
+        },
+        review(e) {
+            e.stopPropagation();
+            this.$emit('review', {productId: this.dataProduct.id, orderdetailId: this.data.id})
         }
     },
     async beforeMount() {

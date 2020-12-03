@@ -39,19 +39,24 @@
         </div>
         <div class="review">
             <h4>Bình luận, đánh giá</h4>
+            <div v-for="item in reviewData" :key="item">
+                <review-item :data="item"></review-item>
+            </div>
         </div>
     </div>
 </template>
 <script>
 import { Carousel, Slide } from 'vue-carousel';
 import Alert from "../components/global/Alert.vue"
+import ReviewItem from "../components/ReviewItem.vue"
 import Vue from 'vue';
 export default {
     name: "ProductDetail",
     components: {
         Carousel,
         Slide,
-        Alert
+        Alert,
+        ReviewItem
     },
     data() {
         return {
@@ -61,7 +66,8 @@ export default {
             ownerData: {},
             productImages: ["/assets/img/default_images/product.png"],
             num:1,
-            productToPost: {}
+            productToPost: {},
+            reviewData: []
         }
     },
     computed: {
@@ -99,6 +105,9 @@ export default {
         console.log(this.productImages);
         const response = await this.$api.users.get(this.productData.ownerId)
         this.ownerData = response.data.data
+
+        const r = await this.$api.reviews.getReviewByProduct(this.id)
+        this.reviewData = r.data.data.rows
     }
 }
 </script>

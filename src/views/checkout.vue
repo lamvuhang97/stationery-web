@@ -121,7 +121,8 @@ export default {
                         orderId: res.data.id,
                         productId: item.productId,
                         productAmount: item.productAmount,
-                        productPrice: item.product.price
+                        productPrice: item.product.price,
+                        isReview: false
                     }
                     console.log(this.orderdetailToPost);
                     await this.$api.orders.createOrderdetail(this.orderdetailToPost)

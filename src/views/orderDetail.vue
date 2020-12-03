@@ -1,5 +1,6 @@
 <template>
     <div class="order-detail container">
+        <review-modal v-if="showReviewModal" @no="showReviewModal=false" @yes="yes"></review-modal>
         <h2 v-if="isMyOrder">Đơn bán</h2>
         <h2 v-if="!isMyOrder">Đơn mua</h2>
         <div class="header">
@@ -14,7 +15,9 @@
                 v-for="(item, ind) in products"
                 :key="ind"
                 :data="item"
+                :status="data.status.name"
                 @to-product-detail="toProductDetail"
+                @review="review"
             ></order-item>
         </div>
         <hr>
@@ -37,10 +40,13 @@
     </div>
 </template>
 <script>
+import Vue from 'vue'
 import OrderItem from '../components/OrderItem.vue';
+import ReviewModal from '../components/global/ReviewModal.vue';
 export default {
     components: {
-        OrderItem
+        OrderItem,
+        ReviewModal
     },
     data() {
         return {
@@ -48,10 +54,33 @@ export default {
             products: [],
             fetched: false,
             total: 0,
-            isMyOrder: false
+            isMyOrder: false,
+            showReviewModal: false,
+            currentProductReviewed: 0,
+            currentOrderDetailReviewed: 0
         }
     },
     methods: {
+        review(param) {
+            this.showReviewModal = true
+            this.currentProductReviewed = param.productId
+            this.currentOrderDetailReviewed = param.orderdetailId
+        },
+        yes(param) {
+            console.log(param);
+            var reviewToPost = {
+                userId: Vue.prototype.$localstorage.getUserID(),
+                productId: this.currentProductReviewed,
+                rate: param.point,
+                content: param.content
+            }
+            this.$api.reviews.postReview(reviewToPost)
+            .then(res => {
+                console.log(res);
+                this.showReviewModal = false
+                this.$api.orders.updateIsReview(this.currentOrderDetailReviewed, true)
+            })
+        },
         toProductDetail(id) {
             this.$router.push({name: "ProductDetail", params: { id: id}})
         },

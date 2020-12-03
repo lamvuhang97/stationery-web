@@ -8,6 +8,12 @@ export const localstorage = {
   getName() {
     return localStorage.getItem("username");
   },
+  setUserID(data) {
+    localStorage.setItem("userID", data);
+  },
+  getUserID() {
+    return localStorage.getItem("userID");
+  },
   getAccessToken() {
     return localStorage.getItem("access_token");
   },

@@ -1,4 +1,5 @@
 import api from "../api"
+import Vue from 'vue'
 export default {
     async addCartItem({dispatch}, payload) {
         const res = await api.carts.createCart(payload)
@@ -8,6 +9,9 @@ export default {
     async fetchCart({commit}) {
         const res = await api.carts.getMyCart();
         var data = res.data.data
+        console.log(data[0].userId);
+        Vue.prototype.$localstorage.setUserID(data[0].userId)
+        console.log(Vue.prototype.$localstorage.getUserID())
         commit('setCart', data)
     },
     async updateProductAmount({dispatch}, payload) {
