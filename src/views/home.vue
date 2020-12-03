@@ -9,6 +9,7 @@
         <div class="categorysum home-section" v-for="item in categorysumName" :key="item">
             <product-section :name="item" @add-to-cart="addToCart"></product-section>
         </div>
+        <button @click="toPaypal">Paypal</button>
     </div>
 </template>
 <script>
@@ -23,6 +24,9 @@ export default {
         }
     },
     methods: {
+        toPaypal() {
+            this.$router.push({name: "Paypal"})
+        }
     },
     async mounted(){
         const categoryRes = await this.$api.category.getAllCategorysum()
