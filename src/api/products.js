@@ -27,9 +27,9 @@ export const products = {
       );
     },
 
-    async getNewArrival(limit) {
+    async getNewArrival(offset,limit) {
       return await axios.get(
-        Vue.prototype.$settings.baseURL + "/products/new-arrival?limit=" + limit,
+        Vue.prototype.$settings.baseURL + "/products/new-arrival" + "?offset=" + offset + "&limit=" + limit,
         null
       );
     },
@@ -41,9 +41,9 @@ export const products = {
       );
     },
 
-    async getTopSelling(limit) {
+    async getTopSelling(offset,limit) {
       return await axios.get(
-        Vue.prototype.$settings.baseURL + "/products/best-seller?limit=" + limit,
+        Vue.prototype.$settings.baseURL + "/products/best-seller" + "?offset=" + offset + "&limit=" + limit,
         null
       );
       
@@ -56,11 +56,23 @@ export const products = {
       );
     },
 
-    async getProductsByOwner(id) {
+    async getProductsByOwner(id, offset, limit) {
       return await axios.get(
-        Vue.prototype.$settings.baseURL + "/products/user/" + id,
+        Vue.prototype.$settings.baseURL + "/products/user/" + id + "?offset=" + offset + "&limit=" + limit,
         null
       );
+    },
+
+    async getProductByCategory(id, offset, limit) {
+      if(offset != null && limit != null) {
+        return await axios.get(
+          Vue.prototype.$settings.baseURL + "/products/category/" + id + "?offset=" + offset + "&limit=" + limit
+        );
+      } else {
+        return await axios.get(
+          Vue.prototype.$settings.baseURL + "/products/category/" + id 
+        );
+      }
     },
   
     async getProductAnalyze() {

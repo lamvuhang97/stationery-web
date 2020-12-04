@@ -30,8 +30,8 @@
           <div class="allCategory" v-if="showCategory">
             <div v-for="(value, key) in allCategory" :key="key" class="cate">
                 <div v-for="item in value" :key="item" class="subCate">
-                  <router-link :to="{ name: 'Category', params: { categoryName: item }}" class="navlink">
-                    <span>{{item}}</span>
+                  <router-link :to="{ name: 'Category', params: { categoryName: item.id }}" class="navlink">
+                    <span>{{item.name}}</span>
                   </router-link>
                 </div>
             </div>
@@ -86,11 +86,11 @@ export default {
     categoryRes.data.data.forEach((item) => {
       let arr =[]
       item.categorysub.forEach((i) => {
-        arr.push(i.name)
+        arr.push({name:i.name, id: i.id})
       })
       this.allCategory[item.name] = arr
     })
-    console.log(this.allCategory);
+    console.log("allcategory",this.allCategory);
   }
 }
 </script>

@@ -22,10 +22,19 @@ export const category = {
         null
       );
     },
-    async getProductByCategory(name) {
+    async getProductByCategoryName(name, offset, limit) {
+      if(offset != null && limit != null) {
+        console.log("1");
         return await axios.get(
-          Vue.prototype.$settings.baseURL + "/categories/" + name
+          Vue.prototype.$settings.baseURL + "/categories/" + name + "?offset=" + offset + "&limit=" + limit
         );
+      } else {
+        console.log("2");
+        return await axios.get(
+          Vue.prototype.$settings.baseURL + "/categories/" + name 
+        );
+      }
+        
     },
   
     async update(id, payload) {

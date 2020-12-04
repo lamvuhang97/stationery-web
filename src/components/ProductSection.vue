@@ -18,18 +18,31 @@
         <div class="product-item container">
             <div class="row">
                 <div class="col-12 col-sm-8 col-md-6 col-lg-4" v-for="item in productData" :key="item">
-                    <product-card :product-data="item" @add-to-cart="addToCart"></product-card>
+                    <product-card :product-data="item"></product-card>
                 </div>
             </div>
+        </div>
+        <div class="pagination" v-if="showPagination">
+            <paginate
+                :page-count="pageCount"
+                :page-range="3"
+                :click-handler="functionName"
+                :prev-text="'Prev'"
+                :next-text="'Next'"
+                :container-class="'paginate'"
+                :pageClass="'page-item'">
+            </paginate>
         </div>
     </div>
 </template>
 
 <script>
 import ProductCard from "./ProductCard"
+import Paginate from 'vuejs-paginate'
 export default {
     components: {
-        ProductCard
+        ProductCard,
+        Paginate
     },
     props: {
         name: {
@@ -47,46 +60,61 @@ export default {
             required: false
         }
     }, 
+    computed: {
+        pageCount() {
+            console.log(this.countProduct);
+            return parseInt(this.countProduct / this.limit) + 1
+        },
+        showPagination() {
+            if(this.$route.fullPath.includes("home")) {
+                return false
+            } else return true
+        }
+        
+                
+    },
     data() {
         return {
             productData: [], 
-            sectionHeader: ''
+            sectionHeader: '',
+            countProduct: 0,
         }
     },
     methods: {
+        functionName(pageNum) {
+            console.log(pageNum);
+            this.offset = (pageNum-1)*this.limit
+            this.fetchData()
+        },
         async fetchData() {
-            var limit = 3
+            this.limit = 15
             this.productData = []
             if(this.name == "TopSelling") {
                 this.sectionHeader = 'Bán chạy'
-                const res = await this.$api.products.getTopSelling(limit)
-                var tmp = []
-                res.data.data.forEach((item) => {
-                    tmp.push(item.productId)
-                })
-                var ids = tmp.join()
-                
-                const response = await this.$api.products.getProductsByGroupId(ids)
-                this.productData = response.data.data
+                const res = await this.$api.products.getTopSelling(this.offset,this.limit)
+                this.productData = res.data.data.rows
+                this.countProduct = res.data.data.count
                 return
             }
 
             if(this.name == "NewArrival") {
                 this.sectionHeader = 'Mới nhất'
-                const res = await this.$api.products.getNewArrival(limit)
-                this.productData = res.data.data
+                const res = await this.$api.products.getNewArrival(this.offset,this.limit)
+                this.productData = res.data.data.rows
+                this.countProduct = res.data.data.count
                 return
             }
 
             if(this.name == "user") {
-                const res = await this.$api.products.getNewArrival()
+                const res = await this.$api.products.getNewArrival(this.offsetthis.limit)
                 this.productData = res.data.data
                 return
             }
             
             this.sectionHeader = this.name
             if(this.$route.name == "Home"){
-                const res = await this.$api.category.getAllProductByCategorysum(this.name)
+                
+                const res = await this.$api.category.getAllProductByCategorysum(this.name, 0,3)
                 res.data.data.categorysub.forEach((item) => {
                     item.products.forEach((i) => {
                         this.productData.push(i)
@@ -94,11 +122,16 @@ export default {
                 })
                 return
             } else {
-                console.log("2", this.name);
-                const res = await this.$api.category.getProductByCategory(this.name)
-                res.data.data.products.forEach((item) => {
-                        this.productData.push(item)
-                })
+                if(this.name) {
+                    const res = await this.$api.products.getProductByCategory(this.name, this.offset, this.limit)
+                    if(res.status == 200) {
+                        res.data.data.rows.forEach((item) => {
+                            this.productData.push(item)
+                        })
+                        this.countProduct = res.data.data.count
+                        return 
+                    }
+                }
                 return
             }
             
@@ -106,10 +139,12 @@ export default {
     },
     watch: {
         name() {
+            console.log("change", this.name);
             this.fetchData()
         }
     },
     async mounted() { 
+        console.log("mounted", this.name);
         this.fetchData()
         console.log(this.productData);
     }
@@ -117,6 +152,20 @@ export default {
 </script>
 
 <style scoped>
+    .paginate {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px auto;
+    }
+    .page-item.active {
+        padding: 10px;
+        background-color: blueviolet;
+    }
+    .page-item.disable {
+        padding: 10px;
+    }
     .section-title {
         display: flex;
         justify-content: center;

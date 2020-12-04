@@ -1,5 +1,5 @@
 <template>
-    <div class="cart-item">
+    <div class="cart-item" >
         <div class="select">
             <input type="checkbox" 
             :value="data.product.name"
@@ -7,11 +7,11 @@
             @click="clickItem"
             >
         </div>
-        <div class="image">
+        <div class="image" @click="toProductDetail">
             <img :src="imageUrl" alt="">
         </div>
         <div class="infor">
-            <div class="product-infor">
+            <div class="product-infor" @click="toProductDetail">
                 <span class="name">
                     {{data.product.name}}
                 </span>
@@ -74,7 +74,10 @@ export default {
         },
         deleteCart() {
             this.$emit('delete-cart', this.data.id)
-        }
+        },
+        toProductDetail() {
+            this.$router.push({name: "ProductDetail", params: { id: this.data.productId}})
+        },
     },
     mounted() {
     }

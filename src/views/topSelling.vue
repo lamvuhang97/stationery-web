@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="top-selling home-section">
-            <product-section :name="'TopSelling'" :limit="12"></product-section>
+            <product-section :name="'TopSelling'"></product-section>
         </div>
     </div>
 </template>
