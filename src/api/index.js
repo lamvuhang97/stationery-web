@@ -16,6 +16,7 @@ import { products } from "./products";
 import { carts } from "./carts";
 import { orders }from "./orders";
 import {reviews} from "./reviews";
+import {address} from './address';
 
 const api = {
   response,
@@ -35,7 +36,8 @@ const api = {
   products,
   carts, 
   orders,
-  reviews
+  reviews,
+  address
 };
 
 export default api;

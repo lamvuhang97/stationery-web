@@ -91,18 +91,31 @@ export default {
             this.productData = []
             if(this.name == "TopSelling") {
                 this.sectionHeader = 'Bán chạy'
-                const res = await this.$api.products.getTopSelling(this.offset,this.limit)
-                this.productData = res.data.data.rows
-                this.countProduct = res.data.data.count
-                return
+                if(this.$route.fullPath.includes("home")){
+                    const res = await this.$api.products.getTopSelling(0,3)
+                    this.productData = res.data.data.rows
+                    return
+                } else {
+                    const res = await this.$api.products.getTopSelling(this.offset,this.limit)
+                    this.productData = res.data.data.rows
+                    this.countProduct = res.data.data.count
+                    return
+                }
+                
             }
 
             if(this.name == "NewArrival") {
                 this.sectionHeader = 'Mới nhất'
-                const res = await this.$api.products.getNewArrival(this.offset,this.limit)
-                this.productData = res.data.data.rows
-                this.countProduct = res.data.data.count
-                return
+                if(this.$route.fullPath.includes("home")){
+                    const res = await this.$api.products.getNewArrival(0,3)
+                    this.productData = res.data.data.rows
+                    return
+                } else {
+                    const res = await this.$api.products.getNewArrival(this.offset,this.limit)
+                    this.productData = res.data.data.rows
+                    this.countProduct = res.data.data.count
+                    return
+                }
             }
 
             if(this.name == "user") {
@@ -113,7 +126,6 @@ export default {
             
             this.sectionHeader = this.name
             if(this.$route.name == "Home"){
-                
                 const res = await this.$api.category.getAllProductByCategorysum(this.name, 0,3)
                 res.data.data.categorysub.forEach((item) => {
                     item.products.forEach((i) => {
