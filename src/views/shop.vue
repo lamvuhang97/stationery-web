@@ -22,6 +22,11 @@
                     <span>Đăng sản phẩm</span>
                 </router-link>
                 </li>
+                <li class="navitem" role="presentation">
+                <router-link :to="'/shop/wallet'" class="navlink">
+                    <span>Ví</span>
+                </router-link>
+                </li>
             </ul>
         </div>
         <router-view></router-view>

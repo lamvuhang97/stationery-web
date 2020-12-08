@@ -63,10 +63,10 @@ export const products = {
       );
     },
 
-    async getProductByCategory(id, offset, limit) {
+    async getProductByCategory(id, offset, limit, filter) {
       if(offset != null && limit != null) {
         return await axios.get(
-          Vue.prototype.$settings.baseURL + "/products/category/" + id + "?offset=" + offset + "&limit=" + limit
+          Vue.prototype.$settings.baseURL + "/products/category/" + id + "?offset=" + offset + "&limit=" + limit + filter
         );
       } else {
         return await axios.get(
@@ -88,8 +88,17 @@ export const products = {
       });
     }, 
 
-    async searchProduct(searchkey) {
-      return await axios.get("products/search?searchkey=" + searchkey)
+    async searchProduct(searchkey, filter) {
+      return await axios.get("products/search?searchkey=" + searchkey + filter)
+      .catch(error => {
+        // return api.response.error(error.response.data)
+        console.log("notfound", error);
+        return
+      });
+    },
+
+    async getRateProduct(id) {
+      return await axios.get("products/rate/" + id )
       .catch(error => {
         // return api.response.error(error.response.data)
         console.log("notfound", error);
@@ -144,6 +153,14 @@ export const products = {
     async getProductImage(productId) {
       return await axios
         .get(Vue.prototype.$settings.baseURL + "/images/product/" + productId)
+        .catch(error => {
+          return api.response.error(error.response.data);
+        });
+    },
+
+    async deleteProduct(productId) {
+      return await axios
+        .delete(Vue.prototype.$settings.baseURL + "/products/" + productId)
         .catch(error => {
           return api.response.error(error.response.data);
         });

@@ -21,6 +21,7 @@ import OrderDetail from "../views/orderDetail";
 import Checkout from "../views/checkout";
 import Search from "../views/search";
 import Paypal from "../views/paypal";
+import Wallet from "../views/wallet";
 
 // import Register from "../views/register.vue";
 // import ForgotPassword from "../views/forgotPassword.vue";
@@ -177,6 +178,11 @@ const routes = [
         path: 'analyze',
         name: "Analyze",
         component: Analyze
+      },
+      {
+        path: 'wallet',
+        name: "Wallet",
+        component: Wallet
       },
       {
         path: 'orders',

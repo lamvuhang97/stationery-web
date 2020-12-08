@@ -54,6 +54,11 @@ export default {
             required: false,
             default: ''
         },
+        filter: {
+            type: String,
+            required: false,
+            default: ''
+        },
         limit: {
             type: Number,
             default: 0,
@@ -131,7 +136,7 @@ export default {
             
             this.sectionHeader = this.value
             if(this.$route.name == "Home"){
-                const res = await this.$api.products.getProductByCategory(this.name, 0,3)
+                const res = await this.$api.products.getProductByCategory(this.name, 0,3, '')
                 console.log(this.name, res);
                 res.data.data.rows.forEach((item) => {
                         this.productData.push(item)
@@ -139,7 +144,8 @@ export default {
                 return
             } else {
                 if(this.name) {
-                    const res = await this.$api.products.getProductByCategory(this.name, this.offset, this.limit)
+                    console.log("filter", this.filter);
+                    const res = await this.$api.products.getProductByCategory(this.name, this.offset, this.limit, this.filter)
                     if(res.status == 200) {
                         res.data.data.rows.forEach((item) => {
                             this.productData.push(item)
@@ -156,6 +162,10 @@ export default {
     watch: {
         name() {
             console.log("change", this.name);
+            this.fetchData()
+        },
+        "filter"() {
+            console.log("change");
             this.fetchData()
         }
     },

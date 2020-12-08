@@ -10,7 +10,7 @@
             <div class="infor">
                 <h2>{{ productData.name }}</h2>
                 <div class="rate-sold">
-                    <div class="rate">Đánh giá: 4.5 stars </div>
+                    <div class="rate">Đánh giá: {{rate}} stars </div>
                     <div class="sold" style="margin-left:20px"> Đã bán: {{productData.sold}} sản phẩm </div>
                 </div>
                 <div class="price"> Giá: <span style="color:red">{{ productData.price }} VND</span></div>
@@ -67,7 +67,8 @@ export default {
             productImages: ["/assets/img/default_images/product.png"],
             num:1,
             productToPost: {},
-            reviewData: []
+            reviewData: [], 
+            rate : ""
         }
     },
     computed: {
@@ -108,6 +109,9 @@ export default {
 
         const r = await this.$api.reviews.getReviewByProduct(this.id)
         this.reviewData = r.data.data.rows
+
+        const rate = await this.$api.products.getRateProduct(this.id)
+        this.rate = rate.data.total
     }
 }
 </script>

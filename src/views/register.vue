@@ -115,7 +115,7 @@ export default {
       ) {
         this.$api.users
           .create({
-            usernam: this.input.first_name,
+            username: this.input.first_name,
             email: this.input.email,
             password: this.input.password,
           })

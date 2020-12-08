@@ -1,7 +1,9 @@
 <template>
     <div class="product-crud container">
+        <are-you-sure v-if="showDelModal" @no="showDelModal=false" @yes="deleteProduct"></are-you-sure>
         <div class="infor">
             <custom-form :formbuilder="formbuilder" @form-save-click="save"></custom-form>
+            <button class="btn btn-danger" @click="showDelModal = true" v-if="$route.params.status == true">Xoa san pham</button>
         </div>
         <div class="image">
             <div class="title">
@@ -31,12 +33,15 @@
 import { required } from "vuelidate/lib/validators";
 import VueUploadMultipleImage from 'vue-upload-multiple-image'
 import firebase from 'firebase';
+import AreYouSure from "../components/global/AreYouSure.vue"
 export default {
     components: {
         VueUploadMultipleImage,
+        AreYouSure
     },
     data() {
         return {
+            showDelModal : false,
             categoryList: [],
             images: [],
             imageFormData: [],
@@ -214,9 +219,9 @@ export default {
                 })
 
                 if (ok) {
-                this.$toasted.success("User updated");
+                this.$toasted.success("Product updated");
                 this.formbuilder.disabledSave = false;
-                this.$router.push({ name: "Shop" });
+                this.$router.push({  path: "/shop/products" });
                 } else {
                 this.$toasted.error("Fail");
                 this.formbuilder.disabledSave = false;
@@ -243,6 +248,12 @@ export default {
                 })
             }
             
+        },
+        deleteProduct() {
+           this.$api.products.deleteProduct(this.$route.params.id) 
+           this.showDelModal = false    
+           this.$toasted.success("Product Deleted");
+            this.$router.push({ path: "/shop/products" });
         },
         clickX(id) {
             console.log(id);
