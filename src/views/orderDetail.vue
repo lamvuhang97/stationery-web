@@ -1,6 +1,8 @@
 <template>
     <div class="order-detail container">
         <review-modal v-if="showReviewModal" @no="showReviewModal=false" @yes="yes"></review-modal>
+        <add-address class="alert" v-if="showAddModal" @no="showAddModal=false" @yes="addAddress"></add-address>
+        <choose-address class="alert" v-if="showChooseModal" @no="showChooseModal=false" @yes="chooseAddress"></choose-address>
         <h2 v-if="isMyOrder">Đơn bán</h2>
         <h2 v-if="!isMyOrder">Đơn mua</h2>
         <div class="header">
@@ -26,12 +28,33 @@
             <span>Tổng tiền: {{total}}</span>
         </div>
         <div class="order-infor">
-            <h4>Thông tin đơn hàng</h4>
-            <span>Địa chỉ: {{data.address}}</span>
-            <span>Số điện thoại: {{data.phonenumber}}</span>
-            <span>Mã đơn hàng: {{data.id}}</span>
-            <span>Hình thức thanh toán: {{data.payment.name}}</span>
-            <span>Thời gian đặt: {{data.createdAt}}</span>
+            <div class="left">
+                <h4>Thông tin đơn hàng</h4>
+                <span>Tên người mua:{{data.user.username}}</span>
+                <span>Địa chỉ: {{data.address}}</span>
+                <span>Số điện thoại: {{data.phonenumber}}</span>
+                <span>Mã đơn hàng: {{data.id}}</span>
+                <span>Hình thức thanh toán: {{data.payment.name}}</span>
+                <span>Thời gian đặt: {{data.createdAt}}</span>
+            </div>
+            <div class="right" v-if="data.status.name != 'waiting' && isMyOrder">
+                <h4>Thông tin lấy hàng</h4><div v-if="lengthAddress != 0">
+                    <span>Tên người bán:{{data.owner.username}}</span>
+                    <span>Địa chỉ: {{data.ownerAdd}}</span>
+                    <span>Số điện thoại: {{data.ownerPhone}}</span>
+                </div>
+            </div>
+            <div class="right" v-if="data.status.name == 'waiting' && isMyOrder">
+                <h4>Thông tin lấy hàng</h4>
+                <button class="btn btn-primary" @click="showAddModal = true">Them dia chi</button>
+                <button class="btn btn=primary" @click="showChooseModal = true">Chon dia chi</button>
+                <span v-if="lengthAddress == 0">Ban chua co dia chi nhan hang nao gan day. Vui long them dia chi nhan hang.</span>
+                <div v-if="lengthAddress != 0">
+                    <span>Tên người bán:</span>
+                    <span>Địa chỉ: {{currentAddress.detail}}, {{currentAddress.district.name}}, {{currentAddress.province.name}}</span>
+                    <span>Số điện thoại: {{currentAddress.phonenumber}}</span>
+                </div>
+            </div>
         </div>
         <div class="actions" v-if="data.status.name == 'waiting' && isMyOrder">
             <button class="btn btn-primary" @click="accept">Xác nhận đơn hàng</button>
@@ -43,10 +66,14 @@
 import Vue from 'vue'
 import OrderItem from '../components/OrderItem.vue';
 import ReviewModal from '../components/global/ReviewModal.vue';
+import AddAddress from "../components/global/AddAddress"
+import ChooseAddress from "../components/global/ChooseAddress"
 export default {
     components: {
         OrderItem,
-        ReviewModal
+        ReviewModal,
+        AddAddress,
+        ChooseAddress
     },
     data() {
         return {
@@ -57,7 +84,16 @@ export default {
             isMyOrder: false,
             showReviewModal: false,
             currentProductReviewed: 0,
-            currentOrderDetailReviewed: 0
+            currentOrderDetailReviewed: 0,
+            address: [],
+            currentAddress: {},
+            showAddModal: false,
+            showChooseModal: false
+        }
+    },
+    computed: {
+        lengthAddress() {
+            return this.address.length
         }
     },
     methods: {
@@ -85,7 +121,13 @@ export default {
             this.$router.push({name: "ProductDetail", params: { id: id}})
         },
         async accept() {
-            await this.$api.orders.updateOrderStatus({orderId: this.data.id,statusId: 2})
+            var address = this.currentAddress.detail + ',' +this.currentAddress.district.name + ',' + this.currentAddress.province.name
+            var payload = {
+                statusId: 2,
+                ownerAdd: address,
+                ownerPhone: this.currentAddress.phonenumber
+            }
+            await this.$api.orders.updateOrder(this.data.id ,payload)
             .then(res => {
                 console.log("after update", res);
                 this.$toasted.success("Đã xác nhận đơn hàng")
@@ -100,6 +142,41 @@ export default {
                 this.$router.push({path: "/shop/orders/transaction/3"})
             })
         },
+        async addAddress(param) {
+            console.log("params", param);
+            var payload = {
+                userId: Number(this.data.ownerId),
+                phonenumber: param.phonenumber,
+                provinceId: Number(param.province),
+                districtId: Number(param.district),
+                detail: param.detail,
+                isDefault: false
+            }
+            await this.$api.address.postAddress(payload).then(res=> {
+                console.log(res);
+            })
+
+            await this.$api.address.getMyAddress().then(res => {
+                console.log("res", res);
+                this.address = res.data.data
+                if( this.address.length > 0) {
+                    this.currentAddress = this.address[0]
+                } else {
+                    this.currentAddress = null 
+                }
+                
+            })
+            this.showAddModal = false
+        },
+        async chooseAddress(param) {
+            await this.$api.address.getAddress(param).then(res => {
+                console.log(res);
+                this.currentAddress = res.data.data[0]
+                console.log(this.currentAddress);
+            })
+            
+            this.showChooseModal = false
+        }
     },
     async beforeMount() {
         console.log(this.$route.params);
@@ -114,6 +191,17 @@ export default {
             this.isMyOrder = true
         }
         console.log(this.isMyOrder);
+
+        await this.$api.address.getMyAddress().then(res => {
+            console.log("res", res);
+            this.address = res.data.data
+            if( this.address.length > 0) {
+                this.currentAddress = this.address[0]
+            } else {
+                this.currentAddress = null 
+            }
+            
+        })
     }
 }
 </script>
@@ -123,6 +211,11 @@ export default {
 }
 .header {
     justify-content: space-between;
+}
+.left, .right , .right div{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
 }
     .order-detail .header{
         display: flex;
@@ -145,6 +238,5 @@ export default {
     .order-infor {
             padding-top: 20px;
     display: flex;
-    flex-direction: column;
     }
 </style>

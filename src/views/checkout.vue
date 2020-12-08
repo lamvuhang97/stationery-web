@@ -140,6 +140,7 @@ export default {
                         this.dataParams.items.forEach(async p => {
                             await this.$api.products.updateProduct(p.productId, {quantity: p.product.quantity - p.productAmount, sold: p.product.sold + p.productAmount})
                         })
+                        this.$toasted.success("Dat hang thanh cong");
                         this.$router.push({path: "/account/transaction/0"})
                         await this.$store.dispatch('deleteCart',cartId)
                     })
@@ -164,12 +165,24 @@ export default {
             await this.$api.address.postAddress(payload).then(res=> {
                 console.log(res);
             })
+
+            await this.$api.address.getMyAddress().then(res => {
+                console.log("res", res);
+                this.address = res.data.data
+                if( this.address.length > 0) {
+                    this.currentAddress = this.address[0]
+                } else {
+                    this.currentAddress = null 
+                }
+                
+            })
             this.showAddModal = false
         },
         async chooseAddress(param) {
             await this.$api.address.getAddress(param).then(res => {
                 console.log(res);
                 this.currentAddress = res.data.data[0]
+                console.log(this.currentAddress);
             })
             
             this.showChooseModal = false

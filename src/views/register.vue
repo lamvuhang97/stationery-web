@@ -23,18 +23,8 @@
                       type="text"
                       id="first_name"
                       v-model="input.first_name"
-                      placeholder="First Name"
+                      placeholder="Username"
                       name="first_name"
-                    />
-                  </div>
-                  <div class="col-sm-6">
-                    <input
-                      class="form-control form-control-user"
-                      type="text"
-                      id="last_name"
-                      v-model="input.last_name"
-                      placeholder="Last Name"
-                      name="last_name"
                     />
                   </div>
                 </div>
@@ -83,15 +73,12 @@
               </form>
               <div class="text-center" v-if="mailed">
                 <h5 class="text-success">Successfully create account!</h5>
-                <h5 class="text-success">
-                  Please check your email to complete the final step.
-                </h5>
               </div>
-              <div class="text-center">
+              <!-- <div class="text-center">
                 <a class="small" href="/forgot-password">Forgot Password?</a>
-              </div>
+              </div> -->
               <div class="text-center">
-                <a class="small" href="/login"
+                <a href="#" @click="handleLogin"
                   >Already have an account? Login!</a
                 >
               </div>
@@ -109,7 +96,6 @@ export default {
     return {
       input: {
         first_name: "",
-        last_name: "",
         email: "",
         password: "",
         password_repeat: "",
@@ -125,14 +111,13 @@ export default {
         this.input.email != "" &&
         this.input.password != "" &&
         this.input.first_name != "" &&
-        this.input.last_name != "" &&
         this.input.password == this.input.password_repeat
       ) {
-        this.$api.authentications
-          .register({
-            Name: this.input.first_name + " " + this.input.last_name,
-            Email: this.input.email,
-            Password: this.input.password,
+        this.$api.users
+          .create({
+            usernam: this.input.first_name,
+            email: this.input.email,
+            password: this.input.password,
           })
           .then((response) => {
             if (response.status == 200) {
@@ -149,6 +134,9 @@ export default {
         this.message = "Please provide required information";
       }
     },
+    handleLogin() {
+      this.$parent.login();
+    }
   },
 };
 </script>

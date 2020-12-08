@@ -127,6 +127,7 @@ export default {
             this.sectionHeader = this.name
             if(this.$route.name == "Home"){
                 const res = await this.$api.category.getAllProductByCategorysum(this.name, 0,3)
+                console.log(this.name, res);
                 res.data.data.categorysub.forEach((item) => {
                     item.products.forEach((i) => {
                         this.productData.push(i)

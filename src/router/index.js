@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "../views/login.vue";
+import Register from "../views/register.vue";
 import Account from "../views/account.vue";
 import Home from "../views/home.vue";
 import Category from "../views/category.vue";
@@ -33,6 +34,14 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: "/register",
+    name: "Register",
+    component: Register,
     meta: {
       requiresAuth: false,
     },

@@ -93,8 +93,12 @@ export const orders = {
       });
     },
 
-    async updateOrderStatus(payload) {
-      return await axios.put("orders/" + payload.orderId, {id: payload.statusId}, {
+    async updateOrder(orderId, payload) {
+      return await axios.put("orders/" + orderId, {
+          statusId: payload.statusId,
+          ownerAdd: payload.ownerAdd,
+          ownerPhone: payload.ownerPhone  
+        }, {
         headers: {
           Authorization: Vue.prototype.$localstorage.getAccessToken()
         }

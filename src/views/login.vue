@@ -67,10 +67,10 @@
                     <a class="small" href="/forgot-password"
                       >Forgot Password?</a
                     >
-                  </div>
-                  <div class="text-center">
-                    <a class="small" href="/register">Create an Account!</a>
                   </div> -->
+                  <div class="text-center">
+                    <a href="#" @click="handleRegister">Create an Account!</a>
+                  </div> 
                 </div>
               </div>
             </div>
@@ -119,6 +119,9 @@ export default {
         this.message = "A username and password must be present";
       }
     },
+    handleRegister(){
+      this.$parent.register();
+    }
   }
 };
 </script>

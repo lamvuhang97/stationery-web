@@ -4,7 +4,7 @@
       <router-view @authenticated="setAuthenticated" />
     </div> -->
     <div id="wrapper" class="wrapper" >
-      <topnav></topnav>
+      <topnav v-if="showTop"></topnav>
       <sidebar v-if="showBar"></sidebar>
       <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
@@ -91,13 +91,23 @@ export default {
         this.$route.fullPath.includes("account") || 
         this.$route.fullPath.includes("user" )|| 
         this.$route.fullPath.includes("shop") ||
-        this.$route.fullPath.includes("order-detail")
+        this.$route.fullPath.includes("order-detail") ||
+        this.$route.fullPath.includes("login") ||
+        this.$route.fullPath.includes("register")
         ){
         return false 
       } else {
         return true
       }
-    }
+    },
+    showTop() {
+      if(
+        this.$route.fullPath.includes("login") ||
+        this.$route.fullPath.includes("register")
+      ){ return false
+    } else {
+      return true
+    }}
   },
   // watch: {
   //     '$route': function () {
@@ -127,6 +137,12 @@ export default {
       this.authenticated = false;
       this.$router.push({ name: "Login" });
       this.$router.go()
+    },
+    register() {
+      this.$router.push({ name: "Register" });
+    },
+    login() {
+      this.$router.push({name: "Login"});
     }
   }
 };
