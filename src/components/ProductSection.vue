@@ -49,6 +49,11 @@ export default {
             type: String,
             default: ''
         },
+        value: {
+            type: String,
+            required: false,
+            default: ''
+        },
         limit: {
             type: Number,
             default: 0,
@@ -119,19 +124,17 @@ export default {
             }
 
             if(this.name == "user") {
-                const res = await this.$api.products.getNewArrival(this.offsetthis.limit)
+                const res = await this.$api.products.getNewArrival(this.offset,this.limit)
                 this.productData = res.data.data
                 return
             }
             
-            this.sectionHeader = this.name
+            this.sectionHeader = this.value
             if(this.$route.name == "Home"){
-                const res = await this.$api.category.getAllProductByCategorysum(this.name, 0,3)
+                const res = await this.$api.products.getProductByCategory(this.name, 0,3)
                 console.log(this.name, res);
-                res.data.data.categorysub.forEach((item) => {
-                    item.products.forEach((i) => {
-                        this.productData.push(i)
-                    })
+                res.data.data.rows.forEach((item) => {
+                        this.productData.push(item)
                 })
                 return
             } else {

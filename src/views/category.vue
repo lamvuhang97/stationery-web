@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="top-selling home-section">
-            <product-section :name="String(categoryId)"></product-section>
+            <product-section :name="String(categoryId)" :value="value" ></product-section>
         </div>
     </div>
 </template>
@@ -13,7 +13,8 @@ export default {
     },
     data() {
         return {
-            categoryId: ''
+            categoryId: '',
+            value: ''
         }
     },
     methods: {
@@ -21,10 +22,12 @@ export default {
     watch: {
        '$route.params.categoryName': function () {
             this.categoryId = this.$route.params.categoryName
+            this.value = this.$route.params.value
         }
     },
     async mounted(){
         this.categoryId = this.$route.params.categoryName
+        this.value = this.$route.params.value
     }
 }
 </script>

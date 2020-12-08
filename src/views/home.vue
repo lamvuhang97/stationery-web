@@ -1,13 +1,13 @@
 <template>
     <div>
         <div class="top-selling home-section">
-            <product-section :name="'TopSelling'" @add-to-cart="addToCart"></product-section>
+            <product-section :name="'TopSelling'"></product-section>
         </div>
         <div class="new-arrival home-section">
-            <product-section :name="'NewArrival'" @add-to-cart="addToCart"></product-section>
+            <product-section :name="'NewArrival'"></product-section>
         </div>
-        <div class="categorysum home-section" v-for="item in categorysumName" :key="item">
-            <product-section :name="item" @add-to-cart="addToCart"></product-section>
+        <div class="category home-section" v-for="item in categoryName" :key="item">
+            <product-section :name="item.id" :value="item.name"></product-section>
         </div>
         <button @click="toPaypal">Paypal</button>
     </div>
@@ -20,7 +20,7 @@ export default {
     },
     data() {
         return {
-            categorysumName: []
+            categoryName: []
         }
     },
     methods: {
@@ -29,9 +29,9 @@ export default {
         }
     },
     async mounted(){
-        const categoryRes = await this.$api.category.getAllCategorysum()
-        categoryRes.data.data.forEach((item) => {
-            this.categorysumName.push(item.name)
+        const categoryRes = await this.$api.category.getAllCategory()
+        categoryRes.data.data.rows.forEach((item) => {
+            this.categoryName.push({name:item.name, id: item.id})
         })
     }
 }

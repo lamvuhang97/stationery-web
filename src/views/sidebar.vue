@@ -29,11 +29,9 @@
           <span class="navLink" @click="showCategory = !showCategory">Phân loại</span>
           <div class="allCategory" v-if="showCategory">
             <div v-for="(value, key) in allCategory" :key="key" class="cate">
-                <div v-for="item in value" :key="item" class="subCate">
-                  <router-link :to="{ name: 'Category', params: { categoryName: item.id }}" class="navlink">
-                    <span>{{item.name}}</span>
+                  <router-link :to="{ name: 'Category', params: { categoryName: value.id , value: value.name}}" class="navlink">
+                    <span>{{value.name}}</span>
                   </router-link>
-                </div>
             </div>
           </div>
           <!-- <router-link to="/" class="navlink">
@@ -82,14 +80,8 @@ export default {
       }
   },
   async mounted() {
-    const categoryRes = await this.$api.category.getAllCategorysum()
-    categoryRes.data.data.forEach((item) => {
-      let arr =[]
-      item.categorysub.forEach((i) => {
-        arr.push({name:i.name, id: i.id})
-      })
-      this.allCategory[item.name] = arr
-    })
+    const categoryRes = await this.$api.category.getAllCategory()
+    this.allCategory = categoryRes.data.data.rows
     console.log("allcategory",this.allCategory);
   }
 }
