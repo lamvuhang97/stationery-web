@@ -56,9 +56,9 @@ export const products = {
       );
     },
 
-    async getProductsByOwner(id, offset, limit) {
+    async getProductsByOwner(id, offset, limit, filter) {
       return await axios.get(
-        Vue.prototype.$settings.baseURL + "/products/user/" + id + "?offset=" + offset + "&limit=" + limit,
+        Vue.prototype.$settings.baseURL + "/products/user/" + id + "?offset=" + offset + "&limit=" + limit + filter,
         null
       );
     },

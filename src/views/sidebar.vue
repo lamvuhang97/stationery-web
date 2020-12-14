@@ -96,6 +96,10 @@ export default {
     justify-content: center;
     align-items: center;
   }
+
+  .sidebar {
+        border-bottom: 1px solid lightgrey;
+  }
   .sidebar ul{
     list-style: none;
     display: flex;
@@ -121,19 +125,21 @@ export default {
   }
   .allCategory {
     display: flex;
+    flex-direction: column;
     position: absolute;
     z-index: 1;
-    right: 0;
+    right: 54%;
     background-color: white;
-    width: 100%;
     margin-top: 20px;
-    padding: 0 75px;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
-    border-top: 1px solid;
+    border-top: 1px solid lightgray;
   }
   .allCategory .cate {
-    padding: 10px;
-    width: 100%;
+    width: 200px;
+    border: 1px solid lightgray;
+    padding: 5px;
   }
   .allCategory .cate .subCate {
     padding: 10px;

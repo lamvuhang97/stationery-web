@@ -6,19 +6,23 @@
                 <h5>Thống kê đơn hàng</h5>
                 <span>Tổng số đơn hàng: {{sumOrder}}</span>
                 <div class="items">
-                    <div class="item">
+                    <div class="item" style="border-right:1px solid gray">
                         <span class="number">{{dataOrder.waiting}}</span>
                         <span class="title">Chờ xác nhận</span>
                     </div>
-                    <div class="item">
+                    <div class="item" style="border-right:1px solid gray">
                         <span class="number">{{dataOrder.accept}}</span>
                         <span class="title">Chờ lấy hàng</span>
                     </div>
-                    <div class="item">
+                    <div class="item" style="border-right:1px solid gray">
+                        <span class="number">{{dataOrder.shipping}}</span>
+                        <span class="title">Đang giao</span>
+                    </div>
+                    <div class="item" style="border-right:1px solid gray">
                         <span class="number">{{dataOrder.reject}}</span>
                         <span class="title">Từ chối</span>
                     </div>
-                    <div class="item">
+                    <div class="item" style="border-right:1px solid gray">
                         <span class="number">{{dataOrder.success}}</span>
                         <span class="title">Thành công</span>
                     </div>
@@ -32,11 +36,11 @@
                 <h5>Thống kê sản phẩm</h5>
                 <span>Tổng số sản phẩm: {{sumProduct}}</span>
                 <div class="items">
-                    <div class="item">
+                    <div class="item" style="border-right:1px solid gray">
                         <span class="number">{{dataProduct.active}}</span>
                         <span class="title">Đang bán</span>
                     </div>
-                    <div class="item">
+                    <div class="item" style="border-right:1px solid gray">
                         <span class="number">{{dataProduct.sold}}</span>
                         <span class="title">Hết hàng</span>
                     </div>
@@ -50,11 +54,11 @@
                 <h5>Thống kê doanh thu</h5>
                 <span>Tổng doanh thu: {{dataSale.sum}} VND</span>
                 <div class="items">
-                    <div class="item">
+                    <div class="item" style="border-right:1px solid gray">
                         <span class="number">{{dataSale.day}}</span>
                         <span class="title">Trong ngày</span>
                     </div>
-                    <div class="item">
+                    <div class="item" style="border-right:1px solid gray">
                         <span class="number">{{dataSale.week}}</span>
                         <span class="title">Trong tuần</span>
                     </div>
@@ -74,6 +78,7 @@ export default {
             dataOrder:  {
                 waiting: 0,
                 accept: 0,
+                shipping: 0,
                 reject: 0,
                 success: 0,
                 fail: 0
@@ -86,7 +91,8 @@ export default {
             dataSale: {
                 day: 0,
                 week: 0,
-                month: 0
+                month: 0,
+                sum: 0
             }
         }
     },
@@ -99,7 +105,7 @@ export default {
             return sum
         },
         sumProduct() {
-            return this.dataProduct.active + this.dataProduct.locked
+            return this.dataProduct.active + this.dataProduct.locked + this.dataProduct.sold
         },
     },
     async mounted(){
@@ -116,12 +122,15 @@ export default {
                         this.dataOrder.accept = item.number
                         break
                     case 3:
-                        this.dataOrder.reject = item.number
+                        this.dataOrder.shipping = item.number
                         break
                     case 4:
-                        this.dataOrder.success = item.number
+                        this.dataOrder.reject = item.number
                         break
                     case 5:
+                        this.dataOrder.success = item.number
+                        break
+                    case 6:
                         this.dataOrder.fail = item.number
                         break 
                 }
@@ -142,7 +151,9 @@ export default {
                         break
                 }
             })
+            
             this.dataProduct.sold = res.data.sold
+            this.dataProduct.active -= this.dataProduct.sold
         })
 
         await this.$api.orders.getSaleAnalyze()
@@ -180,7 +191,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0px 20px;
+    padding: 0px 20px;
 }
 .analyze-item {
     padding-top: 20px;

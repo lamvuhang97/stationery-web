@@ -25,6 +25,18 @@ export default {
         dispatch('fetchCart')
     },
 
+    async fetchWallet({commit}) {
+        const profile = await api.authentications.getProfile()
+        var data = profile.data.wallet
+        console.log("wallet", profile);
+        commit('setWallet', data)
+    },
+    async updateWallet({dispatch}, payload) {
+        const res = await api.authentications.updateWallet(payload.id, payload.data)
+        console.log(res);
+        dispatch('fetchWallet')
+    },
+
     getTask({commit}, task) {
         commit('getTask', task)
     },

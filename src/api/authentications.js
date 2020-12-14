@@ -74,5 +74,14 @@ export const authentications = {
         console.log("not login yet", error);
         return
       });
+  },
+  async updateWallet(id, payload) {
+    return await axios
+      .put("/users/wallet/" + id, payload)
+      .catch(error => {
+        // return api.response.error(error.response.data);
+        console.log("err", error);
+        return
+      });
   }
 };

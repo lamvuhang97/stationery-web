@@ -3,6 +3,7 @@
         <review-modal v-if="showReviewModal" @no="showReviewModal=false" @yes="yes"></review-modal>
         <add-address class="alert" v-if="showAddModal" @no="showAddModal=false" @yes="addAddress"></add-address>
         <choose-address class="alert" v-if="showChooseModal" @no="showChooseModal=false" @yes="chooseAddress"></choose-address>
+        <alert class="alert" v-if="showAlert" @yes="showAlert=false" :text="text"></alert>
         <h2 v-if="isMyOrder">Đơn bán</h2>
         <h2 v-if="!isMyOrder">Đơn mua</h2>
         <div class="header">
@@ -13,7 +14,7 @@
             <span class="status">{{ data.status.name}}</span>
         </div>
         <div class="section-item" v-if="fetched">
-            <order-item 
+            <order-item style="margin-bottom:20px"
                 v-for="(item, ind) in products"
                 :key="ind"
                 :data="item"
@@ -25,7 +26,7 @@
         <hr>
         <div class="sum">
             <span>{{products.length}} sản phẩm</span>
-            <span>Tổng tiền: {{total}}</span>
+            <span>Tổng tiền: {{total}} $</span>
         </div>
         <div class="order-infor">
             <div class="left">
@@ -35,6 +36,7 @@
                 <span>Số điện thoại: {{data.phonenumber}}</span>
                 <span>Mã đơn hàng: {{data.id}}</span>
                 <span>Hình thức thanh toán: {{data.payment.name}}</span>
+                <span>Tiền vận chuyển: {{data.ship}} $</span>
                 <span>Thời gian đặt: {{data.createdAt}}</span>
             </div>
             <div class="right" v-if="data.status.name != 'waiting' && isMyOrder">
@@ -46,9 +48,9 @@
             </div>
             <div class="right" v-if="data.status.name == 'waiting' && isMyOrder">
                 <h4>Thông tin lấy hàng</h4>
-                <button class="btn btn-primary" @click="showAddModal = true">Them dia chi</button>
-                <button class="btn btn=primary" @click="showChooseModal = true">Chon dia chi</button>
-                <span v-if="lengthAddress == 0">Ban chua co dia chi nhan hang nao gan day. Vui long them dia chi nhan hang.</span>
+                <button class="btn btn-primary" @click="showAddModal = true">Thêm địa chỉ</button>
+                <button class="btn btn=primary" @click="showChooseModal = true">Chọn địa chỉ</button>
+                <span v-if="lengthAddress == 0">Bạn chưa có địa chỉ lấy hàng nào gần đây. Vui lòng thêm địa chỉ lấy hàng.</span>
                 <div v-if="lengthAddress != 0">
                     <span>Tên người bán:</span>
                     <span>Địa chỉ: {{currentAddress.detail}}, {{currentAddress.district.name}}, {{currentAddress.province.name}}</span>
@@ -57,7 +59,7 @@
             </div>
         </div>
         <div class="actions" v-if="data.status.name == 'waiting' && isMyOrder">
-            <button class="btn btn-primary" @click="accept">Xác nhận đơn hàng</button>
+            <button class="btn btn-primary" @click="accept" style="margin-right:10px">Xác nhận đơn hàng</button>
             <button class="btn btn-danger" @click="reject">Từ chối đơn hàng</button>
         </div>
     </div>
@@ -68,15 +70,19 @@ import OrderItem from '../components/OrderItem.vue';
 import ReviewModal from '../components/global/ReviewModal.vue';
 import AddAddress from "../components/global/AddAddress"
 import ChooseAddress from "../components/global/ChooseAddress"
+import Alert from '../components/global/Alert.vue';
 export default {
     components: {
         OrderItem,
         ReviewModal,
         AddAddress,
-        ChooseAddress
+        ChooseAddress,
+        Alert
     },
     data() {
         return {
+            showAlert: false, 
+            text: "",
             data: null,
             products: [],
             fetched: false,
@@ -121,12 +127,17 @@ export default {
             this.$router.push({name: "ProductDetail", params: { id: id}})
         },
         async accept() {
+            if(this.currentAddress == null) {
+                this.showAlert = true;
+                this.text = "Vui lòng nhập địa chỉ để nhân viên đến lấy hàng"
+            }
             var address = this.currentAddress.detail + ',' +this.currentAddress.district.name + ',' + this.currentAddress.province.name
             var payload = {
                 statusId: 2,
                 ownerAdd: address,
                 ownerPhone: this.currentAddress.phonenumber
             }
+            
             await this.$api.orders.updateOrder(this.data.id ,payload)
             .then(res => {
                 console.log("after update", res);

@@ -47,6 +47,7 @@ export default {
 }
 .filter-section {
     margin-left: 20px;
+    margin-top: 50px;
 }
     .home-section {
         margin-top: 40px;

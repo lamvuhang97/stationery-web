@@ -10,35 +10,35 @@ export default {
             fetched: false,
             orderList: [],
             props: {
-                norowsfound: "product",
+                norowsfound: "order",
                 searchname: "Search for a product by name...",
                 columns: [
                 {
-                    label: "Ma don hang",
+                    label: "Mã đơn hàng",
                     field: "id",
                     type: 'string',
                     filterable: true
                 },
                 {
-                    label: this.type === "my-transaction" ? "Nguoi ban" : "Nguoi mua",  // => not done yet
+                    label: this.type === "my-transaction" ? "Người bán" : "Người mua",  // => not done yet
                     field: this.userField,
                     type: 'string',
                     filterable: true
                 },
                 {
-                    label: "Tong tien",
+                    label: "Tổng tiền",
                     field: "total",
                     type: 'string',
                     filterable: true
                 },
                 {
-                    label: "Trang thai",
+                    label: "Trạng thái",
                     field: "status.name",
                     type: 'string',
                     filterable: true
                 },
                 {
-                    label: "Ngay dat hang",
+                    label: "Ngày đặt hàng",
                     field: "createdAt",
                     type: 'string',
                     filterable: true
@@ -74,6 +74,9 @@ export default {
         }
     },
     methods: {
+        // date(rowObj) {
+        //     return rowObj.createdAt.replace("T", " ").replace(".000Z", "")
+        // },
         userLabel(rowObj) {
             console.log(rowObj);
             return this.type === 'my-transaction' ? "Nguoi ban" : "Nguoi mua"

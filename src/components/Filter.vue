@@ -1,35 +1,35 @@
 <template>
     <div class="filter">
         <div class="sort">
-            <label for="cars">Sap xep theo:</label>
+            <h5><label for="cars">Sắp xếp theo:</label></h5>
             <select name="cars" id="cars" @change="sortFunc">
-                <option value="sell">Ban chay</option>
-                <option value="new">Moi nhat</option>
-                <option value="up">Gia tang dan</option>
-                <option value="down">Gia giam dan</option>
+                <option value="sell">Bán chạy</option>
+                <option value="new">Mới nhất</option>
+                <option value="up">Giá tăng dần</option>
+                <option value="down">Giá giảm dần</option>
             </select>
         </div>
-        <h5>Khoang gia</h5>
+        <h5>Khoảng giá</h5>
         <div class="price">
             <div class="price-item">
                 <input type="radio" id="price" name="price" checked value="0" @change="priceFunc">
-                <label for="price"> Tat ca gia </label>
+                <label for="price"> Tất cả giá </label>
             </div>
             <div class="price-item">
                 <input type="radio" id="price" name="price" value="1" @change="priceFunc">
-                <label for="price"> It hon 50 </label>
+                <label for="price"> Ít hơn 10$ </label>
             </div>
             <div class="price-item">
                 <input type="radio" id="price" name="price" value="2" @change="priceFunc">
-                <label for="price"> 50 - 100 </label>
+                <label for="price"> 10$ - 50$ </label>
             </div>
             <div class="price-item">
                 <input type="radio" id="price" name="price" value="3" @change="priceFunc">
-                <label for="price"> 100 - 200 </label>
+                <label for="price"> 50$ - 100$ </label>
             </div>
             <div class="price-item">
                 <input type="radio" id="price" name="price" value="4" @change="priceFunc">
-                <label for="price"> Nhieu hon 200 </label>
+                <label for="price"> Nhiều hơn 100$ </label>
             </div>
         </div>
         <button class="btn btn-primary" @click="filter">Loc</button>
@@ -62,10 +62,20 @@ export default {
 }
 </script>
 <style scoped>
+    .sort label {
+        margin: 0px;
+    }
+    .sort {
+        margin-bottom: 10px;
+    }
     .filter {
-        border: 1px solid black;
+        border: 1px solid lightgray;
     width: 200px;
-    height: 300px;
+    height: 350px;
     padding: 10px;
+    }
+    button {
+            width: 50%;
+    margin: 10px 25%;
     }
 </style>

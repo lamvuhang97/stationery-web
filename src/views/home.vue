@@ -9,7 +9,7 @@
         <div class="category home-section" v-for="item in categoryName" :key="item">
             <product-section :name="item.id" :value="item.name"></product-section>
         </div>
-        <button @click="toPaypal">Paypal</button>
+        <!-- <button @click="toPaypal">Paypal</button> -->
     </div>
 </template>
 <script>

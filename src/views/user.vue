@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <div class="information">
         <div class="avatar">
           <div class="img" style="border-radius: 50%">
@@ -7,10 +7,33 @@
           </div>
         </div>
         <div class="profile">
-          <custom-form :formbuilder="formbuilder" @form-save-click="save"></custom-form>
+          <custom-form :formbuilder="formbuilder" ></custom-form>
         </div>
     </div>
-    <div class="sidebar">
+    <div class="user-products" style="display:flex">
+        <div class="filter-section" style="margin-left:20px">
+          <filter-product @filter="filter"></filter-product>
+        </div>
+        <div class="product-item container">
+            <div class="row">
+                <div class="col-12 col-sm-8 col-md-6 col-lg-4" v-for="item in productData" :key="item" style="margin-bottom:20px">
+                    <product-card :product-data="item"></product-card>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pagination">
+        <paginate
+            :page-count="pageCount"
+            :page-range="3"
+            :click-handler="functionName"
+            :prev-text="'Prev'"
+            :next-text="'Next'"
+            :container-class="'paginate'"
+            :pageClass="'page-item'">
+        </paginate>
+    </div>
+    <!-- <div class="sidebar">
       <ul>
         <li class="navitem" role="presentation">
           <router-link :to="'/user/' + id + '/products'" class="navlink">
@@ -29,16 +52,26 @@
         </li>
       </ul>
     </div>
-    <router-view></router-view>
+    <router-view></router-view> -->
   </div>
 </template>
 
 <script>
-
+import ProductCard from "../components/ProductCard"
+import FilterProduct from "../components/Filter";
+import Paginate from 'vuejs-paginate'
 export default {
   name: "User",
+  components: {
+        ProductCard,
+        FilterProduct,
+        Paginate
+    },
   data() {
     return {
+      offset: 0,
+      filterString: '',
+      productData: [],
       id: '',
       userData: {},
       imgUrl: "/assets/img/logo.jpg",
@@ -62,25 +95,10 @@ export default {
             placeholder: "Email of user"
           },
           {
-            label: "Địa chỉ",
-            field: "address",
-            value: "",
-            filterable: true,
-            inputtype: true,
-            placeholder: "Address of user"
-          },
-          {
-            label: "Số điện thoại",
-            field: "phonenumber",
-            value: "",
-            filterable: true,
-            inputtype: true,
-            placeholder: "Phonenumber of user"
-          },
-          {
             label: "Trạng thái",
             field: "status",
             value: "",
+            readonly: "true",
             filterable: true,
             inputtype: true,
             placeholder: "Status of user"
@@ -94,10 +112,34 @@ export default {
       },
     }
   },
+  computed: {
+    pageCount() {
+            console.log(this.countProduct);
+            return parseInt(this.countProduct / this.limit) + 1
+        },
+  },
+  watch: {
+    "filterString"() {
+        this.fetchData()
+    }
+  },
   async beforeMount() {
     
   },
   methods: {
+    filter(param) {
+        this.filterString = param
+    },
+    functionName(pageNum) {
+        console.log(pageNum);
+        this.offset = (pageNum-1)*this.limit
+        this.fetchData()
+    },
+    async fetchData() {
+      const res = await this.$api.products.getProductsByOwner(this.id, this.offset, 15,this.filterString)
+      console.log(res);
+      this.productData = res.data.data.rows
+    },
     test() {
       this.$router.push({name:"UserProducts"})
     }
@@ -121,6 +163,8 @@ export default {
         }
       }
     }
+
+    this.fetchData()
   }
 }
 </script>
@@ -162,4 +206,18 @@ export default {
     color: black;
     text-decoration: none;
   }
+  .paginate {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px auto;
+    }
+    .page-item.active {
+        padding: 10px;
+        background-color: blueviolet;
+    }
+    .page-item.disable {
+        padding: 10px;
+    }
 </style>

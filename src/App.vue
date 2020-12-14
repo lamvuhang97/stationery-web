@@ -143,6 +143,9 @@ export default {
     },
     login() {
       this.$router.push({name: "Login"});
+    }, 
+    home() {
+      this.$router.push({Name: "Home"})
     }
   }
 };

@@ -14,16 +14,21 @@
                 </li>
                 <li class="navitem" role="presentation">
                 <router-link :to="'/shop/orders/transaction/2'" class="navlink">
-                    <span>Đang vận chuyển</span>
+                    <span>Chờ lấy hàng</span>
                 </router-link>
                 </li>
                 <li class="navitem" role="presentation">
                 <router-link :to="'/shop/orders/transaction/3'" class="navlink">
-                    <span>Bị từ chối</span>
+                    <span>Đang vận chuyển</span>
                 </router-link>
                 </li>
                 <li class="navitem" role="presentation">
                 <router-link :to="'/shop/orders/transaction/4'" class="navlink">
+                    <span>Bị từ chối</span>
+                </router-link>
+                </li>
+                <li class="navitem" role="presentation">
+                <router-link :to="'/shop/orders/transaction/5'" class="navlink">
                     <span>Thành công</span>
                 </router-link>
                 </li>

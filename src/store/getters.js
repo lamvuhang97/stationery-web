@@ -4,5 +4,8 @@ export default {
     completedTask: state => state.tasks.filter((task) => {return task.completed}),
 
     cartSize: state => { return state.cart.length},
-    listCart: state => {return state.cart}
+    listCart: state => {return state.cart},
+    wallet: state => {
+        return state.wallet
+    }
 }

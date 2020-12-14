@@ -10,7 +10,7 @@
                 <div class="content">{{data.content}}</div>
             </div>
         </div>
-        <div class="date">{{data.createdAt}}</div>
+        <div class="date">{{date}}</div>
     </div>
 </template>
 <script>
@@ -33,6 +33,9 @@ export default {
             } else {
                 return "/assets/img/logo.jpg"
             }
+        },
+        date() {
+            return this.data.createdAt.replace("T", " ").replace(".000Z", "")
         }
     },
     mounted() {

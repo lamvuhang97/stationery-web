@@ -27,6 +27,10 @@
                     @change="updateAmount"
                 >
             </div>
+
+            <div>
+                <span>Kho: {{data.product.quantity}}</span>
+            </div>
             <div class="total-price">
                 <span>{{ totalPrice}} VND</span>
             </div>
@@ -34,13 +38,21 @@
         <div class="delete">
             <button class="btn btn-danger" @click="deleteCart">Xóa</button>
         </div>
+        <alert class="alert" v-if="showModal" @yes="returnAmount" :text="text"></alert>
+        
     </div>
 </template>
 <script>
+import Alert from "../components/global/Alert"
 export default {
+    components: {
+        Alert
+    },
     data() {
         return {
             selectedProducts: [],
+            showModal: false,
+            text: ''
         }
     },
     props: {
@@ -66,10 +78,21 @@ export default {
         }
     },
     methods: {
+        returnAmount() {
+            this.data.productAmount = this.data.product.quantity
+            this.showModal = false
+        },
         clickItem(e) {
             this.$emit("click-item", e.target)
         },
         async updateAmount() {
+            console.log("cahnge",this.data.productAmount, this.data.product.quantity);
+            if(Number(this.data.productAmount) > Number(this.data.product.quantity) ||
+                Number(this.data.productAmount == 0)){
+                this.showModal = true
+                this.text ="Bạn không thể mua quá số lượng sản phẩm hiện có"
+                return
+            }
             await this.$store.dispatch('updateProductAmount',{id : this.data.id, data: {productAmount: this.data.productAmount}})
         },
         deleteCart() {

@@ -1,6 +1,6 @@
 <template>
     <div class="product-detail container">
-        <alert class="alert" v-if="showModal" @yes="showModal=false" :text="'Ban khong the mua san pham cua chinh minh'"></alert>
+        <alert class="alert" v-if="showModal" @yes="showModal=false" :text="text"></alert>
         <div class="general">
             <carousel :perPage="1" :autoplayHoverPause="true" :paginationEnabled="false" class="images">
                 <slide v-for="item in productImages" :key="item">
@@ -10,12 +10,12 @@
             <div class="infor">
                 <h2>{{ productData.name }}</h2>
                 <div class="rate-sold">
-                    <div class="rate">Đánh giá: {{rate}} stars </div>
-                    <div class="sold" style="margin-left:20px"> Đã bán: {{productData.sold}} sản phẩm </div>
+                    <div class="rate">Đánh giá: {{rateToShow}}</div>
+                    <div class="sold" style="margin-left:20px"> Đã bán: {{soldToShow}} sản phẩm </div>
                 </div>
-                <div class="price"> Giá: <span style="color:red">{{ productData.price }} VND</span></div>
+                <div class="price"> Giá: <span style="color:red">{{ productData.price }} $</span></div>
                 <div class="category"> Phân loại: {{ productData.category }} </div>
-                <div class="weight">Khối lượng: {{productData.weight}}</div>
+                <div class="weight">Khối lượng: {{productData.weight}} g</div>
                 <div class="number">
                     <label for="quantity" style="margin-right:10px">Số lượng: </label>
                     <input type="number" id="quantity" name="quantity" min="1" :max="productData.quantity" v-model="num">
@@ -23,7 +23,7 @@
                 </div>
                 <div class="action">
                     <button class="btn btn-danger" @click="addToCart"><i class="fas fa-shopping-cart" ></i>Thêm vào giỏ hàng</button>
-                    <button class="btn btn-danger" >Mua ngay</button>
+                    <button class="btn btn-danger" style="display:none">Mua ngay</button>
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@
         </router-link>
         <div class="description">
             <h4>Mô tả</h4>
-            <span>{{ productData.description }}</span>
+            <pre style="white-space:pre-wrap">{{ productData.description }}</pre>
         </div>
         <div class="review">
             <h4>Bình luận, đánh giá</h4>
@@ -60,6 +60,7 @@ export default {
     },
     data() {
         return {
+            text: "",
             showModal: false,
             id: '',
             productData: {},
@@ -72,6 +73,18 @@ export default {
         }
     },
     computed: {
+        rateToShow() {
+            if(this.rate == "") {
+                return "chưa có đánh giá"
+            } else {
+                return this.rate.substring(0,3) + " stars"
+            }
+        },
+        soldToShow() {
+            if(this.productData.sold == null) {
+                return 0
+            } else return this.productData.sold
+        },
         ownerImg() {
             if(this.ownerData.avatar != "") {
                 return this.ownerData.avatar
@@ -82,6 +95,11 @@ export default {
     },
     methods: {
         async addToCart() {
+            if(this.num > this.productData.quantity || this.num == 0) {
+                this.showModal = true;
+                this.text = "Bạn không thể mua quá số lượng sản phẩm hiện có"
+                return
+            }
             this.productToPost = {
                 productId: this.id,
                 productAmount: this.num
@@ -90,6 +108,7 @@ export default {
                 await this.$store.dispatch('addCartItem', this.productToPost)
             } else {
                 this.showModal = true
+                this.text = 'Bạn không thể mua sản phẩm của chính mình'
             }
         },
     },

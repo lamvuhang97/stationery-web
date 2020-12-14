@@ -115,6 +115,7 @@ export default {
 }
 .filter-section {
   margin-left: 20px;
+  margin-top: 50px;
 }
 .search {
   padding-top: 100px;

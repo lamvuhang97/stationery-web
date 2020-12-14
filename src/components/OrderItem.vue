@@ -10,11 +10,14 @@
                 </span>
                 <span class="category">Phan loai: {{dataProduct.category}}</span>
             </div>
+            <div class="price">
+                <span>{{data.productPrice }} $</span>
+            </div>
             <div class="quantity">
                 <span>x {{data.productAmount }}</span>
             </div>
             <div class="product-price">
-                <span>{{ productPrice}} VND</span>
+                <span>{{ productPrice}} $</span>
             </div>
         </div>
         <button class="review" @click="review" v-if="!data.isReview && status == 'success'">Đánh giá</button>

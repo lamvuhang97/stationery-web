@@ -22,6 +22,7 @@ import Checkout from "../views/checkout";
 import Search from "../views/search";
 import Paypal from "../views/paypal";
 import Wallet from "../views/wallet";
+import Success from "../views/success";
 
 // import Register from "../views/register.vue";
 // import ForgotPassword from "../views/forgotPassword.vue";
@@ -53,6 +54,14 @@ const routes = [
     component: Search,
     meta: {
       requiresAuth: false,
+    },
+  },
+  {
+    path: "/success",
+    name: "Success",
+    component: Success,
+    meta: {
+      requiresAuth: true,
     },
   },
   {

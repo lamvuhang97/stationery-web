@@ -3,10 +3,10 @@
     <div class="card shadow-lg o-hidden border-0 my-5">
       <div class="card-body p-0">
         <div class="row">
-          <div class="col-lg-5 d-none d-lg-flex">
+          <div class="col-lg-5 d-none d-lg-flex" @click="handleHome">
             <div
               class="flex-grow-1 bg-register-image"
-              style="background-image: url('assets/img/logo.jpg');"
+              style="background-image: url('assets/img/playlist.png');"
             ></div>
           </div>
           <div class="col-lg-7 register-container">
@@ -17,7 +17,7 @@
                 </div>
                 <div class="text-danger error-message">{{ message }}&nbsp;</div>
                 <div class="form-group row">
-                  <div class="col-sm-6 mb-3 mb-sm-0">
+                  <div class="col-sm-12 mb-3 mb-sm-0">
                     <input
                       class="form-control form-control-user"
                       type="text"
@@ -29,15 +29,17 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <input
-                    class="form-control form-control-user"
-                    type="email"
-                    id="email"
-                    v-model="input.email"
-                    aria-describedby="emailHelp"
-                    placeholder="Email Address"
-                    name="email"
-                  />
+                  <div class="col-sm-12 mb-3 mb-sm-0">
+                    <input
+                      class="form-control form-control-user"
+                      type="email"
+                      id="email"
+                      v-model="input.email"
+                      aria-describedby="emailHelp"
+                      placeholder="Email Address"
+                      name="email"
+                    />
+                  </div>
                 </div>
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
@@ -136,6 +138,10 @@ export default {
     },
     handleLogin() {
       this.$parent.login();
+    },
+
+    handleHome() {
+      this.$parent.home();
     }
   },
 };

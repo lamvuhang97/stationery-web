@@ -5,10 +5,10 @@
         <div class="card shadow-lg o-hidden border-0 my-5">
           <div class="card-body p-0">
             <div class="row">
-              <div class="col-lg-6 d-none d-lg-flex">
+              <div class="col-lg-6 d-none d-lg-flex" @click="handleHome">
                 <div
                   class="flex-grow-1 bg-login-image"
-                  style="background-image: url('assets/img/logo.jpg');"
+                  style="background-image: url('assets/img/playlist.png');"
                 ></div>
               </div>
               <div class="col-lg-6">
@@ -121,6 +121,9 @@ export default {
     },
     handleRegister(){
       this.$parent.register();
+    }, 
+    handleHome() {
+      this.$parent.home();
     }
   }
 };

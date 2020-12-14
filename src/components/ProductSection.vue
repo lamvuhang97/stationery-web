@@ -16,8 +16,8 @@
         </div>
         
         <div class="product-item container">
-            <div class="row">
-                <div class="col-12 col-sm-8 col-md-6 col-lg-4" v-for="item in productData" :key="item">
+            <div class="row" >
+                <div class="col-12 col-sm-8 col-md-6 col-lg-4" v-for="item in productData" :key="item" style="margin-bottom:20px">
                     <product-card :product-data="item"></product-card>
                 </div>
             </div>

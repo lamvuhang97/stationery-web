@@ -5,6 +5,9 @@ export default {
     setCart(state, data) {
         state.cart = data
     },
+    setWallet(state, data) {
+        state.wallet = data
+    },
 
     getTask(state, task) {
         state.newTask = task

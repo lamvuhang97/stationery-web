@@ -33,21 +33,26 @@
                 </li>
                 <li class="navitem" role="presentation">
                 <router-link :to="'/account/transaction/2'" class="navlink">
-                    <span>Đang vận chuyển</span>
+                    <span>Chờ lấy hàng</span>
                 </router-link>
                 </li>
                 <li class="navitem" role="presentation">
                 <router-link :to="'/account/transaction/3'" class="navlink">
-                    <span>Bị từ chối</span>
+                    <span>Đang vận chuyển</span>
                 </router-link>
                 </li>
                 <li class="navitem" role="presentation">
                 <router-link :to="'/account/transaction/4'" class="navlink">
-                    <span>Thành công</span>
+                    <span>Bị từ chối</span>
                 </router-link>
                 </li>
                 <li class="navitem" role="presentation">
                 <router-link :to="'/account/transaction/5'" class="navlink">
+                    <span>Thành công</span>
+                </router-link>
+                </li>
+                <li class="navitem" role="presentation">
+                <router-link :to="'/account/transaction/6'" class="navlink">
                     <span>Thất bại</span>
                 </router-link>
                 </li>
@@ -98,24 +103,9 @@ export default {
             }
           },
           {
-            label: "Địa chỉ",
-            field: "address",
-            value: "",
-            filterable: true,
-            inputtype: true,
-            placeholder: "Address of user"
-          },
-          {
-            label: "Số điện thoại",
-            field: "phonenumber",
-            value: "",
-            filterable: true,
-            inputtype: true,
-            placeholder: "Phonenumber of user"
-          },
-          {
             label: "Trạng thái",
             field: "status",
+            readonly: true,
             value: "",
             filterable: true,
             inputtype: true,
@@ -142,15 +132,11 @@ export default {
           this.create()
           patchData = {
             email: params.email,
-            phonenumber: params.phonenumber,
-            address: params.address,
             avatar: this.imgUrlToPost
           }
         } else {
           patchData = {
             email: params.email,
-            phonenumber: params.phonenumber,
-            address: params.address,
           }
         }
         

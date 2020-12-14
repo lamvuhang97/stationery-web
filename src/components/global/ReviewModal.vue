@@ -13,6 +13,7 @@
                 <star-rating v-model="dataReview.point"></star-rating>
             </div>
             <div class="content">
+                <label for="" style="padding-right:10px">Đánh giá: </label>
                 <input type="text" v-model="dataReview.content">
             </div>
         </div>
@@ -42,7 +43,7 @@ export default Vue.extend({
   }
 })
 </script>
-<style lang="scss">
+<style lang="scss" >
 .modal-background {
     z-index: 100;
   position: fixed;
@@ -60,8 +61,8 @@ export default Vue.extend({
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
-    width: 400px;
-    height: 200px;
+    width: auto;
+    height: auto;
     text-align: center;
     background-color: white;
     border: 1px solid black;
@@ -71,6 +72,14 @@ export default Vue.extend({
 
       .modal-header {
         margin: 0px;
+      }
+
+      .body {
+        .rate {
+          margin-bottom: 20px;
+        }
+
+
       }
     }
   }

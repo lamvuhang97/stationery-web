@@ -4,7 +4,7 @@
       <div class="modal-body" @click.stop>
         <div class="modal-header">
           <p class="modal-heading">
-            Them dia chi nhan hang moi
+            Thêm địa chỉ nhận hàng mới
           </p>
           <div class="input-address">
                 <div class="phone">
@@ -12,15 +12,15 @@
                     <input type="text" id="phone" v-model="address.phonenumber">
                 </div>
                 <div class="address">
-                    Tinh: <select name="province" id="province" v-model="address.province">
+                    Tỉnh/Thành phố: <select name="province" id="province" v-model="address.province">
                             <option v-for="item in provinceList" :key="item" :value="item.id">{{item.name}}</option>
                         </select>
-                    Quan/huyen: <select name="district" id="district" v-model="address.district">
+                    Quận/Huyện: <select name="district" id="district" v-model="address.district">
                             <option v-for="item in districtList" :key="item" :value="item.id">{{item.name}}</option>
                         </select>
                 </div>
                 <div class="detail">
-                    <label for="detail">Dia chi:</label>
+                    <label for="detail">Địa chỉ:</label>
                     <input type="text" id="detail" v-model="address.detail">
                 </div>
           </div>
@@ -73,7 +73,7 @@ export default Vue.extend({
   }
 })
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .modal-background {
   z-index: 100;
   position: fixed;

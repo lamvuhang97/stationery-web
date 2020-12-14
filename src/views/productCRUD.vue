@@ -141,6 +141,7 @@ export default {
                 label: "Status",
                 field: "status",
                 value: "",
+                readonly: "true",
                 filterable: true,
                 inputtype: true,
                 placeholder: "Status of user"
@@ -230,6 +231,7 @@ export default {
             } else {
                 await this.$api.products.createProduct(this.productToPost)
                 .then(res => {
+                    ok = (res.status == 200) ? true : false
                     pId = res.data.id
                 })
                 this.imgUrlArr.forEach((item) => {
@@ -242,10 +244,20 @@ export default {
                     .then(async res => {
                         await this.$api.products.postProductImage({productId : pId, imageId: res.data.id})
                         .then(res => {
+                            ok = (res.status == 200) ? true : false
                             console.log("res up  product img", res);
                         })
                     })
                 })
+
+                if (ok) {
+                this.$toasted.success("Product created");
+                this.formbuilder.disabledSave = false;
+                this.$router.push({  path: "/shop/products" });
+                } else {
+                this.$toasted.error("Fail");
+                this.formbuilder.disabledSave = false;
+                }
             }
             
         },
@@ -264,7 +276,8 @@ export default {
                     this.deleteList.push(val.id)
                 }
             })
-            this.currentImg.splice(1, pos)
+            console.log(pos);
+            this.currentImg.splice(pos, 1)
             console.log(this.currentImg);
             this.isDelete = true
         },
