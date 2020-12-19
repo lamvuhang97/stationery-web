@@ -20,7 +20,7 @@
                 <span>{{ productPrice}} $</span>
             </div>
         </div>
-        <button class="review" @click="review" v-if="!data.isReview && status == 'success'">Đánh giá</button>
+        <button class="review" @click="review" v-if="!data.isReview && statusId == 9">Đánh giá</button>
     </div>
 </template>
 <script>
@@ -37,9 +37,8 @@ export default {
             type: Object,
             default: null
         },
-        status: {
-            type: String,
-            default: ""
+        statusId: {
+            type: Number
         }
     },
     watch: {
@@ -64,7 +63,7 @@ export default {
         }
     },
     async beforeMount() {
-        console.log("mounted", this.data);
+        console.log("mounted", this.data, this.statusId);
         const res = await this.$api.products.get(this.data.productId)
         console.log("h", res);
         this.dataProduct = res.data.data

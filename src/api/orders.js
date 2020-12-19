@@ -110,6 +110,17 @@ export const orders = {
       });
     },
 
+    async updateOrderStatus( payload) {
+      return await axios.put("orders/" + payload.orderId, {
+          statusId: payload.statusId
+        })
+      .catch(error => {
+        // return api.response.error(error.response.data);
+        console.log("not login yet", error);
+        return
+      });
+    },
+
     async updateIsReview(id, status) {
       return await axios.put("orderdetails/" + id, {status}, {
         headers: {

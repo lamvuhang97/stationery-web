@@ -57,6 +57,14 @@ export default {
     },
     watch: {
         "listCart"() {
+            this.listCart.forEach(async item => {
+                // var quantity = String(item.product.quantity)
+                if (item.productAmount > item.product.quantity) {
+                    // await this.$store.dispatch('updateProductAmount',{id : item.productId, data: {productAmount: quantity}})
+                    item.productAmount = item.product.quantity
+                }
+            })
+
             this.cartByOwner = this.listCart.reduce(function(acc, obj) {
                 var key = obj.product.owner.username
                 if(!acc[key]) {
@@ -85,8 +93,7 @@ export default {
             this.showModal = false
         },
         selectedCartItem(param) {
-            console.log("hehe");
-            console.log(param);
+            console.log("par",param);
             this.selectedItem = param[0]
             this.selectedOwner = param[1]
         },
@@ -96,8 +103,21 @@ export default {
     },
     async beforeMount() {
         await this.$store.dispatch('fetchCart')
+        // this.listCart.forEach(async item => {
+        //     var quantity = String(item.product.quantity)
+        //     if (item.productAmount > item.product.quantity) {
+        //         await this.$store.dispatch('updateProductAmount',{id : item.productId, data: {productAmount: quantity}})
+        //     }
+        // })
     },
     async mounted() {
+        console.log("list cart", this.listCart);
+        // this.listCart.forEach(async item => {
+        //     var quantity = String(item.product.quantity)
+        //     if (item.productAmount > item.product.quantity) {
+        //         await this.$store.dispatch('updateProductAmount',{id : item.productId, data: {productAmount: quantity}})
+        //     }
+        // })
         this.cartByOwner = this.listCart.reduce(function(acc, obj) {
             var key = obj.product.owner.username
             if(!acc[key]) {
@@ -107,6 +127,7 @@ export default {
             return acc
         }, {});
 
+        // check if amount > quantity then set quantity = amount ==> not done yet
     }
     
 }

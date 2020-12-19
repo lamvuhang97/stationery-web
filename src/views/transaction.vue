@@ -112,6 +112,13 @@ export default {
             //     this.type ='my-order'
             // }
             await this.$axios.get(this.$settings.baseURL + "/orders/" + this.type + "/" + status).then(response => {
+            response.data.data.rows.forEach(item => {
+                for ( var i in item ) {
+                    if(i == "createdAt") {
+                        item[i] = item[i].replace("T", " ").replace(".000Z", "")
+                    }
+                }
+            })
             this.props.data = response.data.data.rows;
             this.fetched = true
         });

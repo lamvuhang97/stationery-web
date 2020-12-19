@@ -1,5 +1,5 @@
 <template>
-    <div class="cart-item" >
+    <div class="cart-item"  v-if="hasProps">
         <div class="select">
             <input type="checkbox" 
             :value="data.product.name"
@@ -27,7 +27,7 @@
                     @change="updateAmount"
                 >
             </div>
-
+            
             <div>
                 <span>Kho: {{data.product.quantity}}</span>
             </div>
@@ -52,7 +52,8 @@ export default {
         return {
             selectedProducts: [],
             showModal: false,
-            text: ''
+            text: '',
+            hasProps: false
         }
     },
     props: {
@@ -75,6 +76,9 @@ export default {
             if(this.data.product.images.length > 0 ) {
                 return this.data.product.images[0].url.url
             } else return "/assets/img/default_images/product.png"
+        },
+        productAmount() {
+            return this.data.productAmount
         }
     },
     methods: {
@@ -102,7 +106,13 @@ export default {
             this.$router.push({name: "ProductDetail", params: { id: this.data.productId}})
         },
     },
-    mounted() {
+    beforeMount() {
+        console.log(this.data);
+        if( this.data.productAmount >= this.data.product.quantity) {
+            this.data.productAmount = this.data.product.quantity
+            this.hasProps = true
+        }
+        this.hasProps = true
     }
 }
 </script>
@@ -119,6 +129,7 @@ export default {
         display:flex;
         flex-grow: 1;
         justify-content: space-around;
+        justify-content: space-between;
     }
     .product-infor {
         display: flex;

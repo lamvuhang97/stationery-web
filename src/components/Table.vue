@@ -246,12 +246,10 @@ export default {
     loadItems() {
       this.columns = this.props.columns;
       if (this.props.data != undefined) {
-        console.log("have", this.props.data);
         this.totalRecords = this.props.data.length
         this.rows = this.props.data;
         return
       }
-      console.log("dont have");
       if(this.props.remoteURL){
         let remoteURL;
         if (this.props.remoteParams) {

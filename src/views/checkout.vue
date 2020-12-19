@@ -149,9 +149,13 @@ export default {
                             await this.$api.products.updateProduct(p.productId, {quantity: p.product.quantity - p.productAmount, sold: p.product.sold + p.productAmount})
                         })
                         this.$toasted.success("Dat hang thanh cong");
-                        this.$router.push({path: "/account/transaction/0"})
+                        this.$router.push({path: "/account/transaction/1"})
                         await this.$store.dispatch('deleteCart',cartId)
                     })
+                    await this.$api.history.createHistory({
+                            orderId: res.data.id,
+                            statusId: 1
+                        }).then(rr => {console.log(rr);})
                 })
             })
         },
@@ -197,9 +201,13 @@ export default {
                                 await this.$api.products.updateProduct(p.productId, {quantity: p.product.quantity - p.productAmount, sold: p.product.sold + p.productAmount})
                             })
                             this.$toasted.success("Dat hang thanh cong");
-                            this.$router.push({path: "/account/transaction/0"})
+                            this.$router.push({path: "/account/transaction/1"})
                             await this.$store.dispatch('deleteCart',cartId)
                         })
+                        await this.$api.history.createHistory({
+                            orderId: res.data.id,
+                            statusId: 1
+                        }).then(rr => {console.log(rr);})
                     })
                 })
             } else if ( this.selectedPayment == 3) {

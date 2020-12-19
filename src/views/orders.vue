@@ -19,22 +19,27 @@
                 </li>
                 <li class="navitem" role="presentation">
                 <router-link :to="'/shop/orders/transaction/3'" class="navlink">
-                    <span>Đang vận chuyển</span>
+                    <span>Đang giao</span>
                 </router-link>
                 </li>
                 <li class="navitem" role="presentation">
                 <router-link :to="'/shop/orders/transaction/4'" class="navlink">
-                    <span>Bị từ chối</span>
+                    <span>Đã giao</span>
                 </router-link>
                 </li>
                 <li class="navitem" role="presentation">
                 <router-link :to="'/shop/orders/transaction/5'" class="navlink">
-                    <span>Thành công</span>
+                    <span>Đã hủy</span>
                 </router-link>
                 </li>
                 <li class="navitem" role="presentation">
-                <router-link :to="'/shop/orders/transaction/5'" class="navlink">
-                    <span>Thất bại</span>
+                <router-link :to="'/shop/orders/transaction/6'" class="navlink">
+                    <span>Trả hàng</span>
+                </router-link>
+                </li>
+                <li class="navitem" role="presentation">
+                <router-link :to="'/shop/orders/transaction/7'" class="navlink">
+                    <span>Chờ xử lý</span>
                 </router-link>
                 </li>
             </ul>

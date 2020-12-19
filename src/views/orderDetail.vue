@@ -18,7 +18,7 @@
                 v-for="(item, ind) in products"
                 :key="ind"
                 :data="item"
-                :status="data.status.name"
+                :statusId="data.statusId"
                 @to-product-detail="toProductDetail"
                 @review="review"
             ></order-item>
@@ -39,14 +39,14 @@
                 <span>Tiền vận chuyển: {{data.ship}} $</span>
                 <span>Thời gian đặt: {{data.createdAt}}</span>
             </div>
-            <div class="right" v-if="data.status.name != 'waiting' && isMyOrder">
+            <div class="right" v-if="data.statusId != 1 && isMyOrder">
                 <h4>Thông tin lấy hàng</h4><div v-if="lengthAddress != 0">
                     <span>Tên người bán:{{data.owner.username}}</span>
                     <span>Địa chỉ: {{data.ownerAdd}}</span>
                     <span>Số điện thoại: {{data.ownerPhone}}</span>
                 </div>
             </div>
-            <div class="right" v-if="data.status.name == 'waiting' && isMyOrder">
+            <div class="right" v-if="data.statusId == 1 && isMyOrder">
                 <h4>Thông tin lấy hàng</h4>
                 <button class="btn btn-primary" @click="showAddModal = true">Thêm địa chỉ</button>
                 <button class="btn btn=primary" @click="showChooseModal = true">Chọn địa chỉ</button>
@@ -58,7 +58,15 @@
                 </div>
             </div>
         </div>
-        <div class="actions" v-if="data.status.name == 'waiting' && isMyOrder">
+        <div class="actions" v-if="data.statusId == 4 && !isMyOrder && validTime">
+            <button class="btn btn-danger" @click="showReasonModal=true">Trả hàng</button>
+            <button class="btn btn-danger" @click="confirmDone">Da nhan hang</button>
+        </div>
+        <add-reason class="alert" v-if="showReasonModal" @no="showReasonModal=false" @yes="sendReason"></add-reason>
+        <div class="actions" v-if="data.status.id == 1 && !isMyOrder">
+            <button class="btn btn-danger" @click="reject">Hủy đơn hàng</button>
+        </div>
+        <div class="actions" v-if="data.status.id == 1 && isMyOrder">
             <button class="btn btn-primary" @click="accept" style="margin-right:10px">Xác nhận đơn hàng</button>
             <button class="btn btn-danger" @click="reject">Từ chối đơn hàng</button>
         </div>
@@ -71,13 +79,15 @@ import ReviewModal from '../components/global/ReviewModal.vue';
 import AddAddress from "../components/global/AddAddress"
 import ChooseAddress from "../components/global/ChooseAddress"
 import Alert from '../components/global/Alert.vue';
+import AddReason from "../components/global/AddReason.vue";
 export default {
     components: {
         OrderItem,
         ReviewModal,
         AddAddress,
         ChooseAddress,
-        Alert
+        Alert,
+        AddReason
     },
     data() {
         return {
@@ -94,12 +104,24 @@ export default {
             address: [],
             currentAddress: {},
             showAddModal: false,
-            showChooseModal: false
+            showChooseModal: false,
+            showReasonModal: false
         }
     },
     computed: {
         lengthAddress() {
             return this.address.length
+        },
+        validTime() {
+            var now = new Date()
+            var date = new Date(this.data.updatedAt)
+            console.log(now, date, now -  date);
+            var time = Number(now - date) / 3600000
+            if(time > 72) {
+                return false
+            } else {
+                return true
+            }
         }
     },
     methods: {
@@ -108,7 +130,7 @@ export default {
             this.currentProductReviewed = param.productId
             this.currentOrderDetailReviewed = param.orderdetailId
         },
-        yes(param) {
+        async yes(param) {
             console.log(param);
             var reviewToPost = {
                 userId: Vue.prototype.$localstorage.getUserID(),
@@ -116,12 +138,13 @@ export default {
                 rate: param.point,
                 content: param.content
             }
-            this.$api.reviews.postReview(reviewToPost)
+            await this.$api.reviews.postReview(reviewToPost)
             .then(res => {
                 console.log(res);
                 this.showReviewModal = false
                 this.$api.orders.updateIsReview(this.currentOrderDetailReviewed, true)
             })
+
         },
         toProductDetail(id) {
             this.$router.push({name: "ProductDetail", params: { id: id}})
@@ -139,20 +162,120 @@ export default {
             }
             
             await this.$api.orders.updateOrder(this.data.id ,payload)
-            .then(res => {
+            .then(async res => {
                 console.log("after update", res);
                 this.$toasted.success("Đã xác nhận đơn hàng")
                 this.$router.push({path: "/shop/orders/transaction/2"})
+                await this.$api.history.createHistory({
+                    orderId: this.data.id,
+                    statusId: 2
+                }).then(rr => {console.log(rr);})
             })
         },
         async reject() {
-            await this.$api.orders.updateOrderStatus({orderId: this.data.id, statusId: 3})
-            .then(res => {
+            var detail
+            if(this.isMyOrder) {
+                detail= "Nguoi ban tu choi don hang"
+            } else {
+                detail = "Nguoi mua huy don hang"
+            }
+            await this.$api.orders.updateOrderStatus({orderId: this.data.id, statusId: 5})
+            .then(async res => {
                 console.log("after update", res);
                 this.$toasted.success("Đã từ chối đơn hàng")
-                this.$router.push({path: "/shop/orders/transaction/3"})
+                this.$router.push({path: "/shop/orders/transaction/5"})
+                await this.$api.history.createHistory({
+                    orderId: this.data.id,
+                    statusId: 5,
+                    detail: detail
+                }).then(rr => {console.log(rr);})
             })
+            // hoan tien cho nguoi mua neu don hang thanh toan paypal
+            if(this.data.paymentId == 3){
+                var total = Number(this.data.total) + Number(this.data.ship)
+                var wallet = 0
+                await this.$api.users.get(this.data.userId)
+                .then(async res => {
+                    if(res.data.data.wallet == null) {
+                        wallet = 0
+                    } else  {wallet = Number(res.data.data.wallet)}
+                    await this.$api.authentications.updateWallet(this.data.userId, {wallet: wallet + total})
+                })
+
+                var tranToPost = {
+                    userId: this.data.userId,
+                    orderId: this.data.id,
+                    amount: total,
+                    type: "Hoan Tien",
+                    status: "Success"
+                }
+                await this.$api.transactions.postTransaction(tranToPost)
+                .then(r => {
+                    console.log(r);
+                })
+            }
+
+            // thay doi so luong san pham
+            this.products.forEach(async p => {
+                await this.$api.products.updateProduct(p.productId, {quantity: p.product.quantity + p.productAmount, sold: p.product.sold - p.productAmount})
+            })
+
         },
+        async sendReason(param) {
+            await this.$api.orders.updateOrderStatus({orderId: this.data.id, statusId: 6})
+            .then(async res => {
+                console.log("after update", res);
+                this.$toasted.success("Đã gởi yêu cầu trả hàng")
+                this.$router.push({path: "/shop/orders/transaction/7"})
+                await this.$api.history.createHistory({
+                    orderId: this.data.id,
+                    statusId: 6,
+                    detail: param
+                }).then(rr => {console.log(rr);})
+            })
+            this.showReasonModal = false
+            this.data.statusId = 6
+            this.data.status.name ="Chờ xử lý"
+        },
+        async confirmDone() {
+            await this.$api.orders.updateOrderStatus({orderId: this.data.id, statusId: 9})
+            .then(async res => {
+                console.log("after update", res);
+                this.$toasted.success("Đã xác nhận nhan hang")
+                // this.$router.push({path: "/shop/orders/transaction/2"})
+                await this.$api.history.createHistory({
+                    orderId: this.data.id,
+                    statusId: 9
+                }).then(rr => {console.log(rr);})
+            })
+
+            //tra tien cho nguoi ban neu nguoi mua xac nhan don hang thanh cong
+            var total = Number(this.data.total)
+            var wallet = 0
+            await this.$api.users.get(this.data.ownerId)
+            .then(async res => {
+                if(res.data.data.wallet == null) {
+                    wallet = 0
+                } else  {wallet = Number(res.data.data.wallet)}
+                await this.$api.authentications.updateWallet(this.data.ownerId, {wallet: wallet + total})
+            })
+
+            var tranToPost = {
+                userId: this.data.ownerId,
+                orderId: this.data.id,
+                amount: Number(this.data.total),
+                type: "Cong Tien",
+                status: "Success"
+            }
+            await this.$api.transactions.postTransaction(tranToPost)
+            .then(r => {
+                console.log(r);
+            })
+
+            this.data.statusId = 9
+            this.data.status.name ="Hoàn thành"
+        },
+
         async addAddress(param) {
             console.log("params", param);
             var payload = {
@@ -197,6 +320,7 @@ export default {
             this.products.push(item)
             this.total += item.productAmount * Number(item.productPrice)
         })
+        console.log("products", this.products);
         this.fetched = true
         if(this.$route.params.type == "my-order") {
             this.isMyOrder = true
