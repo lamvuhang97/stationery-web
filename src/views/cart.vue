@@ -1,5 +1,5 @@
 <template>
-    <div class="cart container">
+    <div class="cart container" :key="componentKey">
         <are-you-sure v-if="showModal" @no="showModal=false" @yes="deleteCart"></are-you-sure>
         <cart-section 
             v-for="(item, ind) in cartByOwner" 
@@ -16,15 +16,18 @@
             <span>Tổng tiền: {{priceInBanner}}</span>
             <button class="btn btn-success" @click="toCheckout">Đặt hàng</button>
         </div>
+        <alert class="alert" v-if="showAlert" @yes="reset" :text="text"></alert>
     </div>
 </template>
 <script>
 import CartSection from "../components/CartSection.vue"
 import AreYouSure from "../components/global/AreYouSure.vue"
+import Alert from "../components/global/Alert.vue"
 export default {
     components: {
         CartSection, 
-        AreYouSure
+        AreYouSure,
+        Alert
     },
     data() {
         return {
@@ -33,7 +36,10 @@ export default {
             showBanner: false,
             currentId: '',
             selectedItem: [],
-            selectedOwner: ''
+            selectedOwner: '',
+            text: '',
+            showAlert: false,
+            componentKey: 0
         }
     },
     computed: {
@@ -84,6 +90,12 @@ export default {
         }
     },
     methods: {
+        reset() {
+            this.showAlert = false
+            this.selectedItem = []
+            this.selectedOwner = ""
+            this.componentKey += 1
+        },
         confirmDelete(id) {
             this.showModal = true
             this.currentId = id 
@@ -94,8 +106,18 @@ export default {
         },
         selectedCartItem(param) {
             console.log("par",param);
-            this.selectedItem = param[0]
-            this.selectedOwner = param[1]
+            if(this.selectedOwner == "" ){
+                this.selectedItem = param[0]
+                this.selectedOwner = param[1]
+            } else {
+                if(this.selectedOwner != param[1]) {
+                    this.text = "Vui long chon san pham cua cung mot cua hang trong moi lan dat hang"
+                    this.showAlert = true
+                } else {
+                    this.selectedItem = param[0]
+                    this.selectedOwner = param[1]
+                }
+            }
         },
         toCheckout() {
             this.$router.push({name: "Checkout", params: {owner: this.selectedOwner, items: this.selectedItem, price: this.priceInBanner, weight: this.totalWeight}})

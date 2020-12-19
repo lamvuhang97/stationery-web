@@ -221,7 +221,8 @@ export default {
       this.serverParams = Object.assign({}, this.serverParams, newProps);
     },
     pageChange(params) {
-      this.updateParams({ page: (params.currentPage - 1) * params.currentPerPage });
+      // this.updateParams({ page: (params.currentPage -1 ) * params.currentPerPage });
+      this.updateParams({page: params.currentPage -1})
       this.loadItems();
     },
     perpageChange(params) {
@@ -247,7 +248,10 @@ export default {
       this.columns = this.props.columns;
       if (this.props.data != undefined) {
         this.totalRecords = this.props.data.length
-        this.rows = this.props.data;
+        var dataToShow = this.props.data.slice(this.serverParams.page*this.serverParams.perPage, this.serverParams.perPage*(this.serverParams.page+1))
+        // this.rows = this.props.data;
+        console.log("dataToShow", dataToShow);
+        this.rows = dataToShow
         return
       }
       if(this.props.remoteURL){
@@ -317,7 +321,6 @@ export default {
     }
   },
   mounted() {
-    console.log("adgfwief", this.props.data);
     this.loadItems();
   },
   watch: {

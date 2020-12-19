@@ -75,7 +75,7 @@ export default {
     computed: {
         rateToShow() {
             if(this.rate == "") {
-                return "chưa có đánh giá"
+                return "Chưa có đánh giá"
             } else {
                 return this.rate.substring(0,3) + " stars"
             }

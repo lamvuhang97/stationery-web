@@ -1,5 +1,5 @@
 <template>
-    <div class="order-detail container">
+    <div class="order-detail container" :key="componentKey">
         <review-modal v-if="showReviewModal" @no="showReviewModal=false" @yes="yes"></review-modal>
         <add-address class="alert" v-if="showAddModal" @no="showAddModal=false" @yes="addAddress"></add-address>
         <choose-address class="alert" v-if="showChooseModal" @no="showChooseModal=false" @yes="chooseAddress"></choose-address>
@@ -105,7 +105,8 @@ export default {
             currentAddress: {},
             showAddModal: false,
             showChooseModal: false,
-            showReasonModal: false
+            showReasonModal: false,
+            componentKey: 0
         }
     },
     computed: {
@@ -144,7 +145,7 @@ export default {
                 this.showReviewModal = false
                 this.$api.orders.updateIsReview(this.currentOrderDetailReviewed, true)
             })
-
+            this.componentKey += 1
         },
         toProductDetail(id) {
             this.$router.push({name: "ProductDetail", params: { id: id}})

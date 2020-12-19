@@ -38,8 +38,8 @@
                 </router-link>
                 </li>
                 <li class="navitem" role="presentation">
-                <router-link :to="'/shop/orders/transaction/7'" class="navlink">
-                    <span>Chờ xử lý</span>
+                <router-link :to="'/shop/orders/transaction/9'" class="navlink">
+                    <span>Hoàn thành</span>
                 </router-link>
                 </li>
             </ul>
