@@ -129,7 +129,7 @@ export default {
             this.showPaypal = false
             console.log("complete");
             await this.$api.orders.createOrder(this.orderToPost)
-            .then(res => {
+            .then(async res => {
                 console.log(res);
                 this.dataParams.items.forEach(async(item) => {
                     var cartId = item.id
@@ -148,15 +148,17 @@ export default {
                         this.dataParams.items.forEach(async p => {
                             await this.$api.products.updateProduct(p.productId, {quantity: p.product.quantity - p.productAmount, sold: p.product.sold + p.productAmount})
                         })
-                        this.$toasted.success("Dat hang thanh cong");
-                        this.$router.push({path: "/account/transaction/1"})
+                        
                         await this.$store.dispatch('deleteCart',cartId)
                     })
-                    await this.$api.history.createHistory({
+                    
+                })
+                this.$toasted.success("Dat hang thanh cong");
+                        this.$router.push({path: "/account/transaction/1"})
+                await this.$api.history.createHistory({
                             orderId: res.data.id,
                             statusId: 1
                         }).then(rr => {console.log(rr);})
-                })
             })
         },
         async confirm() {

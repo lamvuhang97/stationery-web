@@ -1,58 +1,72 @@
 <template>
     <div class="container">
-        <h3>Bạn có {{dataOrder.waiting}} đơn hàng đang chờ duyệt</h3>
+        <h3>Bạn có <span style="color: red">{{dataOrder.choxacnhan}}</span> đơn hàng đang chờ xác nhận</h3>
         <div class="analyze">
             <div class="analyze-order analyze-item">
-                <h5>Thống kê đơn hàng</h5>
-                <span>Tổng số đơn hàng: {{sumOrder}}</span>
-                <div class="items">
-                    <div class="item" style="border-right:1px solid gray">
-                        <span class="number">{{dataOrder.waiting}}</span>
-                        <span class="title">Chờ xác nhận</span>
+                <h4>Thống kê đơn hàng</h4>
+                <h5>Tổng số đơn hàng: <span style="color:red">{{sumOrder}}</span></h5>
+                <div class="items" style="display:flex; flex-direction:column">
+                    <div class="items" style="margin-bottom: 10px">
+                        <div class="item" style="border-right:1px solid gray">
+                            <span class="number">{{dataOrder.cholayhang}}</span>
+                            <span class="title">Chờ lấy hàng</span>
+                        </div>
+                        <div class="item" style="border-right:1px solid gray">
+                            <span class="number">{{dataOrder.danggiao}}</span>
+                            <span class="title">Đang giao</span>
+                        </div>
+                        <div class="item" style="border-right:1px solid gray">
+                            <span class="number">{{dataOrder.dagiao}}</span>
+                            <span class="title">Đã giao</span>
+                        </div>
+                        <div class="item" style="border-right:1px solid gray;background-color: chartreuse;">
+                            <span class="number">{{dataOrder.hoanthanh}}</span>
+                            <span class="title">Hoàn thành</span>
+                        </div>
                     </div>
-                    <div class="item" style="border-right:1px solid gray">
-                        <span class="number">{{dataOrder.accept}}</span>
-                        <span class="title">Chờ lấy hàng</span>
-                    </div>
-                    <div class="item" style="border-right:1px solid gray">
-                        <span class="number">{{dataOrder.shipping}}</span>
-                        <span class="title">Đang giao</span>
-                    </div>
-                    <div class="item" style="border-right:1px solid gray">
-                        <span class="number">{{dataOrder.reject}}</span>
-                        <span class="title">Từ chối</span>
-                    </div>
-                    <div class="item" style="border-right:1px solid gray">
-                        <span class="number">{{dataOrder.success}}</span>
-                        <span class="title">Thành công</span>
-                    </div>
-                    <div class="item">
-                        <span class="number">{{dataOrder.fail}}</span>
-                        <span class="title">Thất bại</span>
+                    <div class="items">
+                        <div class="item" style="border-right:1px solid gray; background-color:coral">
+                            <span class="number">{{dataOrder.choxuly}}</span>
+                            <span class="title">Chờ xử lý</span>
+                        </div>
+                        <div class="item" style="border-right:1px solid gray">
+                            <span class="number">{{dataOrder.dangtrahang}}</span>
+                            <span class="title">Đang trả hàng</span>
+                        </div>
+                        <div class="item" style="border-right:1px solid gray">
+                            <span class="number">{{dataOrder.datrahang}}</span>
+                            <span class="title">Đã trả hàng</span>
+                        </div>
+                        <div class="item" style="border-right:1px solid gray; background-color: #e0705e">
+                            <span class="number">{{dataOrder.dahuy}}</span>
+                            <span class="title">Đã hủy</span>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="analyze-product analyze-item">
-                <h5>Thống kê sản phẩm</h5>
-                <span>Tổng số sản phẩm: {{sumProduct}}</span>
+                <h4>Thống kê sản phẩm</h4>
+                <button class="btn btn-primary" style="float:right" @click="exportProduct">Xuất file excel</button>
+                <h5>Tổng số sản phẩm: <span style="color:red">{{sumProduct}}</span></h5>
+                
                 <div class="items">
                     <div class="item" style="border-right:1px solid gray">
                         <span class="number">{{dataProduct.active}}</span>
                         <span class="title">Đang bán</span>
                     </div>
-                    <div class="item" style="border-right:1px solid gray">
+                    <div class="item" style="border-right:1px solid gray; background-color: coral">
                         <span class="number">{{dataProduct.sold}}</span>
                         <span class="title">Hết hàng</span>
                     </div>
-                    <div class="item">
+                    <div class="item" style="border-right:1px solid gray; background-color: dimgrey; color: white ">
                         <span class="number">{{dataProduct.locked}}</span>
                         <span class="title">Tạm khóa</span>
                     </div>
                 </div>
             </div>
             <div class="analyze-sale analyze-item">
-                <h5>Thống kê doanh thu</h5>
-                <span>Tổng doanh thu: {{dataSale.sum}} VND</span>
+                <h4>Thống kê doanh thu</h4>
+                <h5>Tổng doanh thu: <span style="color:red">{{dataSale.sum}} $</span></h5>
                 <div class="items">
                     <div class="item" style="border-right:1px solid gray">
                         <span class="number">{{dataSale.day}}</span>
@@ -60,28 +74,57 @@
                     </div>
                     <div class="item" style="border-right:1px solid gray">
                         <span class="number">{{dataSale.week}}</span>
-                        <span class="title">Trong tuần</span>
+                        <span class="title">Trong tuần </span>
                     </div>
                     <div class="item">
                         <span class="number">{{dataSale.month}}</span>
-                        <span class="title">Trong tháng</span>
+                        <span class="title">Trong tháng </span>
                     </div>
                 </div>
             </div>
         </div>
+         <chart v-if="fetched"
+            :chart-data="dataChart"
+            :options="options"
+        />
     </div>
 </template>
 <script>
+import Chart from "../components/chart.js"
+import Vue from "vue"
 export default {
+    components: {
+        Chart
+    },
     data() {
         return {
+            fetched: false,
+            dataChart: {
+                labels: [],
+                datasets: [{
+                    data: [],
+                    label: "Doanh thu ($)",
+                    borderColor: '#3e95cd'
+                }]
+            },
+            options: {
+                title: {
+                display: true,
+                text: 'Doanh thu trong tháng'
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            },
             dataOrder:  {
-                waiting: 0,
-                accept: 0,
-                shipping: 0,
-                reject: 0,
-                success: 0,
-                fail: 0
+                choxacnhan: 0,
+                cholayhang: 0,
+                danggiao: 0,
+                dagiao: 0,
+                dahuy: 0,
+                choxuly: 0,
+                dangtrahang: 0,
+                datrahang: 0,
+                hoanthanh: 0
             },
             dataProduct: {
                 active:0,
@@ -108,6 +151,16 @@ export default {
             return this.dataProduct.active + this.dataProduct.locked + this.dataProduct.sold
         },
     },
+    methods: {
+        async exportProduct() {
+            // await this.$api.exportexcel.exportProduct()
+            // .then(res => {
+            //     console.log(res);
+            // })
+            var userId= Vue.prototype.$localstorage.getUserID()
+             window.open("http://localhost:3000/exportexcel/product/" + userId, "_blank"); 
+        }
+    },
     async mounted(){
         await this.$api.orders.getOrderAnalyze()
         .then(res => {
@@ -116,22 +169,31 @@ export default {
                 var status = item.statusId
                 switch(status) {
                     case 1:
-                        this.dataOrder.waiting = item.number
+                        this.dataOrder.choxacnhan = item.number
                         break
                     case 2:
-                        this.dataOrder.accept = item.number
+                        this.dataOrder.cholayhang = item.number
                         break
                     case 3:
-                        this.dataOrder.shipping = item.number
+                        this.dataOrder.danggiao = item.number
                         break
                     case 4:
-                        this.dataOrder.reject = item.number
+                        this.dataOrder.dagiao = item.number
                         break
                     case 5:
-                        this.dataOrder.success = item.number
+                        this.dataOrder.dahuy = item.number
                         break
                     case 6:
-                        this.dataOrder.fail = item.number
+                        this.dataOrder.choxuly = item.number
+                        break
+                    case 7:
+                        this.dataOrder.dangtrahang = item.number
+                        break
+                    case 8:
+                        this.dataOrder.datrahang = item.number
+                        break
+                    case 9:
+                        this.dataOrder.hoanthanh = item.number
                         break 
                 }
             })
@@ -179,6 +241,72 @@ export default {
                 })
             }
         })
+
+        // vue chart
+        var timeArrStr =[]
+        // var now = new Date()
+        for( var i =0; i <30; i++){
+            var timeCur = new Date(new Date() - i*24 * 60 * 60 * 1000)
+            var timeCurStr = timeCur.toString().substring(4,10)
+            switch(timeCurStr.substring(0,3)){
+                case "Jan":
+                    timeCurStr = timeCurStr.replace("Jan ", "01-")
+                    break
+                case "Feb":
+                    timeCurStr = timeCurStr.replace("Feb ", "02-")
+                    break
+                case "Mar":
+                    timeCurStr = timeCurStr.replace("Mar ", "03-")
+                    break
+                case "Apr":
+                    timeCurStr = timeCurStr.replace("Apr ", "04-")
+                    break
+                case "May":
+                    timeCurStr = timeCurStr.replace("May ", "05-")
+                    break
+                case "Jun":
+                    timeCurStr = timeCurStr.replace("Jun ", "06-")
+                    break
+                case "Jul":
+                    timeCurStr = timeCurStr.replace("Jul ", "07-")
+                    break
+                case "Aug":
+                    timeCurStr = timeCurStr.replace("Aug ", "08-")
+                    break
+                case "Sep":
+                    timeCurStr = timeCurStr.replace("Sep ", "09-")
+                    break
+                case "Oct":
+                    timeCurStr = timeCurStr.replace("Oct ", "10-")
+                    break
+                case "Nov":
+                    timeCurStr = timeCurStr.replace("Nov ", "11-")
+                    break
+                case "Dec":
+                    timeCurStr = timeCurStr.replace("Dec ", "12-")
+                    break
+            }
+            timeArrStr.push(timeCurStr)
+        }
+        this.dataChart.labels = timeArrStr
+        console.log("dfsdf", timeArrStr);
+
+        await this.$api.orders.getSaleAnalyzeDayInWeek()
+        .then(res => {
+            console.log("test analyze", res);
+            timeArrStr.forEach((day,ind) => {
+                this.dataChart.datasets[0].data.push(0)
+                res.data.data.forEach(sale => {
+                    if(day == sale.createdOn.substring(5,10)){
+                        this.dataChart.datasets[0].data[ind] = Number(sale.total)
+                        // this.dataChart.datasets[0].data.push(Number(sale.total))
+                    } 
+                })
+            })
+            this.fetched = true
+        })
+        console.log(this.dataChart);
+        
     }
 }
 </script>
@@ -191,7 +319,12 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0px 20px;
+     margin: 0px 20px;
+    width: 25%;
+    height: 70px;
+    border-radius: 10px;
+    background-color:#bdace4;
+    justify-content: space-evenly;
 }
 .analyze-item {
     padding-top: 20px;

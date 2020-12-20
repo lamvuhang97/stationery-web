@@ -10,6 +10,8 @@ import { orders }from "./orders";
 import {reviews} from "./reviews";
 import {address} from './address';
 import {history} from "./history";
+import {exportexcel} from "./exportexcel";
+import {paypal} from "./paypal.js"
 
 const api = {
   response,
@@ -23,7 +25,9 @@ const api = {
   orders,
   reviews,
   address,
-  history
+  history,
+  exportexcel,
+  paypal
 };
 
 export default api;

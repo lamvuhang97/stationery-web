@@ -11,7 +11,7 @@ export default {
             orderList: [],
             props: {
                 norowsfound: "order",
-                searchname: "Search for a product by name...",
+                searchname: "Search for a product by id...",
                 columns: [
                 {
                     label: "Mã đơn hàng",
@@ -20,13 +20,13 @@ export default {
                     filterable: true
                 },
                 {
-                    label: this.type === "my-transaction" ? "Người bán" : "Người mua",  // => not done yet
+                    label: "Tên người dùng",  // => not done yet
                     field: this.userField,
                     type: 'string',
                     filterable: true
                 },
                 {
-                    label: "Tổng tiền",
+                    label: "Tổng tiền hàng",
                     field: "total",
                     type: 'string',
                     filterable: true
@@ -113,11 +113,7 @@ export default {
             // }
             await this.$axios.get(this.$settings.baseURL + "/orders/" + this.type + "/" + status).then(response => {
             response.data.data.rows.forEach(item => {
-                for ( var i in item ) {
-                    if(i == "createdAt") {
-                        item[i] = item[i].replace("T", " ").replace(".000Z", "")
-                    }
-                }
+                item.createdAt = (new Date(item.createdAt)).toString().substring(0, 25)
             })
             this.props.data = response.data.data.rows;
             this.fetched = true
@@ -134,6 +130,10 @@ export default {
     //    }
        await this.$axios.get(this.$settings.baseURL + "/orders/" + this.type + "/" + this.$route.params.status).then(response => {
           this.props.data = response.data.data.rows;
+          console.log("props data", this.props.data);
+          this.props.data.forEach(item => {
+              item.createdAt = (new Date(item.createdAt)).toString().substring(0, 25)
+          })
           this.fetched = true
         });
     }

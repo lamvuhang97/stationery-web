@@ -70,9 +70,12 @@ export default {
     }
     .filter {
         border: 1px solid lightgray;
+        border-radius: 10px;
+        background-color:#E6E0E5;
     width: 200px;
     height: 350px;
     padding: 10px;
+    color: black;
     }
     button {
             width: 50%;

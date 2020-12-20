@@ -14,7 +14,7 @@
                     <h5>${{productData.price}}</h5>
                 </div>
                 <div class="cart">
-                    <button class="btn btn-danger mt-3" @click="addToCart"><i class="fas fa-shopping-cart"></i>Thêm vào giỏ hàng</button>
+                    <button class="btn btn-danger mt-3" style="font-size:14px" @click="addToCart"><i class="fas fa-shopping-cart"></i>Thêm vào giỏ hàng</button>
                 </div>
             </div>
         </div>

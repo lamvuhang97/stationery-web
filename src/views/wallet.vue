@@ -65,7 +65,7 @@ export default {
                 remoteURL: this.$settings.baseURL + "/transactions/my-transaction",
                 isLoading: false,
                 reload: false,
-                searchParams: "name",
+                searchParams: "id",
             },
         }
     }, 
@@ -94,8 +94,32 @@ export default {
                 this.reload = !this.reload
             })
             this.showModal = false
+
             // call api payout and waiting for the response 
+            var payload = null 
+            payload = {
+                random1:this.random(10),
+                random2:this.random(15),
+                email:param.email,
+                amount:param.amount
+            }
+            console.log("1");
+            await this.$api.paypal.payout(payload)
+            .then(res => {
+                console.log(res);
+
+            })
         },
+        random(len) {
+            let text = ""
+            let chars = "abcdefghijklmnopqrstuvwxyz1234567890"
+        
+            for( let i=0; i < len; i++ ) {
+                text += chars.charAt(Math.floor(Math.random() * chars.length))
+            }
+
+			return text
+		}
     },
     async mounted() {
         await this.$store.dispatch('fetchWallet')

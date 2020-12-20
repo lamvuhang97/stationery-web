@@ -26,6 +26,7 @@
         "sortablejs": "^1.10.0-rc1",
         "vue": "^2.6.11",
         "vue-carousel": "^0.18.0",
+        "vue-chartjs": "^3.5.1",
         "vue-good-table": "^2.19.1",
         "vue-localstorage": "^0.6.2",
         "vue-multiselect": "^2.1.6",

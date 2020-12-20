@@ -14,7 +14,7 @@
             <span>Người bán: {{selectedOwner}} </span>
             <span>Số lượng: {{selectedItem.length}}</span>
             <span>Tổng tiền: {{priceInBanner}}</span>
-            <button class="btn btn-success" @click="toCheckout">Đặt hàng</button>
+            <button class="btn btn-primary" @click="toCheckout">Đặt hàng</button>
         </div>
         <alert class="alert" v-if="showAlert" @yes="reset" :text="text"></alert>
     </div>

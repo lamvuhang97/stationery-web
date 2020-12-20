@@ -6,6 +6,7 @@
         <alert class="alert" v-if="showAlert" @yes="showAlert=false" :text="text"></alert>
         <h2 v-if="isMyOrder">Đơn bán</h2>
         <h2 v-if="!isMyOrder">Đơn mua</h2>
+        <hr style="border: 2px solid #9b83d6;">
         <div class="header">
             <router-link :to="{name: 'User', params: {id : data.ownerId}}" class="nav-link owner">
                 <i class="fas fa-store"></i>
@@ -26,24 +27,35 @@
         <hr>
         <div class="sum">
             <span>{{products.length}} sản phẩm</span>
-            <span>Tổng tiền: {{total}} $</span>
+            <span>Tiền hàng: {{total}} $</span>
+        </div>
+        <div class="sum">
+            <span>   </span>
+            <span>Vận chuyển: {{data.ship}} $</span>
+        </div>
+        <div class="sum">
+            <span>  </span>
+            <span>Tổng thanh toán: <span style="color: red">{{Number(total) + Number(data.ship)}} $</span></span>
         </div>
         <div class="order-infor">
             <div class="left">
                 <h4>Thông tin đơn hàng</h4>
-                <span>Tên người mua:{{data.user.username}}</span>
-                <span>Địa chỉ: {{data.address}}</span>
-                <span>Số điện thoại: {{data.phonenumber}}</span>
-                <span>Mã đơn hàng: {{data.id}}</span>
-                <span>Hình thức thanh toán: {{data.payment.name}}</span>
-                <span>Tiền vận chuyển: {{data.ship}} $</span>
-                <span>Thời gian đặt: {{data.createdAt}}</span>
+                <div class="left-infor">
+                    <span>Mã đơn hàng: {{data.id}}</span>
+                    <span>Hình thức thanh toán: {{data.payment.name}}</span>
+                    <span>Thời gian đặt: {{Date(data.createdAt).toString().substring(0,25)}}</span>
+                    <span>Tên người mua:{{data.user.username}}</span>
+                    <span>Địa chỉ nhận hàng: {{data.address}}</span>
+                    <span>Số điện thoại: {{data.phonenumber}}</span>
+                </div>
             </div>
-            <div class="right" v-if="data.statusId != 1 && isMyOrder">
+            <div class="right" v-if="data.statusId != 1">
                 <h4>Thông tin lấy hàng</h4><div v-if="lengthAddress != 0">
-                    <span>Tên người bán:{{data.owner.username}}</span>
-                    <span>Địa chỉ: {{data.ownerAdd}}</span>
-                    <span>Số điện thoại: {{data.ownerPhone}}</span>
+                    <div class="right-infor">
+                        <span>Tên người bán:{{data.owner.username}}</span>
+                        <span>Địa chỉ: {{data.ownerAdd}}</span>
+                        <span>Số điện thoại: {{data.ownerPhone}}</span>
+                    </div>
                 </div>
             </div>
             <div class="right" v-if="data.statusId == 1 && isMyOrder">
@@ -51,7 +63,7 @@
                 <button class="btn btn-primary" @click="showAddModal = true">Thêm địa chỉ</button>
                 <button class="btn btn=primary" @click="showChooseModal = true">Chọn địa chỉ</button>
                 <span v-if="lengthAddress == 0">Bạn chưa có địa chỉ lấy hàng nào gần đây. Vui lòng thêm địa chỉ lấy hàng.</span>
-                <div v-if="lengthAddress != 0">
+                <div class="right-infor" v-if="lengthAddress != 0">
                     <span>Tên người bán:</span>
                     <span>Địa chỉ: {{currentAddress.detail}}, {{currentAddress.district.name}}, {{currentAddress.province.name}}</span>
                     <span>Số điện thoại: {{currentAddress.phonenumber}}</span>
@@ -69,6 +81,20 @@
         <div class="actions" v-if="data.status.id == 1 && isMyOrder">
             <button class="btn btn-primary" @click="accept" style="margin-right:10px">Xác nhận đơn hàng</button>
             <button class="btn btn-danger" @click="reject">Từ chối đơn hàng</button>
+        </div>
+        <div class="ship" style="margin-top:10px">
+            <h4>Thông tin vận chuyển </h4>
+            <div v-for="(item, i) in dataHistory" :key="i" style="margin: 10px 0px; display:flex" class="his-item">
+                <span>{{new Date(item.createdAt).toString().substring(0, 25)}}</span>
+                <div style="display:flex; flex-direction:column;">
+                    <i class="fas fa-dot-circle" style="margin:0px 20px"></i>
+                    <div style="border-right:2px solid; height: 25px; width: 25%; margin: 10px 0px 0px 15px">  </div>
+                </div>
+                <div style="display:flex; flex-direction: column">
+                    <span>{{item.status.name}}</span>
+                    <span style="display:block;">{{item.detail}}</span>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -106,7 +132,8 @@ export default {
             showAddModal: false,
             showChooseModal: false,
             showReasonModal: false,
-            componentKey: 0
+            componentKey: 0,
+            dataHistory: [],
         }
     },
     computed: {
@@ -311,7 +338,17 @@ export default {
             })
             
             this.showChooseModal = false
+        },
+
+        async fetchHistory() {
+            await this.$api.history.getHistoryByOrder(this.data.id)
+            .then(res => {
+                console.log("history",res);
+                this.dataHistory = res.data.data
+                console.log(this.dataHistory);
+            })
         }
+
     },
     async beforeMount() {
         console.log(this.$route.params);
@@ -338,6 +375,12 @@ export default {
             }
             
         })
+        await this.$api.history.getHistoryByOrder(this.data.id)
+            .then(res => {
+                console.log("history",res);
+                this.dataHistory = res.data.data
+                console.log(this.dataHistory);
+            })
     }
 }
 </script>
@@ -351,7 +394,16 @@ export default {
 .left, .right , .right div{
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: auto;
+}
+.left-infor, .right-infor{
+        display: flex;
+        flex-direction: column;
+        border: 1px solid;
+        border-radius: 10px;
+        padding: 10px;
+        background-color: #bdace4ab;
+        margin: 10px;
 }
     .order-detail .header{
         display: flex;
@@ -374,5 +426,8 @@ export default {
     .order-infor {
             padding-top: 20px;
     display: flex;
+    }
+    .his-item:last-child div{
+        display: none;
     }
 </style>
